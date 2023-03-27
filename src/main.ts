@@ -1,4 +1,10 @@
 import { createApp } from "vue";
 import App from "./App.vue";
+import router from "./router";
+import RouterTab from "./plugins/vue3-router-tab";
 
-createApp(App).mount("#app");
+const app = createApp(App);
+
+app.use(router);
+app.use(RouterTab);
+app.mount("#app");

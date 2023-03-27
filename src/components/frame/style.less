@@ -1,0 +1,29 @@
+.router-tab--frame{
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+}
+.router-tab--body{
+    display: flex;
+    flex: 1;
+    main{
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+}
+.router-tab--side{
+    width: 180px;
+}
+.router-tab--nav{
+    display: flex;
+    font-size: 14px;
+    &>li:first-of-type{
+        border-left: none;
+    }
+}
+.router-tab--nav-item{
+    border:1px solid #eee;
+    cursor: pointer;
+}
