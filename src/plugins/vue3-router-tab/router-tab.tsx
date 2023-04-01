@@ -1,13 +1,13 @@
 import { defineComponent } from "vue";
-import Header from "./components/header";
-import Main from "./components/main";
+import Tabs from "./components/tabs";
+import Pages from "./components/pages";
 
 export default defineComponent({
   setup() {
     return () => (
-      <div class="router-tab">
-        <Header />
-        <Main />
+      <div class="rt-container">
+        <Tabs />
+        <Pages />
       </div>
     );
   },

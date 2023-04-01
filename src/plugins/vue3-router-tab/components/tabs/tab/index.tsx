@@ -1,8 +1,8 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "router-tab-main",
+  name: "rt-tab",
   setup() {
-    return () => <main></main>;
+    return () => <div class="rt-tab"></div>;
   },
 });
