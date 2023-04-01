@@ -1,12 +1,24 @@
 //store.js
-import { reactive, computed } from "vue";
+import { reactive, Ref } from "vue";
+import { Router } from "vue-router";
 
-const store = {
-  debug: true,
+interface State {
+  tabs: any[];
+}
 
-  state: reactive({
+interface Store {
+  router: null | Router;
+  state: State;
+}
+
+const store: Store = {
+  // debug: true,
+  router: null,
+  state: reactive<State>({
     tabs: [],
   }),
+  // addTab() {},
+  // removeTab() {},
 };
 
 export { store };
