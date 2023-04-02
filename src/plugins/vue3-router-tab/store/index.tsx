@@ -1,15 +1,21 @@
 //store.js
 import { reactive, Ref } from "vue";
 import { Router } from "vue-router";
+import { Tab } from "../types/global";
 
 interface State {
-  tabs: any[];
+  tabs: Tab[];
 }
 
 interface Store {
   router: null | Router;
   state: State;
+  isInTabs: (value: string, key: keyof Tab) => number;
 }
+
+const isInTabs: Store["isInTabs"] = (value, key) => {
+  return -1;
+};
 
 const store: Store = {
   // debug: true,
@@ -17,6 +23,7 @@ const store: Store = {
   state: reactive<State>({
     tabs: [],
   }),
+  isInTabs,
   // addTab() {},
   // removeTab() {},
 };
