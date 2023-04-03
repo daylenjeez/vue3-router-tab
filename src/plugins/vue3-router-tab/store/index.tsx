@@ -10,10 +10,22 @@ interface State {
 interface Store {
   router: null | Router;
   state: State;
-  isInTabs: (value: string, key: keyof Tab) => number;
+  hasTab: (value: string, key: keyof Tab) => number;
+  addTab: (value: Router) => number;
+  removeTab: (value: Tab) => number;
 }
 
-const isInTabs: Store["isInTabs"] = (value, key) => {
+const hasTab: Store["hasTab"] = (value, key) => {
+  return -1;
+};
+
+const addTab: Store["addTab"] = (value) => {
+  console.log(value);
+  return -1;
+};
+
+const removeTab: Store["removeTab"] = (value) => {
+  console.log(value);
   return -1;
 };
 
@@ -23,9 +35,9 @@ const store: Store = {
   state: reactive<State>({
     tabs: [],
   }),
-  isInTabs,
-  // addTab() {},
-  // removeTab() {},
+  hasTab,
+  addTab,
+  removeTab,
 };
 
 export { store };
