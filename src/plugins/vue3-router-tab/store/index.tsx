@@ -1,7 +1,7 @@
 //store.js
 import { reactive, Ref } from "vue";
 import { Router } from "vue-router";
-import { Tab } from "../types/global";
+import { PageType, Tab } from "../types";
 
 interface State {
   tabs: Tab[];
@@ -11,7 +11,7 @@ interface Store {
   router: null | Router;
   state: State;
   hasTab: (value: string, key: keyof Tab) => number;
-  addTab: (value: Router) => number;
+  addTab: (value: Tab) => number;
   removeTab: (value: Tab) => number;
 }
 
