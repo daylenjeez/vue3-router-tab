@@ -2,13 +2,28 @@ import { createApp, Plugin, App } from "vue";
 import Vue3RouterTab from "./router-tab";
 import { RouteLocationNormalized, Router, useRouter } from "vue-router";
 import { store } from "./store";
+import { INITIAL_META } from "./constants";
+import { TabKey, TabMeta } from "./types";
+import { isFunction } from "./utils";
 
 interface Options {
   router: Router;
 }
 
+const getTabId = (tabKey: TabKey, router: RouteLocationNormalized) => {
+  if (isFunction(tabKey)) return tabKey(router);
+  return router[tabKey];
+};
+
+const routerMetaToTab = (router: RouteLocationNormalized) => {
+  const meta = Object.assign(INITIAL_META, router.meta);
+  const tab={
+    name: meta.tabName ?? router.name,
+    id: getTabId(meta.tabKey, router),
+  }};
+
 const interceptRoute = (guard: RouteLocationNormalized) => {
-  console.log(guard);
+  const tab = routerMetaToTab(guard);
 };
 
 const init = (app: App, options: Options) => {
@@ -27,7 +42,7 @@ const routerInit = (router: Router) => {
 const RouterTab: Plugin = {
   install(app: App, options: Options) {
     init(app, options);
-    app.component("router-tab", Vue3RouterTab);
+    app.component("RouterTab", Vue3RouterTab);
   },
 };
 

@@ -1,4 +1,4 @@
-import { RouteRecordRaw } from "vue-router";
+import { RouteLocationNormalized, Router, RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -9,7 +9,11 @@ const routes: Array<RouteRecordRaw> = [
         name: "首页",
         path: "/",
         component: () => import("../views/Home.vue"),
-        meta: {},
+        meta: {
+          key: (router: RouteLocationNormalized) => {
+            console.log(router);
+          },
+        },
       },
       {
         name: "page1",

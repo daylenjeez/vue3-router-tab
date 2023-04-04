@@ -1,0 +1,11 @@
+{
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "plugin:vue/vue3-recommended",
+    "@vue/eslint-config-typescript"
+  ],
+  "rules": {
+    "indent":["warn",2]
+  }
+}
