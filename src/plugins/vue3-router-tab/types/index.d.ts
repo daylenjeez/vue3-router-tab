@@ -1,5 +1,8 @@
 import { RouteLocationNormalized } from "vue-router";
-export type TabKey = "path" | "fullPath" | ((router: RouteLocationNormalized) => string);
+export type TabKey =
+  | "path"
+  | "fullPath"
+  | ((router: RouteLocationNormalized) => string);
 export type PageType = "alive" | "iframe";
 
 /**
@@ -17,7 +20,6 @@ export interface TabConfig {
   icon?: string;
 }
 
-
 /**
  * tab
  * @interface Tab
@@ -27,6 +29,6 @@ export interface TabConfig {
  */
 export interface Tab {
   id: string;
-  name: string;
+  name: string | symbol;
   icon?: string;
 }

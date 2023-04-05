@@ -36,7 +36,7 @@ const getTabConfigInRouterMeta = (router: RouteLocationNormalized) => {
   const { meta } = router;
   const { key, name } = (meta.tabConfig as TabConfig) || INITIAL_TAB_CONFIG;
   const tab = {
-    name: name ?? router.name,
+    name: name ?? router.name ?? router.path,
     id: getTabId(key ?? INITIAL_TAB_CONFIG.key, router),
   };
   return tab;
@@ -48,6 +48,10 @@ const getTabConfigInRouterMeta = (router: RouteLocationNormalized) => {
  */
 const interceptRoute = (guard: RouteLocationNormalized) => {
   const tab = getTabConfigInRouterMeta(guard);
+  const hasTab = store.hasTab(tab.id);
+  if (!hasTab) {
+    store.addTab(tab);
+  }
 };
 
 /**
@@ -58,6 +62,7 @@ const interceptRoute = (guard: RouteLocationNormalized) => {
 const init = (app: App, options: Options) => {
   const { router } = options;
   routerInit(router);
+  app.config.globalProperties.RouterTab = store;
 };
 
 /**

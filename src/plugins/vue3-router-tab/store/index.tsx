@@ -7,35 +7,40 @@ interface State {
   tabs: Tab[];
 }
 
+type TabId = Tab["id"];
+
 interface Store {
   router: null | Router;
   state: State;
-  hasTab: (value: string, key: keyof Tab) => number;
-  addTab: (value: Tab) => number;
-  removeTab: (value: Tab) => number;
+  hasTab: (tabId: TabId) => boolean;
+  indexOfTab: (tabId: TabId) => number;
+  addTab: (tab: Tab) => number;
+  removeTab: (tabId:TabId)=>void;
 }
 
-const hasTab: Store["hasTab"] = (value, key) => {
-  return -1;
+const indexOfTab: Store["indexOfTab"] = (tabId:TabId) => {
+  return store.state.tabs.findIndex(({ id }) => id === tabId);
 };
 
-const addTab: Store["addTab"] = (value) => {
-  console.log(value);
-  return -1;
+const hasTab: Store["hasTab"] = (tabId:TabId) => {
+  return store.state.tabs.some(({ id }) => id === tabId);
 };
 
-const removeTab: Store["removeTab"] = (value) => {
-  console.log(value);
-  return -1;
+const addTab: Store["addTab"] = (tab:Tab) => {
+  return store.state.tabs.push(tab);
 };
+
+const removeTab: Store["removeTab"] = (tabId:TabId) => {
+  store.state.tabs.splice(indexOfTab(tabId), 1);
+};
+
 
 const store: Store = {
   // debug: true,
   router: null,
-  state: reactive<State>({
-    tabs: [],
-  }),
+  state: reactive<State>({tabs: [],}),
   hasTab,
+  indexOfTab,
   addTab,
   removeTab,
 };

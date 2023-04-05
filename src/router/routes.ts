@@ -12,8 +12,6 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           tabConfig: {
             key: (router: RouteLocationNormalized) => {
-              console.log(router);
-
               return router.fullPath;
             },
           },

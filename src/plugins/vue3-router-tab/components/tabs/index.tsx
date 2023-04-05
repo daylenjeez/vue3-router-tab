@@ -1,7 +1,8 @@
 import { defineComponent } from "vue";
+import {store} from '../../store';
 
 export default defineComponent({
-  name: "rt-tabs",
+  name: "RtTabs",
   setup() {
     return () => <div class="rt-tabs"></div>;
   },
