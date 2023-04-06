@@ -1,7 +1,7 @@
 //store.js
 import { reactive } from "vue";
 import { Router } from "vue-router";
-import { PageType, Tab } from "../types";
+import { Tab } from "../types";
 import { throwError } from "../utils";
 
 interface State {
@@ -29,9 +29,10 @@ const hasTab: Store["hasTab"] = (tabId:TabId) => {
   return store.state.tabs.some(({ id }) => id === tabId);
 };
 
-const addTab: Store["addTab"] = (tab:Tab,options) => {  
+const addTab: Store["addTab"] = (tab:Tab,options) => {
   const {setActive} = options ?? {setActive:true};
   const index =  store.state.tabs.push(tab);
+  console.log(store.state.tabs);
   if(setActive){
     setActiveTab(tab.id);
   }
@@ -43,10 +44,16 @@ const removeTab: Store["removeTab"] = (tabId:TabId) => {
   store.state.tabs.splice(indexOfTab(tabId), 1);
 };
 
+/**
+ * set active tab
+ * @param {TabId} tabId 
+ * @returns {number} tab index
+ */
+
 const setActiveTab: Store["setActiveTab"] = (tabId:TabId) => {
   const tabIndex = indexOfTab(tabId);
   const tab = store.state.tabs[tabIndex];
-  if(tab) {
+  if(!tab) {
     throwError(`Tab not found, please check the tab id: ${tabId}`);
     return -1;
   }

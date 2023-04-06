@@ -14,7 +14,7 @@ interface Options {
  * get tab id
  * @param {TabKey} tabKey
  * @param {RouteLocationNormalized} router
- * @returns {string}
+ * @returns {string} tab id
  */
 const getTabId = (tabKey: TabKey, router: RouteLocationNormalized) => {
   const tabId = isFunction(tabKey) ? tabKey(router) : router[tabKey];
@@ -30,7 +30,7 @@ const getTabId = (tabKey: TabKey, router: RouteLocationNormalized) => {
 /**
  * router meta to tab
  * @param {RouteLocationNormalized} router
- * @returns {Tab}
+ * @returns {Tab} tab
  */
 const getTabConfigInRouterMeta = (router: RouteLocationNormalized) => {
   const { meta } = router;
