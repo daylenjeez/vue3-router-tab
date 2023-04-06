@@ -1,4 +1,5 @@
 import { RouteLocationNormalized } from "vue-router";
+
 export type TabKey =
   | "path"
   | "fullPath"
@@ -31,4 +32,13 @@ export interface Tab {
   id: string;
   name: string | symbol;
   icon?: string;
+}
+
+export type TabId = Tab["id"];
+
+export interface RouterTab {
+  tabs:Tab[];
+  keepalive?: boolean;
+  maxAlive?: number;
+
 }
