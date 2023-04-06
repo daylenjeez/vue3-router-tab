@@ -1,10 +1,10 @@
-import { createApp, Plugin, App } from "vue";
+import { Plugin, App } from "vue";
 import Vue3RouterTab from "./router-tab";
 import { RouteLocationNormalized, Router, useRouter } from "vue-router";
 import { store } from "./store";
-import { INITIAL_META } from "./constants";
-import { TabKey, TabMeta } from "./types";
-import { isFunction } from "./utils";
+import { INITIAL_TAB_CONFIG } from "./constants";
+import { TabConfig, TabKey } from "./types";
+import { throwError, isFunction, isString } from "./utils";
 
 interface Options {
   router: Router;
@@ -12,38 +12,58 @@ interface Options {
 
 /**
  * get tab id
- * @param {TabKey} tabKey 
- * @param {RouteLocationNormalized} router 
- * @returns {string} 
+ * @param {TabKey} tabKey
+ * @param {RouteLocationNormalized} router
+ * @returns {string}
  */
 const getTabId = (tabKey: TabKey, router: RouteLocationNormalized) => {
-  if (isFunction(tabKey)) return tabKey(router);
-  return router[tabKey];
+  const tabId = isFunction(tabKey) ? tabKey(router) : router[tabKey];
+
+  if (!isString(tabId) || tabId === "") {
+    throwError(
+      "tabKey is not 'path','fullPath' or a function, or the return value of the function is not empty."
+    );
+  }
+  return tabId;
 };
 
 /**
  * router meta to tab
- * @param {RouteLocationNormalized} router 
+ * @param {RouteLocationNormalized} router
  * @returns {Tab}
  */
-const routerMetaToTab = (router: RouteLocationNormalized) => {
-  const meta = Object.assign(INITIAL_META, router.meta);
+const getTabConfigInRouterMeta = (router: RouteLocationNormalized) => {
+  const { meta } = router;
+  const { key, name } = (meta.tabConfig as TabConfig) || INITIAL_TAB_CONFIG;
   const tab = {
-    name: meta.tabName ?? router.name,
-    id: getTabId(meta.tabKey, router),
-  }
+    name: name ?? router.name,
+    id: getTabId(key ?? INITIAL_TAB_CONFIG.key, router),
+  };
   return tab;
 };
 
+/**
+ * intercept route to add tab
+ * @param {RouteLocationNormalized} guard
+ */
 const interceptRoute = (guard: RouteLocationNormalized) => {
-  const tab = routerMetaToTab(guard);
+  const tab = getTabConfigInRouterMeta(guard);
 };
 
+/**
+ * init
+ * @param {App} app
+ * @param {Options} options
+ */
 const init = (app: App, options: Options) => {
   const { router } = options;
   routerInit(router);
 };
 
+/**
+ * router init, add router hook
+ * @param {Router} router
+ */
 const routerInit = (router: Router) => {
   store.router = router;
 

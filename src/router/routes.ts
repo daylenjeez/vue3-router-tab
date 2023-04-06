@@ -10,8 +10,12 @@ const routes: Array<RouteRecordRaw> = [
         path: "/",
         component: () => import("../views/Home.vue"),
         meta: {
-          key: (router: RouteLocationNormalized) => {
-            console.log(router);
+          tabConfig: {
+            key: (router: RouteLocationNormalized) => {
+              console.log(router);
+
+              return router.fullPath;
+            },
           },
         },
       },

@@ -1,3 +1,1 @@
-export const INITIAL_META = {
-  tabKey:'path' as const
-}
+export const INITIAL_TAB_CONFIG = { key: "path" as const };
