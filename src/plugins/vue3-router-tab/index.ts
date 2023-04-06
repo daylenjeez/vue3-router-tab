@@ -51,6 +51,8 @@ const interceptRoute = (guard: RouteLocationNormalized) => {
   const hasTab = store.hasTab(tab.id);
   if (!hasTab) {
     store.addTab(tab);
+  }else{
+    //
   }
 };
 

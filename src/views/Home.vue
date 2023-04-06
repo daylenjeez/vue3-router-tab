@@ -1,3 +1,3 @@
 <template>
-<router-tab />
+Home
 </template>
