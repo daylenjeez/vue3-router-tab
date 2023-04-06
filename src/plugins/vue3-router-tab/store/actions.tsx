@@ -1,3 +1,4 @@
+import { Router, useRouter } from "vue-router";
 import { Tab, TabId } from "../types";
 import { throwError } from "../utils";
 import { State } from "./state";
@@ -27,6 +28,7 @@ function hasTab(this: RouterStore, tabId: TabId) {
 }
 
 function addTab(this: RouterStore, tab: Tab, options) {
+  console.log(this.$router);
   const { setActive } = options ?? { setActive: true };
   const index = this.tabs.push(tab);
   console.log(this.tabs);

@@ -1,5 +1,5 @@
 import {  computed, defineComponent } from "vue";
-import {store} from '../../store';
+import {useRouterTabStore} from '../../store';
 import RtTab from './tab';
 
 import styles from './style.module.less';
@@ -7,7 +7,8 @@ import styles from './style.module.less';
 export default defineComponent({
   name: "RtTabs",
   setup() {
-    const tabs = computed(()=>store.state.tabs);
+    const store = useRouterTabStore();
+    const tabs = computed(()=>store.tabs);
 
     return () => <div class={styles['rt-tabs']}>
       {

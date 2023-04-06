@@ -1,7 +1,8 @@
-import { Plugin, App } from "vue";
+import { Plugin, App, markRaw } from "vue";
 import Vue3RouterTab from "./router-tab";
+import { createPinia } from "pinia";
 import { RouteLocationNormalized, Router, useRouter } from "vue-router";
-import { store } from "./store";
+import { useRouterTabStore } from "./store";
 import { INITIAL_TAB_CONFIG } from "./constants";
 import { TabConfig, TabKey } from "./types";
 import { throwError, isFunction, isString } from "./utils";
@@ -14,7 +15,7 @@ interface Options {
  * get tab id
  * @param {TabKey} tabKey
  * @param {RouteLocationNormalized} router
- * @returns {string} tab id
+ * @returns {string}
  */
 const getTabId = (tabKey: TabKey, router: RouteLocationNormalized) => {
   const tabId = isFunction(tabKey) ? tabKey(router) : router[tabKey];
@@ -30,7 +31,7 @@ const getTabId = (tabKey: TabKey, router: RouteLocationNormalized) => {
 /**
  * router meta to tab
  * @param {RouteLocationNormalized} router
- * @returns {Tab} tab
+ * @returns {Tab}
  */
 const getTabConfigInRouterMeta = (router: RouteLocationNormalized) => {
   const { meta } = router;
@@ -48,11 +49,10 @@ const getTabConfigInRouterMeta = (router: RouteLocationNormalized) => {
  */
 const interceptRoute = (guard: RouteLocationNormalized) => {
   const tab = getTabConfigInRouterMeta(guard);
+  const store = useRouterTabStore();
   const hasTab = store.hasTab(tab.id);
   if (!hasTab) {
     store.addTab(tab);
-  }else{
-    //
   }
 };
 
@@ -63,8 +63,13 @@ const interceptRoute = (guard: RouteLocationNormalized) => {
  */
 const init = (app: App, options: Options) => {
   const { router } = options;
+  const pinia = createPinia();
+
+  pinia.use(({ store }) => {
+    store.$router = markRaw(router);
+  });
+  app.use(pinia);
   routerInit(router);
-  app.config.globalProperties.RouterTab = store;
 };
 
 /**
@@ -72,8 +77,6 @@ const init = (app: App, options: Options) => {
  * @param {Router} router
  */
 const routerInit = (router: Router) => {
-  store.router = router;
-
   router.beforeEach((guard) => {
     interceptRoute(guard);
   });

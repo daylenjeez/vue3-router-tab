@@ -6,5 +6,5 @@ import RouterTab from "./plugins/vue3-router-tab";
 const app = createApp(App);
 
 app.use(router);
-app.use(RouterTab, {router,});
+app.use(RouterTab, { router });
 app.mount("#app");
