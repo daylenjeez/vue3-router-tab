@@ -4,15 +4,41 @@ import { throwError } from "../utils";
 import { State } from "./state";
 import { CreateActions } from "./type";
 
+interface HasTab {
+  (tabId: TabId): boolean;
+}
+
+interface HasTab {
+  (tabId: TabId): boolean;
+}
+interface IndexOfTab {
+  (tabId: TabId): number;
+}
+
+interface GetTab {
+  (tabId: TabId): Tab | undefined;
+}
+interface AddTab {
+  (tab: Tab, options?: { setActive?: boolean }): number;
+}
+interface RemoveTab {
+  (tabId: TabId): Tab;
+}
+
+interface SetActiveTab {
+  (tabId: TabId): number;
+}
+
 export type Actions = CreateActions<
   string,
   State,
   {
-    hasTab: (tabId: TabId) => boolean;
-    indexOfTab: (tabId: TabId) => number;
-    addTab: (tab: Tab, options?: { setActive?: boolean }) => number;
-    removeTab: (tabId: TabId) => void;
-    setActiveTab: (tabId: TabId) => number;
+    hasTab: HasTab;
+    indexOfTab: IndexOfTab;
+    getTab: GetTab;
+    addTab: AddTab;
+    removeTab: RemoveTab;
+    setActiveTab: SetActiveTab;
   }
 >;
 
@@ -20,14 +46,19 @@ export type RouterStore = ReturnType<
   typeof import("./index")["useRouterTabStore"]
 >;
 
-function indexOfTab(this: RouterStore, tabId: TabId) {
+const indexOfTab: IndexOfTab = function (this: RouterStore, tabId: TabId) {
   return this.tabs.findIndex(({ id }) => id === tabId);
-}
-function hasTab(this: RouterStore, tabId: TabId) {
-  return this.tabs.some(({ id }) => id === tabId);
-}
+};
 
-function addTab(this: RouterStore, tab: Tab, options) {
+const hasTab: HasTab = function (this: RouterStore, tabId: TabId) {
+  return this.tabs.some(({ id }) => id === tabId);
+};
+
+const getTab: GetTab = function (this: RouterStore, tabId: TabId) {
+  return this.tabs.find(({ id }) => id === tabId);
+};
+
+const addTab: AddTab = function (this: RouterStore, tab: Tab, options) {
   console.log(this.$router);
   const { setActive } = options ?? { setActive: true };
   const index = this.tabs.push(tab);
@@ -37,11 +68,11 @@ function addTab(this: RouterStore, tab: Tab, options) {
   }
 
   return index;
-}
+};
 
-function removeTab(this: RouterStore, tabId: TabId) {
-  this.tabs.splice(this.indexOfTab(tabId), 1);
-}
+const removeTab: RemoveTab = function (this: RouterStore, tabId: TabId) {
+  return this.tabs.splice(this.indexOfTab(tabId), 1)[0];
+};
 
 /**
  * set active tab
@@ -49,7 +80,7 @@ function removeTab(this: RouterStore, tabId: TabId) {
  * @returns {number} tab index
  */
 
-function setActiveTab(this: RouterStore, tabId: TabId) {
+const setActiveTab: SetActiveTab = function (this: RouterStore, tabId: TabId) {
   const tabIndex = this.indexOfTab(tabId);
   const tab = this.tabs[tabIndex];
   if (!tab) {
@@ -59,12 +90,13 @@ function setActiveTab(this: RouterStore, tabId: TabId) {
   this.activeTabId = tabId;
 
   return tabIndex;
-}
+};
 
 export default {
   indexOfTab,
   hasTab,
   addTab,
+  getTab,
   removeTab,
   setActiveTab,
 };

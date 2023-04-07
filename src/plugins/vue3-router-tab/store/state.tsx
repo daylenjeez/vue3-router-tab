@@ -1,4 +1,3 @@
-import { Router } from "vue-router";
 import { Tab, TabId } from "../types";
 
 export interface State {

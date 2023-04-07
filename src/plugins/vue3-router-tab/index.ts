@@ -1,7 +1,7 @@
 import { Plugin, App, markRaw } from "vue";
 import Vue3RouterTab from "./router-tab";
 import { createPinia } from "pinia";
-import { RouteLocationNormalized, Router, useRouter } from "vue-router";
+import { RouteLocationNormalized, Router } from "vue-router";
 import { useRouterTabStore } from "./store";
 import { INITIAL_TAB_CONFIG } from "./constants";
 import { TabConfig, TabKey } from "./types";
@@ -62,13 +62,8 @@ const interceptRoute = (guard: RouteLocationNormalized) => {
  * @param {Options} options
  */
 const init = (app: App, options: Options) => {
-  const { router } = options;
-  const pinia = createPinia();
-
-  pinia.use(({ store }) => {
-    store.$router = markRaw(router);
-  });
-  app.use(pinia);
+  const {router} = options;
+  piniaInit(app,router);
   routerInit(router);
 };
 
@@ -80,6 +75,20 @@ const routerInit = (router: Router) => {
   router.beforeEach((guard) => {
     interceptRoute(guard);
   });
+};
+
+/**
+ * pinia init, add router to pinia
+ * @param app 
+ * @param router 
+ */
+const piniaInit = (app: App,router:Router) => {
+  const pinia = createPinia();
+
+  pinia.use(({ store }) => {
+    store.$router = markRaw(router);
+  });
+  app.use(pinia);
 };
 
 const RouterTab: Plugin = {
