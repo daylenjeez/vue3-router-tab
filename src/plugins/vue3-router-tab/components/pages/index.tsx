@@ -16,9 +16,13 @@ export default defineComponent({
     return () => (
       <div class="rt-pages">
         <RouterView>
-          {({ Component }: { Component: DynamicComponent }) => (
-            <KeepAlive>{() => resolveDynamicComponent(Component)}</KeepAlive>
-          )}
+          {({ Component }: { Component: DynamicComponent }) =>
+            activeTab.value?.keepAlive ? (
+              <KeepAlive>{() => resolveDynamicComponent(Component)}</KeepAlive>
+            ) : (
+              resolveDynamicComponent(Component)
+            )
+          }
         </RouterView>
       </div>
     );
