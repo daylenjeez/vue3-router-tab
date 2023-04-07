@@ -32,13 +32,14 @@ export interface Tab {
   id: string;
   name: string | symbol;
   icon?: string;
+  keepAlive: boolean;
 }
 
 export type TabId = Tab["id"];
 
 export interface RouterTab {
   tabs:Tab[];
-  keepalive?: boolean;
+  keepAlive?: boolean;
   maxAlive?: number;
 
 }

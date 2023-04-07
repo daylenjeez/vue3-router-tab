@@ -1,4 +1,3 @@
-import { Router, useRouter } from "vue-router";
 import { Tab, TabId } from "../types";
 import { throwError } from "../utils";
 import { State } from "./state";
@@ -54,8 +53,13 @@ const hasTab: HasTab = function (this: RouterStore, tabId: TabId) {
   return this.tabs.some(({ id }) => id === tabId);
 };
 
-const getTab: GetTab = function (this: RouterStore, tabId: TabId) {
-  return this.tabs.find(({ id }) => id === tabId);
+/**
+ * get tab by tab id, if tabId is undefined, return active tab
+ * @param tabId
+ * @returns Tab | undefined
+ */
+const getTab: GetTab = function (this: RouterStore, tabId?: TabId) {
+  return this.tabs.find(({ id }) => id === (tabId ?? this.activeTabId));
 };
 
 const addTab: AddTab = function (this: RouterStore, tab: Tab, options) {
