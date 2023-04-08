@@ -51,6 +51,7 @@ const indexOfTab: IndexOfTab = function (this: RouterStore, tabId: TabId) {
 
 const hasTab: HasTab = function (this: RouterStore, tabId: TabId) {
   return this.tabs.some(({ id }) => id === tabId);
+}
 };
 
 /**
@@ -66,11 +67,9 @@ const addTab: AddTab = function (this: RouterStore, tab: Tab, options) {
   console.log(this.$router);
   const { setActive } = options ?? { setActive: true };
   const index = this.tabs.push(tab);
-  console.log(this.tabs);
   if (setActive) {
     this.setActiveTab(tab.id);
   }
-
   return index;
 };
 

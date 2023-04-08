@@ -1,0 +1,18 @@
+.rt-tab{
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding:0 16px;
+  border: 1px solid @border-color;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  transition: all .3s cubic-bezier(.645,.045,.355,1);
+  background: @white-light-2;
+  &.rt-tab-active{
+    border-bottom-color: @white;
+    background: #fff;
+  }
+  &+&{
+    margin-left: 2px;
+  }
+}
