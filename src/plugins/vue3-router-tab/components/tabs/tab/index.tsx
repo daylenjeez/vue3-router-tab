@@ -27,9 +27,10 @@ export default defineComponent({
 
     const click = () => {
       if (active.value) return;
-      store.open(props.id);
+      store.openById(props.id);
       // store.setActiveTab(props.id);
     };
+
     return () => (
       <div class={classNames.value} onClick={click}>
         <div></div>

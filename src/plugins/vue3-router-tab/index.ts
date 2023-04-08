@@ -35,10 +35,12 @@ const getTabId = (tabKey: TabKey, router: RouteLocationNormalized) => {
  */
 const getTabConfigInRouterMeta = (router: RouteLocationNormalized) => {
   const { meta } = router;
-  const { key, name } = (meta.tabConfig as TabConfig) || INITIAL_TAB_CONFIG;
+  const { key, name, keepAlive } =
+    (meta.tabConfig as TabConfig) || INITIAL_TAB_CONFIG;
   const tab = {
     name: name ?? router.name ?? router.path,
     id: getTabId(key ?? INITIAL_TAB_CONFIG.key, router),
+    keepAlive: keepAlive ?? INITIAL_TAB_CONFIG.keepAlive,
   };
   return tab;
 };
@@ -62,8 +64,8 @@ const interceptRoute = (guard: RouteLocationNormalized) => {
  * @param {Options} options
  */
 const init = (app: App, options: Options) => {
-  const {router} = options;
-  piniaInit(app,router);
+  const { router } = options;
+  piniaInit(app, router);
   routerInit(router);
 };
 
@@ -80,10 +82,10 @@ const routerInit = (router: Router) => {
 
 /**
  * pinia init, add router to pinia
- * @param app 
- * @param router 
+ * @param app
+ * @param router
  */
-const piniaInit = (app: App,router:Router) => {
+const piniaInit = (app: App, router: Router) => {
   const pinia = createPinia();
 
   pinia.use(({ store }) => {

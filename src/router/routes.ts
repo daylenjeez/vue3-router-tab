@@ -8,7 +8,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         name: "首页",
         path: "/",
-        component: () => import("../views/Home.vue"),
+        component: () => import("../views/home.vue"),
         meta: {
           tabConfig: {
             key: (router: RouteLocationNormalized) => {
@@ -20,7 +20,13 @@ const routes: Array<RouteRecordRaw> = [
       {
         name: "page1",
         path: "/page1",
-        component: () => import("../views/Page1.vue"),
+        component: () => import("../views/first.vue"),
+        meta: {},
+      },
+      {
+        name: "page2",
+        path: "/page2",
+        component: () => import("../views/second.vue"),
         meta: {},
       },
     ],
