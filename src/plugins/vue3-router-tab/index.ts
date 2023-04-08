@@ -73,6 +73,7 @@ const init = (app: App, options: Options) => {
  */
 const routerInit = (router: Router) => {
   router.beforeEach((guard) => {
+    console.log("router.beforeEach", guard);
     interceptRoute(guard);
   });
 };
