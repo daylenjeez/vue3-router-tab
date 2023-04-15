@@ -6,7 +6,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../components/frame"),
     children: [
       {
-        name: "首页",
+        name: "home",
         path: "/",
         component: () => import("../views/home.vue"),
         meta: {
