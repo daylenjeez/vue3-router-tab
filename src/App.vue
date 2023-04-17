@@ -6,9 +6,8 @@ export default{
   setup() {
     const router = useRouter();
     return {
-      handlePush(name:string){
-        
-        router.push({name});
+      handlePush(value:string){
+        router.push(value);
       }
     };
   }
@@ -18,13 +17,13 @@ export default{
 
 <template>
   <div>
-    <button @click="()=>handlePush('home')">
+    <button @click="()=>handlePush('/home')">
       首页
     </button>
-    <button @click="()=>handlePush('page1')">
+    <button @click="()=>handlePush('/page1?id=asdb')">
       page1
     </button>
-    <button @click="()=>handlePush('page2')">
+    <button @click="()=>handlePush('/page2/jikjk')">
       page2
     </button>
   </div>

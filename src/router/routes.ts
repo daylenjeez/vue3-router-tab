@@ -25,7 +25,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         name: "page2",
-        path: "/page2",
+        path: "/page2/:id",
         component: () => import("../views/second.vue"),
         meta: {},
       },

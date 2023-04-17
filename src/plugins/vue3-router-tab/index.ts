@@ -35,12 +35,14 @@ const getTabId = (tabKey: TabKey, router: RouteLocationNormalized) => {
  */
 const getTabConfigInRouterMeta = (router: RouteLocationNormalized) => {
   const { meta } = router;
+
   const { key, name, keepAlive } =
     (meta.tabConfig as TabConfig) || INITIAL_TAB_CONFIG;
   const tab = {
     name: name ?? router.name ?? router.path,
     id: getTabId(key ?? INITIAL_TAB_CONFIG.key, router),
     keepAlive: keepAlive ?? INITIAL_TAB_CONFIG.keepAlive,
+    fullPath: router.fullPath,
   };
   return tab;
 };

@@ -33,13 +33,13 @@ export interface Tab {
   name: string | symbol;
   icon?: string;
   keepAlive: boolean;
+  fullPath: string;
 }
 
 export type TabId = Tab["id"];
 
 export interface RouterTab {
-  tabs:Tab[];
+  tabs: Tab[];
   keepAlive?: boolean;
   maxAlive?: number;
-
 }

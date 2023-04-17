@@ -18,12 +18,16 @@ interface AddTab {
 interface RemoveTab {
   (tabId: TabId): Tab;
 }
-interface OpenById {
+interface OpenTab {
   (tabId: TabId): void;
 }
 
 interface SetActiveTab {
   (tabId: TabId): number;
+}
+
+interface Push {
+  (path: string): void;
 }
 
 export type Actions = CreateActions<
@@ -36,7 +40,8 @@ export type Actions = CreateActions<
     addTab: AddTab;
     removeTab: RemoveTab;
     setActiveTab: SetActiveTab;
-    openById: OpenById;
+    openTab: OpenTab;
+    push: Push;
   }
 >;
 
@@ -86,17 +91,27 @@ const setActiveTab: SetActiveTab = function (this: RouterStore, tabId: TabId) {
     throwError(`Tab not found, please check the tab id: ${tabId}`);
     return -1;
   }
+
   this.activeTabId = tabId;
 
   return tabIndex;
 };
 
-const openById: OpenById = function (this: RouterStore, tabId: TabId) {
-  const routes = this.$router.getRoutes();
-  console.log(routes);
+const openTab: OpenTab = function (this: RouterStore, tabId: TabId) {
+  const tab = this.getTab(tabId);
+  if (!tab) {
+    throwError(`Tab not found, please check the tab id: ${tabId}`);
+    return;
+  }
+  this.push(tab.fullPath);
 };
 
-const getRouterPath = (tabId: TabId) => {};
+/**
+ * @param {string} path //TODO:add other type
+ */
+const push = function (this: RouterStore, path: string) {
+  this.$router.push(path);
+};
 
 export default {
   indexOfTab,
@@ -105,5 +120,6 @@ export default {
   getTab,
   removeTab,
   setActiveTab,
-  openById,
+  openTab,
+  push,
 };
