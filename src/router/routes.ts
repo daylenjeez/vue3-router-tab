@@ -21,11 +21,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "页面1",
         path: "/page1",
         component: () => import("../views/first.vue"),
-        meta: {
-          tabConfig: {
-            key: "fullPath",
-          },
-        },
+        meta: {},
       },
       {
         name: "页面2",

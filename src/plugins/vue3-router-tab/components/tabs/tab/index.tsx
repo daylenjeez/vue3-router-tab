@@ -5,7 +5,7 @@ import styles from "./style.module.less";
 import { useRouterTabStore } from "../../../store";
 
 export default defineComponent({
-  name: "RtTab",
+  name: "rt-tab",
   props: {
     name: {
       type: String as PropType<Tab["name"]>,

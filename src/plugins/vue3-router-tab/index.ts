@@ -4,57 +4,18 @@ import RouterTab from "./router-tab";
 import { createPinia } from "pinia";
 import { RouteLocationNormalized, Router } from "vue-router";
 import { useRouterTabStore } from "./store";
-import { INITIAL_TAB_CONFIG } from "./constants";
-import { TabConfig, TabKey } from "./types";
-import { throwError, isFunction, isString } from "./utils";
 
 interface Options {
   router: Router;
 }
 
 /**
- * get tab id
- * @param {TabKey} tabKey
- * @param {RouteLocationNormalized} router
- * @returns {string}
- */
-const getTabId = (tabKey: TabKey, router: RouteLocationNormalized) => {
-  const tabId = isFunction(tabKey) ? tabKey(router) : router[tabKey];
-
-  if (!isString(tabId) || tabId === "") {
-    throwError(
-      "tabKey is not 'path','fullPath' or a function, or the return value of the function is not empty."
-    );
-  }
-  return tabId;
-};
-
-/**
- * router meta to tab
- * @param {RouteLocationNormalized} router
- * @returns {Tab}
- */
-const getTabConfigInRouterMeta = (router: RouteLocationNormalized) => {
-  const { meta } = router;
-
-  const { key, name, keepAlive } =
-    (meta.tabConfig as TabConfig) || INITIAL_TAB_CONFIG;
-  const tab = {
-    name: name ?? router.name ?? router.path,
-    id: getTabId(key ?? INITIAL_TAB_CONFIG.key, router),
-    keepAlive: keepAlive ?? INITIAL_TAB_CONFIG.keepAlive,
-    fullPath: router.fullPath,
-  };
-  return tab;
-};
-
-/**
  * intercept route to add tab
  * @param {RouteLocationNormalized} guard
  */
 const interceptRoute = (guard: RouteLocationNormalized) => {
-  const tab = getTabConfigInRouterMeta(guard);
   const store = useRouterTabStore();
+  const tab = store.getTabConfigInRouterMeta(guard);
   const hasTab = store.hasTab(tab.id);
   if (!hasTab) {
     store.addTab(tab);

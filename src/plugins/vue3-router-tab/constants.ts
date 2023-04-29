@@ -1,4 +1,4 @@
 export const INITIAL_TAB_CONFIG = {
-  key: "path" as const,
+  key: "fullPath" as const,
   keepAlive: true,
 };

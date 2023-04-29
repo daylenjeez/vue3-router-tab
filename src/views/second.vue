@@ -1,10 +1,14 @@
 <template>
+  <span>{{ $router.currentRoute.value.fullPath }}</span>
   <span>{{ num }}</span>
   <button @click="click">click</button>
+  <input type="text" />
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
+import { onActivated, ref } from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 const num = ref(0);
 const click = () => {
