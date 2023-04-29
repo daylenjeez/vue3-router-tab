@@ -15,6 +15,7 @@
     "vue-router": "4"
   },
   "devDependencies": {
+    "@total-typescript/ts-reset": "^0.4.2",
     "@vitejs/plugin-vue": "^4.1.0",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
     "eslint": "^8.36.0",

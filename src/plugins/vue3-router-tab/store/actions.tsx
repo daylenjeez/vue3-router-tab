@@ -58,7 +58,7 @@ const hasTab: HasTab = function (this: RouterStore, tabId: TabId) {
 };
 
 /**
- * get tab by tab id, if tabId is undefined, return active tab
+ * get tab by tabId, if tabId is undefined, return active tab
  * @param tabId
  * @returns Tab | undefined
  */
@@ -97,6 +97,10 @@ const setActiveTab: SetActiveTab = function (this: RouterStore, tabId: TabId) {
   return tabIndex;
 };
 
+/**
+ * open tab by tab id
+ * @param tabId
+ */
 const openTab: OpenTab = function (this: RouterStore, tabId: TabId) {
   const tab = this.getTab(tabId);
   if (!tab) {

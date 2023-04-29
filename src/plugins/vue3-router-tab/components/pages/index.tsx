@@ -1,5 +1,4 @@
 import {
-  computed,
   defineComponent,
   KeepAlive,
   resolveDynamicComponent,
@@ -8,21 +7,17 @@ import {
 import { useRouterTabStore } from "../../store";
 import { RouterView } from "vue-router";
 
+import Style from "./style.module.less";
+
 export default defineComponent({
   name: "RtPages",
   setup() {
-    const store = useRouterTabStore();
-    const activeTab = computed(store.getTab);
     return () => (
-      <div class="rt-pages">
+      <div class={`${Style["rt-pages"]}`}>
         <RouterView>
-          {({ Component }: { Component: DynamicComponent }) =>
-            activeTab.value?.keepAlive ? (
-              <KeepAlive>{() => resolveDynamicComponent(Component)}</KeepAlive>
-            ) : (
-              resolveDynamicComponent(Component)
-            )
-          }
+          {({ Component }: { Component: DynamicComponent }) => (
+            <KeepAlive>{() => resolveDynamicComponent(Component)}</KeepAlive>
+          )}
         </RouterView>
       </div>
     );

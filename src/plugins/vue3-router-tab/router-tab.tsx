@@ -3,6 +3,7 @@ import Tabs from "./components/tabs";
 import Pages from "./components/pages";
 
 export default defineComponent({
+  name: "RouterTab",
   setup() {
     return () => (
       <div class="rt-container">
