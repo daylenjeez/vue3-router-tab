@@ -1,9 +1,9 @@
 import { Plugin, App, markRaw } from "vue";
 import "@total-typescript/ts-reset";
 import RouterTab from "./router-tab";
-import { createPinia } from "pinia";
+import { Store, createPinia } from "pinia";
 import { RouteLocationNormalized, Router } from "vue-router";
-import { useRouterTabStore } from "./store";
+import { RouterTabStore, useRouterTabStore } from "./store";
 
 interface Options {
   router: Router;
@@ -12,9 +12,12 @@ interface Options {
 /**
  * intercept route to add tab
  * @param {RouteLocationNormalized} guard
+ * @param {RouterTabStore} store
  */
-const interceptRoute = (guard: RouteLocationNormalized) => {
-  const store = useRouterTabStore();
+const interceptRoute = (
+  guard: RouteLocationNormalized,
+  store: RouterTabStore
+) => {
   const tab = store.getTabConfigInRouterMeta(guard);
   const hasTab = store.hasTab(tab.id);
   if (!hasTab) {
@@ -40,9 +43,10 @@ const init = (app: App, options: Options) => {
  * @param {Router} router
  */
 const routerInit = (router: Router) => {
+  const store = useRouterTabStore();
   router.beforeEach((guard) => {
     console.log("router.beforeEach", guard);
-    interceptRoute(guard);
+    interceptRoute(guard, store);
   });
 };
 

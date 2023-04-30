@@ -70,7 +70,7 @@ export type RouterStore = ReturnType<
  * create tabId
  * @param {TabKey} tabKey
  * @param {RouteLocationNormalized} router
- * @returns {string}
+ * @returns {TabId} tabId
  */
 const createTabId = function (
   this: RouterStore,
@@ -91,7 +91,7 @@ const createTabId = function (
 /**
  * router meta to tab
  * @param {RouteLocationNormalized} router
- * @returns {Tab}
+ * @returns {Tab} tab
  */
 const getTabConfigInRouterMeta = function (
   this: RouterStore,
@@ -121,7 +121,7 @@ const hasTab: HasTab = function (this: RouterStore, tabId: TabId) {
 /**
  * get tab by tabId, if tabId is undefined, return active tab
  * @param {TabId} tabId TabId
- * @returns Tab | undefined
+ * @returns {Tab | undefined} tab
  */
 const getTab: GetTab = function (this: RouterStore, tabId?: TabId) {
   return this.tabs.find(({ id }) => id === (tabId ?? this.activeTabId));
@@ -130,7 +130,7 @@ const getTab: GetTab = function (this: RouterStore, tabId?: TabId) {
 /**
  * get tabId by route
  * @param {RouteLocationNormalizedLoaded} route
- * @returns TabId
+ * @returns {TabId} tabId
  */
 const getTabIdByRoute = function (
   this: RouterStore,
@@ -145,7 +145,7 @@ const getTabIdByRoute = function (
 /**
  * add tab
  * @param {TabId} tab
- * @returns Tab | undefined
+ * @returns {Tab | undefined} Tab
  */
 const addTab: AddTab = function (this: RouterStore, tab: Tab, options) {
   const { setActive } = options ?? { setActive: true };
@@ -156,6 +156,11 @@ const addTab: AddTab = function (this: RouterStore, tab: Tab, options) {
   return index;
 };
 
+/**
+ * remove tab
+ * @param {TabId} tabId
+ * @returns {Tab | undefined}
+ */
 const removeTab: RemoveTab = function (this: RouterStore, tabId: TabId) {
   return this.tabs.splice(this.indexOfTab(tabId), 1)[0];
 };
@@ -192,7 +197,7 @@ const openTab: OpenTab = function (this: RouterStore, tabId: TabId) {
 };
 
 /**
- * @param {string} path //TODO:add other type
+ * @param {string} path //TODO:add other type,RouteLocationRaw
  */
 const push = function (this: RouterStore, path: string) {
   this.$router.push(path);

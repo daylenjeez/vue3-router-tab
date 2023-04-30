@@ -8,15 +8,7 @@
   </div>
 </template>
 <script lang="ts">
-import {
-  defineComponent,
-  KeepAlive,
-  resolveDynamicComponent,
-  Component as DynamicComponent,
-  VNode,
-  computed,
-  watch,
-} from "vue";
+import { defineComponent, KeepAlive, computed } from "vue";
 import { useRouterTabStore } from "../../store";
 import { useRouter } from "vue-router";
 
