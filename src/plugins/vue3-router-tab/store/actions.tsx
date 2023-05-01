@@ -110,6 +110,11 @@ const getTabConfigInRouterMeta = function (
   return tab;
 };
 
+/**
+ *
+ * @param {TabId} tabId
+ * @returns {Tab|undefined} tab
+ */
 const indexOfTab: IndexOfTab = function (this: RouterStore, tabId: TabId) {
   return this.tabs.findIndex(({ id }) => id === tabId);
 };
@@ -145,7 +150,7 @@ const getTabIdByRoute = function (
 /**
  * add tab
  * @param {TabId} tab
- * @returns {Tab | undefined} Tab
+ * @returns {Number} index
  */
 const addTab: AddTab = function (this: RouterStore, tab: Tab, options) {
   const { setActive } = options ?? { setActive: true };
@@ -159,7 +164,7 @@ const addTab: AddTab = function (this: RouterStore, tab: Tab, options) {
 /**
  * remove tab
  * @param {TabId} tabId
- * @returns {Tab | undefined}
+ * @returns {Tab | undefined} tab
  */
 const removeTab: RemoveTab = function (this: RouterStore, tabId: TabId) {
   return this.tabs.splice(this.indexOfTab(tabId), 1)[0];
@@ -168,7 +173,7 @@ const removeTab: RemoveTab = function (this: RouterStore, tabId: TabId) {
 /**
  * set active tab
  * @param {TabId} tabId
- * @returns {number} tab index
+ * @returns {number} index
  */
 const setActiveTab: SetActiveTab = function (this: RouterStore, tabId: TabId) {
   const tabIndex = this.indexOfTab(tabId);
@@ -185,7 +190,7 @@ const setActiveTab: SetActiveTab = function (this: RouterStore, tabId: TabId) {
 
 /**
  * open tab by tab id
- * @param tabId
+ * @param {TabId} tabId
  */
 const openTab: OpenTab = function (this: RouterStore, tabId: TabId) {
   const tab = this.getTab(tabId);

@@ -53,7 +53,7 @@ const routerInit = (router: Router) => {
 /**
  * pinia init, add router to pinia
  * @param app
- * @param router
+ * @param {Router} router
  */
 const piniaInit = (app: App, router: Router) => {
   const pinia = createPinia();
