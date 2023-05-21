@@ -27,7 +27,13 @@ const routes: Array<RouteRecordRaw> = [
         name: "页面2",
         path: "/page2/:id",
         component: () => import("../views/second.vue"),
-        meta: {},
+        meta: {
+          tabConfig: {
+            key: (router: RouteLocationNormalized) => {
+              return router.fullPath;
+            },
+          },
+        },
       },
     ],
   },

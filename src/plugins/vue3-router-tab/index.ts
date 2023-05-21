@@ -1,7 +1,7 @@
 import { Plugin, App, markRaw } from "vue";
 import "@total-typescript/ts-reset";
 import RouterTab from "./router-tab";
-import { Store, createPinia } from "pinia";
+import { createPinia } from "pinia";
 import { RouteLocationNormalized, Router } from "vue-router";
 import { RouterTabStore, useRouterTabStore } from "./store";
 
@@ -67,7 +67,7 @@ const piniaInit = (app: App, router: Router) => {
 const RouterTabPlugin: Plugin = {
   install(app: App, options: Options) {
     init(app, options);
-    app.component("router-tab", RouterTab);
+    app.component("RouterTab", RouterTab);
   },
 };
 

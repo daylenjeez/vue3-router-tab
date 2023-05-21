@@ -13,12 +13,14 @@ export type PageType = "alive" | "iframe";
  * @property {string} tabName
  * @property {boolean} keepAlive
  * @property {string} icon
+ * @property {string} configKeyInMeta
  */
 export interface TabConfig {
   key?: TabKey;
   name?: string;
   keepAlive?: boolean;
   icon?: string;
+  configKeyInMeta?: string;
 }
 
 /**
@@ -27,6 +29,9 @@ export interface TabConfig {
  * @property {string} id
  * @property {string} name
  * @property {string} icon
+ * @property {boolean} keepAlive
+ * @property {string} fullPath
+ * @property {boolean} isIframe
  */
 export interface Tab {
   id: string;
@@ -34,6 +39,7 @@ export interface Tab {
   icon?: string;
   keepAlive: boolean;
   fullPath: string;
+  isIframe?: boolean;
 }
 
 export type TabId = Tab["id"];

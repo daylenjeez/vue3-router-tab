@@ -4,4 +4,5 @@ export interface State {
   tabs: Tab[];
   activeTabId: null | TabId;
 }
+
 export default (): State => ({ tabs: [], activeTabId: null });

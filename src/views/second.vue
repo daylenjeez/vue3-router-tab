@@ -6,17 +6,14 @@
 </template>
 
 <script lang="ts">
-import { onActivated, ref } from "vue";
-import { useRouter } from "vue-router";
-const router = useRouter();
-
-const num = ref(0);
-const click = () => {
-  num.value++;
-};
+import { ref, onBeforeUnmount } from "vue";
 
 export default {
   setup() {
+    const num = ref(0);
+    const click = () => {
+      num.value++;
+    };
     return { name: "page2", num, click };
   },
 };

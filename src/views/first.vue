@@ -4,7 +4,5 @@
 </template>
 
 <script lang="ts">
-export default {
-  name: "page1",
-};
+export default { name: "Page1" };
 </script>

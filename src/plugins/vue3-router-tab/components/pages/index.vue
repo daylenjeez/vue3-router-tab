@@ -1,5 +1,6 @@
 <template>
   <div :class="Style['rt-pages']">
+    {}
     <RouterView v-slot="{ Component }">
       <keep-alive>
         <component :is="Component" :key="key" />
@@ -15,13 +16,14 @@ import { useRouter } from "vue-router";
 import Style from "./style.module.less";
 
 export default defineComponent({
-  name: "rt-pages",
+  name: "RtPages",
   setup() {
     const tabStore = useRouterTabStore();
     const vueRouter = useRouter();
-    const key = computed(() => {
-      return tabStore.getTabIdByRoute(vueRouter.currentRoute.value);
-    });
+    const key = computed(() =>
+      tabStore.getTabIdByRoute(vueRouter.currentRoute.value)
+    );
+    const tab = computed(() => tabStore.getTab(key.value));
 
     return {
       Style,
