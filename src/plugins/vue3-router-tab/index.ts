@@ -9,6 +9,17 @@ interface Options {
   router: Router;
 }
 
+const _useRouterTab = (store: RouterTabStore) => {
+  return () => {
+    return {
+      tabs: store.tabs,
+      open: store.open,
+    };
+  };
+};
+
+let useRouterTab: ReturnType<typeof _useRouterTab>;
+
 /**
  * intercept route to add tab
  * @param {RouteLocationNormalized} guard
@@ -44,6 +55,8 @@ const init = (app: App, options: Options) => {
  */
 const routerInit = (router: Router) => {
   const store = useRouterTabStore();
+  useRouterTab = _useRouterTab(store);
+
   router.beforeEach((guard) => {
     console.log("router.beforeEach", guard);
     interceptRoute(guard, store);
@@ -72,4 +85,4 @@ const RouterTabPlugin: Plugin = {
 };
 
 export default RouterTabPlugin;
-export { RouterTab };
+export { RouterTab, useRouterTab };

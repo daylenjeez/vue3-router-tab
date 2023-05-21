@@ -1,13 +1,16 @@
 <script lang="ts">
 import { useRouter } from "vue-router";
+import { useRouterTab } from "./plugins/vue3-router-tab";
 import "./style/index.less";
 
 export default {
   setup() {
     const router = useRouter();
+    const routerTab = useRouterTab();
     return {
       handlePush(value: string) {
         router.push(value);
+        console.log(routerTab.tabs);
       },
     };
   },
@@ -17,10 +20,10 @@ export default {
 <template>
   <div style="margin-bottom: 30px">
     <button @click="() => handlePush('/home')">首页</button>
-    <button @click="() => handlePush('/page1?id=1')">/page1?id=1</button>
-    <button @click="() => $router.push({ path: '/page1' })">/page1?id=2</button>
-    <button @click="() => handlePush('/page2/2')">/page2/2</button>
-    <button @click="() => handlePush('/page2/3')">/page2/3</button>
+    <button @click="() => handlePush('/page1?id=1')">用户列表+query</button>
+    <button @click="() => handlePush('/page1?id=2')">用户列表+query</button>
+    <button @click="() => handlePush('/page2/2')">用户详情+params2</button>
+    <button @click="() => handlePush('/page2/3')">用户详情+params3</button>
     <router-tab />
   </div>
 </template>

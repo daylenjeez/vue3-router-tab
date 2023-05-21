@@ -1,6 +1,7 @@
 import {
   RouteLocationNormalized,
   RouteLocationNormalizedLoaded,
+  RouteLocationRaw,
 } from "vue-router";
 import { INITIAL_TAB_CONFIG } from "../constants";
 import { Tab, TabConfig, TabId, TabKey } from "../types";
@@ -99,15 +100,19 @@ const _getTabConfigInRouterMeta = function (
 ) {
   const { meta } = router;
 
-  const { key, name, keepAlive, isIframe } =
-    (meta.tabConfig as TabConfig) || INITIAL_TAB_CONFIG;
+  const {
+    key,
+    name,
+    keepAlive,
+    isIframe = false,
+  } = (meta.tabConfig as TabConfig) || INITIAL_TAB_CONFIG;
   const tab = {
     name: name ?? router.name ?? router.path,
     id: this._createTabId(key, router),
     keepAlive: keepAlive ?? INITIAL_TAB_CONFIG.keepAlive,
     fullPath: router.fullPath,
-    isIframe: isIframe ?? false,
-  };
+  } as Tab;
+  if (isIframe) tab.isIframe = true;
   return tab;
 };
 
@@ -212,10 +217,21 @@ const _openTab: OpenTab = function (this: RouterStore, tabId: TabId) {
 // const removeRoute = function (this: RouterStore) {};
 
 /**
- * @param {string} path //TODO:add other type,RouteLocationRaw
+ * @param {string} to
  */
-const open = function (this: RouterStore, path: string) {
-  this.$router.push(path);
+const open = function (this: RouterStore, to: RouteLocationRaw) {
+  return this.$router.push(to);
+};
+
+/**
+ * @param {string} key created by TabConfig['key']
+ * //TODO: if remove current tab, open last tab
+ */
+const close = function (this: RouterStore, key?: string) {
+  const _key = key ?? this.activeTabId;
+  if (!_key) return;
+  this._removeTab(_key);
+  // this.$router.back();
 };
 
 /**
@@ -238,4 +254,5 @@ export default {
   _openTab,
 
   open,
+  close,
 };

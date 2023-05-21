@@ -4,7 +4,6 @@ export type TabKey =
   | "path"
   | "fullPath"
   | ((router: RouteLocationNormalized) => string);
-export type PageType = "alive" | "iframe";
 
 /**
  * tab meta
@@ -40,7 +39,7 @@ export interface Tab {
   icon?: string;
   keepAlive: boolean;
   fullPath: string;
-  isIframe?: boolean;
+  isIframe: boolean;
 }
 
 export type TabId = Tab["id"];
