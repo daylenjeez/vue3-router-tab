@@ -2,6 +2,7 @@ import {
   RouteLocationNormalized,
   RouteLocationNormalizedLoaded,
   RouteLocationRaw,
+  Router,
 } from "vue-router";
 import { INITIAL_TAB_CONFIG } from "../constants";
 import { Tab, TabConfig, TabId, TabKey } from "../types";
@@ -31,7 +32,7 @@ interface AddTab {
   (tab: Tab, options?: { setActive?: boolean }): number;
 }
 interface RemoveTab {
-  (tabId: TabId): Tab;
+  (tabId: TabId): Tab | undefined;
 }
 interface OpenTab {
   (tabId: TabId): void;
@@ -42,7 +43,11 @@ interface SetActiveTab {
 }
 
 interface Open {
-  (path: string): void;
+  (to: RouteLocationRaw): ReturnType<Router["push"]>;
+}
+
+interface Close {
+  (key?: string): Tab | undefined;
 }
 
 export type Actions = CreateActions<
@@ -60,6 +65,7 @@ export type Actions = CreateActions<
     _setActiveTab: SetActiveTab;
     _openTab: OpenTab;
     open: Open;
+    close: Close;
   }
 >;
 
@@ -73,7 +79,7 @@ export type RouterStore = ReturnType<
  * @param {RouteLocationNormalized} router
  * @returns {TabId} tabId
  */
-const _createTabId = function (
+const _createTabId: CreateTabId = function (
   this: RouterStore,
   tabKey: TabKey | undefined | null,
   router: RouteLocationNormalized
@@ -94,7 +100,7 @@ const _createTabId = function (
  * @param {RouteLocationNormalized} router
  * @returns {Tab} tab
  */
-const _getTabConfigInRouterMeta = function (
+const _getTabConfigInRouterMeta: GetTabConfigInRouterMeta = function (
   this: RouterStore,
   router: RouteLocationNormalized
 ) {
@@ -227,10 +233,10 @@ const open = function (this: RouterStore, to: RouteLocationRaw) {
  * @param {string} key created by TabConfig['key']
  * //TODO: if remove current tab, open last tab
  */
-const close = function (this: RouterStore, key?: string) {
+const close: Close = function (this: RouterStore, key?: string) {
   const _key = key ?? this.activeTabId;
   if (!_key) return;
-  this._removeTab(_key);
+  return this._removeTab(_key);
   // this.$router.back();
 };
 

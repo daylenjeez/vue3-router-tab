@@ -27,7 +27,7 @@ export default defineComponent({
 
     const click = () => {
       if (active.value) return;
-      store.openTab(props.id);
+      store.open(props.id);
     };
 
     return () => (
