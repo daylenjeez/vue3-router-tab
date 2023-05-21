@@ -21,7 +21,11 @@ const routes: Array<RouteRecordRaw> = [
         name: "页面1",
         path: "/page1",
         component: () => import("../views/first.vue"),
-        meta: {},
+        meta: {
+          tabConfig: {
+            isIframe: true,
+          },
+        },
       },
       {
         name: "页面2",

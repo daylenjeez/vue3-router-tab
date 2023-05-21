@@ -21,6 +21,7 @@ export interface TabConfig {
   keepAlive?: boolean;
   icon?: string;
   configKeyInMeta?: string;
+  isIframe?: boolean;
 }
 
 /**

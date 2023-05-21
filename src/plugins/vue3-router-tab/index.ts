@@ -18,12 +18,12 @@ const interceptRoute = (
   guard: RouteLocationNormalized,
   store: RouterTabStore
 ) => {
-  const tab = store.getTabConfigInRouterMeta(guard);
-  const hasTab = store.hasTab(tab.id);
+  const tab = store._getTabConfigInRouterMeta(guard);
+  const hasTab = store._hasTab(tab.id);
   if (!hasTab) {
-    store.addTab(tab);
+    store._addTab(tab);
   } else {
-    store.setActiveTab(tab.id);
+    store._setActiveTab(tab.id);
   }
 };
 

@@ -40,7 +40,7 @@ interface SetActiveTab {
   (tabId: TabId): number;
 }
 
-interface Push {
+interface Open {
   (path: string): void;
 }
 
@@ -48,17 +48,17 @@ export type Actions = CreateActions<
   string,
   State,
   {
-    createTabId: CreateTabId;
-    getTabConfigInRouterMeta: GetTabConfigInRouterMeta;
-    hasTab: HasTab;
-    indexOfTab: IndexOfTab;
-    getTab: GetTab;
-    getTabIdByRoute: GetTabIdByRoute;
-    addTab: AddTab;
-    removeTab: RemoveTab;
-    setActiveTab: SetActiveTab;
-    openTab: OpenTab;
-    push: Push;
+    _createTabId: CreateTabId;
+    _getTabConfigInRouterMeta: GetTabConfigInRouterMeta;
+    _hasTab: HasTab;
+    _indexOfTab: IndexOfTab;
+    _getTab: GetTab;
+    _getTabIdByRoute: GetTabIdByRoute;
+    _addTab: AddTab;
+    _removeTab: RemoveTab;
+    _setActiveTab: SetActiveTab;
+    _openTab: OpenTab;
+    open: Open;
   }
 >;
 
@@ -72,7 +72,7 @@ export type RouterStore = ReturnType<
  * @param {RouteLocationNormalized} router
  * @returns {TabId} tabId
  */
-const createTabId = function (
+const _createTabId = function (
   this: RouterStore,
   tabKey: TabKey | undefined | null,
   router: RouteLocationNormalized
@@ -93,19 +93,20 @@ const createTabId = function (
  * @param {RouteLocationNormalized} router
  * @returns {Tab} tab
  */
-const getTabConfigInRouterMeta = function (
+const _getTabConfigInRouterMeta = function (
   this: RouterStore,
   router: RouteLocationNormalized
 ) {
   const { meta } = router;
 
-  const { key, name, keepAlive } =
+  const { key, name, keepAlive, isIframe } =
     (meta.tabConfig as TabConfig) || INITIAL_TAB_CONFIG;
   const tab = {
     name: name ?? router.name ?? router.path,
-    id: this.createTabId(key, router),
+    id: this._createTabId(key, router),
     keepAlive: keepAlive ?? INITIAL_TAB_CONFIG.keepAlive,
     fullPath: router.fullPath,
+    isIframe: isIframe ?? false,
   };
   return tab;
 };
@@ -115,11 +116,11 @@ const getTabConfigInRouterMeta = function (
  * @param {TabId} tabId
  * @returns {Tab|undefined} tab
  */
-const indexOfTab: IndexOfTab = function (this: RouterStore, tabId: TabId) {
+const _indexOfTab: IndexOfTab = function (this: RouterStore, tabId: TabId) {
   return this.tabs.findIndex(({ id }) => id === tabId);
 };
 
-const hasTab: HasTab = function (this: RouterStore, tabId: TabId) {
+const _hasTab: HasTab = function (this: RouterStore, tabId: TabId) {
   return this.tabs.some(({ id }) => id === tabId);
 };
 
@@ -128,7 +129,7 @@ const hasTab: HasTab = function (this: RouterStore, tabId: TabId) {
  * @param {TabId} tabId TabId
  * @returns {Tab | undefined} tab
  */
-const getTab: GetTab = function (this: RouterStore, tabId?: TabId) {
+const _getTab: GetTab = function (this: RouterStore, tabId?: TabId) {
   return this.tabs.find(({ id }) => id === (tabId ?? this.activeTabId));
 };
 
@@ -137,46 +138,51 @@ const getTab: GetTab = function (this: RouterStore, tabId?: TabId) {
  * @param {RouteLocationNormalizedLoaded} route
  * @returns {TabId} tabId
  */
-const getTabIdByRoute = function (
+const _getTabIdByRoute = function (
   this: RouterStore,
   route: RouteLocationNormalizedLoaded
 ) {
   const key =
     (route.meta?.tabConfig as TabConfig)?.key ?? INITIAL_TAB_CONFIG.key;
-  const tabId = this.createTabId(key, route);
+  const tabId = this._createTabId(key, route);
   return tabId;
 };
 
 /**
  * add tab
  * @param {TabId} tab
+ * @param {object} options //TODO: add options
  * @returns {Number} index
  */
-const addTab: AddTab = function (this: RouterStore, tab: Tab, options) {
+const _addTab: AddTab = function (this: RouterStore, tab: Tab, options) {
   const { setActive } = options ?? { setActive: true };
   const index = this.tabs.push(tab);
   if (setActive) {
-    this.setActiveTab(tab.id);
+    this._setActiveTab(tab.id);
   }
   return index;
 };
+
+//const _addIframeTab = function (this: RouterStore, tab: Tab) {};
 
 /**
  * remove tab
  * @param {TabId} tabId
  * @returns {Tab | undefined} tab
  */
-const removeTab: RemoveTab = function (this: RouterStore, tabId: TabId) {
-  return this.tabs.splice(this.indexOfTab(tabId), 1)[0];
+const _removeTab: RemoveTab = function (this: RouterStore, tabId: TabId) {
+  return this.tabs.splice(this._indexOfTab(tabId), 1)[0];
 };
+
+//const _removeIframeTab = function (this: RouterStore, tab: Tab) {};
 
 /**
  * set active tab
  * @param {TabId} tabId
  * @returns {number} index
  */
-const setActiveTab: SetActiveTab = function (this: RouterStore, tabId: TabId) {
-  const tabIndex = this.indexOfTab(tabId);
+const _setActiveTab: SetActiveTab = function (this: RouterStore, tabId: TabId) {
+  const tabIndex = this._indexOfTab(tabId);
   const tab = this.tabs[tabIndex];
   if (!tab) {
     throwError(`Tab not found, please check the tab id: ${tabId}`);
@@ -192,32 +198,44 @@ const setActiveTab: SetActiveTab = function (this: RouterStore, tabId: TabId) {
  * open tab by tab id
  * @param {TabId} tabId
  */
-const openTab: OpenTab = function (this: RouterStore, tabId: TabId) {
-  const tab = this.getTab(tabId);
+const _openTab: OpenTab = function (this: RouterStore, tabId: TabId) {
+  const tab = this._getTab(tabId);
   if (!tab) {
     throwError(`Tab not found, please check the tab id: ${tabId}`);
     return;
   }
-  this.push(tab.fullPath);
+  this.open(tab.fullPath);
+};
+
+// const addRoute = function (this: RouterStore) {};
+
+// const removeRoute = function (this: RouterStore) {};
+
+/**
+ * @param {string} path //TODO:add other type,RouteLocationRaw
+ */
+const open = function (this: RouterStore, path: string) {
+  this.$router.push(path);
 };
 
 /**
  * @param {string} path //TODO:add other type,RouteLocationRaw
  */
-const push = function (this: RouterStore, path: string) {
-  this.$router.push(path);
-};
+// const openIframe = function (this: RouterStore, path: string) {
+//   this.$router.push(path);
+// };
 
 export default {
-  createTabId,
-  getTabConfigInRouterMeta,
-  hasTab,
-  indexOfTab,
-  addTab,
-  getTab,
-  getTabIdByRoute,
-  removeTab,
-  setActiveTab,
-  openTab,
-  push,
+  _createTabId,
+  _getTabConfigInRouterMeta,
+  _hasTab,
+  _indexOfTab,
+  _addTab,
+  _getTab,
+  _getTabIdByRoute,
+  _removeTab,
+  _setActiveTab,
+  _openTab,
+
+  open,
 };

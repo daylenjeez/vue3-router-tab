@@ -1,33 +1,38 @@
 <template>
   <div :class="Style['rt-pages']">
-    {}
-    <RouterView v-slot="{ Component }">
+    <router-view v-slot="{ Component }">
       <keep-alive>
         <component :is="Component" :key="key" />
       </keep-alive>
-    </RouterView>
+    </router-view>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, KeepAlive, computed } from "vue";
-import { useRouterTabStore } from "../../store";
 import { useRouter } from "vue-router";
+import { useRouterTabStore } from "../../store";
+import RtIframe from "./iframe";
 
 import Style from "./style.module.less";
 
 export default defineComponent({
-  name: "RtPages",
+  name: "rt-Pages",
+  components: {
+    "rt-iframe": RtIframe,
+  },
   setup() {
     const tabStore = useRouterTabStore();
     const vueRouter = useRouter();
+
     const key = computed(() =>
-      tabStore.getTabIdByRoute(vueRouter.currentRoute.value)
+      tabStore._getTabIdByRoute(vueRouter.currentRoute.value)
     );
-    const tab = computed(() => tabStore.getTab(key.value));
+    const tab = computed(() => tabStore._getTab(key.value));
 
     return {
       Style,
       key,
+      tab,
     };
   },
 });
