@@ -32,6 +32,7 @@ export interface TabConfig {
  * @property {boolean} keepAlive
  * @property {string} fullPath
  * @property {boolean} isIframe
+ * @property {boolean} allowClose
  */
 export interface Tab {
   id: string;
@@ -40,6 +41,7 @@ export interface Tab {
   keepAlive: boolean;
   fullPath: string;
   isIframe: boolean;
+  allowClose?: boolean;
 }
 
 export type TabId = Tab["id"];

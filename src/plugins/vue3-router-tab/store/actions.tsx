@@ -39,7 +39,7 @@ interface OpenTab {
 }
 
 interface SetActiveTab {
-  (tabId: TabId): number;
+  (tabId: TabId | null): number;
 }
 
 interface Open {
@@ -168,6 +168,8 @@ const _getTabIdByRoute = function (
 const _addTab: AddTab = function (this: RouterStore, tab: Tab, options) {
   const { setActive } = options ?? { setActive: true };
   const index = this.tabs.push(tab);
+  console.log(index);
+
   if (setActive) {
     this._setActiveTab(tab.id);
   }
@@ -192,12 +194,18 @@ const _removeTab: RemoveTab = function (this: RouterStore, tabId: TabId) {
  * @param {TabId} tabId
  * @returns {number} index
  */
-const _setActiveTab: SetActiveTab = function (this: RouterStore, tabId: TabId) {
-  const tabIndex = this._indexOfTab(tabId);
-  const tab = this.tabs[tabIndex];
-  if (!tab) {
-    throwError(`Tab not found, please check the tab id: ${tabId}`);
-    return -1;
+const _setActiveTab: SetActiveTab = function (
+  this: RouterStore,
+  tabId: TabId | null
+) {
+  let tabIndex = -1;
+  if (tabId) {
+    tabIndex = this._indexOfTab(tabId);
+    const tab = this.tabs[tabIndex];
+    if (!tab) {
+      throwError(`Tab not found, please check the tab id: ${tabId}`);
+      return -1;
+    }
   }
 
   this.activeTabId = tabId;
@@ -231,11 +239,24 @@ const open = function (this: RouterStore, to: RouteLocationRaw) {
 
 /**
  * @param {string} key created by TabConfig['key']
- * //TODO: if remove current tab, open last tab
+ * //TODO: if remove current tab, open before tab
  */
 const close: Close = function (this: RouterStore, key?: string) {
   const _key = key ?? this.activeTabId;
   if (!_key) return;
+  const index = this._indexOfTab(_key);
+  const beforeTab = this.tabs[index - 1];
+
+  if (beforeTab) {
+    this._setActiveTab(beforeTab.id);
+  } else {
+    const afterTab = this.tabs[index + 1];
+    if (afterTab) {
+      this._setActiveTab(afterTab.id);
+    } else {
+      this._setActiveTab(null);
+    }
+  }
   return this._removeTab(_key);
   // this.$router.back();
 };

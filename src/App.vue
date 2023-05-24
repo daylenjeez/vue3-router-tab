@@ -10,7 +10,6 @@ export default {
     return {
       handlePush(value: string) {
         router.push(value);
-        console.log(routerTab.tabs);
       },
     };
   },

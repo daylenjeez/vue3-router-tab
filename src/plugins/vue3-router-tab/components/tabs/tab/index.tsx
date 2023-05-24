@@ -30,11 +30,16 @@ export default defineComponent({
       store.open(props.id);
     };
 
+    const close = (e: MouseEvent) => {
+      store.close(props.id);
+      e.preventDefault();
+    };
+
     return () => (
       <div class={classNames.value} onClick={click}>
         <div></div>
         <div>{props.name}</div>
-        <div></div>
+        <div onClick={close}>x</div>
       </div>
     );
   },
