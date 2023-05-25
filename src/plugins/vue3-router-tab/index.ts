@@ -30,7 +30,6 @@ const interceptRoute = (
   store: RouterTabStore
 ) => {
   const tab = store._getTabConfigInRouterMeta(guard);
-  debugger;
 
   const hasTab = store._hasTab(tab.id);
 

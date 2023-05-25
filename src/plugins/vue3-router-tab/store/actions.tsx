@@ -168,7 +168,6 @@ const _getTabIdByRoute = function (
 const _addTab: AddTab = function (this: RouterStore, tab: Tab, options) {
   const { setActive } = options ?? { setActive: true };
   const index = this.tabs.push(tab);
-  console.log(index);
 
   if (setActive) {
     this._setActiveTab(tab.id);
@@ -247,6 +246,7 @@ const close: Close = function (this: RouterStore, key?: string) {
   const index = this._indexOfTab(_key);
   const beforeTab = this.tabs[index - 1];
 
+  console.log("beforeTab", beforeTab);
   if (beforeTab) {
     this._setActiveTab(beforeTab.id);
   } else {

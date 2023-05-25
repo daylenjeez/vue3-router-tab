@@ -27,12 +27,14 @@ export default defineComponent({
 
     const click = () => {
       if (active.value) return;
+      console.log("open");
+
       store.open(props.id);
     };
 
     const close = (e: MouseEvent) => {
       store.close(props.id);
-      e.preventDefault();
+      e.stopPropagation();
     };
 
     return () => (
