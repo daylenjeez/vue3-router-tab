@@ -1,18 +1,51 @@
-# Vue 3 + TypeScript + Vite
+# Vue3-router-tab
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+> 在 vue3 中，使用 vue-router 与插件结合实现Tab与前端路由的交互同步，比如打开路由时新增tab；功能基本参考 [vue-router-tab](https://github.com/bhuh12/vue-router-tab)；
+> 目前还在开发当中
 
-## Recommended IDE Setup
+## 功能
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+- 基本
+  - [x] $router.push or router-link 路由跳转触发新增tab
+      - [x] path：根据path匹配tab
+      - [x] fullpath: 根据fullpath匹配tab
+      - [x] 自定义函数：(router)=>string
+   - [ ] handler api
+     - [ ] close api
+        - [ ] close current
+        - [ ] closeAll
+        - [ ] close others
+     - [ ] open api
+        - [ ] replace
+        - [ ] refresh
+        - [ ] insert opsition
+- 全局配置
+    - [ ] 往前插入 or 往后插入
+    - [ ] keepalive
+    - [ ] icon
+    - [ ] theme
+        - [ ] initial
+        - [ ] element plus
+        - [ ] antdv
+    - [ ]  hooks
+ 
+- 高级
+   - [ ] iframe
+   - [ ] scroll position
+   - [ ] transition
+   - [ ] context menu
+ 
+## 使用
 
-## Type Support For `.vue` Imports in TS
+```js
+   import { createApp } from "vue";
+   import App from "./App.vue";
+   import router from "./router";
+   import RouterTab from "./plugins/vue3-router-tab";
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+   const app = createApp(App);
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+   app.use(router);
+   app.use(RouterTab, { router });
+   app.mount("#app");
+```
