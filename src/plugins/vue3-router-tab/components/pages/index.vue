@@ -1,5 +1,5 @@
 <template>
-  <div :class="Style['rt-pages']">
+  <div v-if="tab" :class="Style['rt-pages']">
     <router-view v-slot="{ Component }">
       <keep-alive>
         <component :is="Component" :key="key" />
