@@ -48,4 +48,11 @@
    app.use(router);
    app.use(RouterTab, { router });
    app.mount("#app");
+
+```
+
+```vue
+<template>
+  <router-tab />
+</template>
 ```
