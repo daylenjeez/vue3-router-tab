@@ -18,6 +18,7 @@ export default defineComponent({
   },
   setup(props) {
     const store = useRouterTabStore();
+    const tabsLength = computed(() => store.tabs.length);
     const active = computed(() => store.activeTabId === props.id);
 
     const classNames = computed(() => [
@@ -27,7 +28,6 @@ export default defineComponent({
 
     const click = () => {
       if (active.value) return;
-      console.log("open");
 
       store.open(props.id);
     };
@@ -41,7 +41,7 @@ export default defineComponent({
       <div class={classNames.value} onClick={click}>
         <div></div>
         <div>{props.name}</div>
-        <div onClick={close}>x</div>
+        {tabsLength.value > 1 && <div onClick={close}>x</div>}
       </div>
     );
   },

@@ -7,6 +7,10 @@ export default {
   setup() {
     const router = useRouter();
     const routerTab = useRouterTab();
+
+    setTimeout(() => {
+      routerTab.close();
+    }, 2000);
     return {
       handlePush(value: string) {
         router.push(value);

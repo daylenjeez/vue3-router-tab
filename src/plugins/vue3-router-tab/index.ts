@@ -14,6 +14,7 @@ const _useRouterTab = (store: RouterTabStore) => {
     return {
       tabs: store.tabs,
       open: store.open,
+      close: store.close,
     };
   };
 };

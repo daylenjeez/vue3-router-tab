@@ -16,7 +16,7 @@ import RtIframe from "./iframe";
 import Style from "./style.module.less";
 
 export default defineComponent({
-  name: "rt-Pages",
+  name: "rt-pages",
   components: {
     "rt-iframe": RtIframe,
   },
@@ -27,6 +27,7 @@ export default defineComponent({
     const key = computed(() =>
       tabStore._getTabIdByRoute(vueRouter.currentRoute.value)
     );
+
     const tab = computed(() => tabStore._getTab(key.value));
 
     return {

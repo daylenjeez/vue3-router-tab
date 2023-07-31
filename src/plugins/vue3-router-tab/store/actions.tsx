@@ -243,22 +243,23 @@ const open = function (this: RouterStore, to: RouteLocationRaw) {
 const close: Close = function (this: RouterStore, key?: string) {
   const _key = key ?? this.activeTabId;
   if (!_key) return;
+  if (this.tabs.length <= 1) return;
   const index = this._indexOfTab(_key);
   const beforeTab = this.tabs[index - 1];
 
-  console.log("beforeTab", beforeTab);
+  const removeTab = this._removeTab(_key);
+
   if (beforeTab) {
     this._setActiveTab(beforeTab.id);
   } else {
     const afterTab = this.tabs[index + 1];
-    if (afterTab) {
-      this._setActiveTab(afterTab.id);
-    } else {
-      this._setActiveTab(null);
-    }
+
+    this._setActiveTab(afterTab?.id || null);
   }
-  return this._removeTab(_key);
-  // this.$router.back();
+  if (this.activeTabId) {
+    this.open(this.activeTabId);
+  }
+  return removeTab;
 };
 
 /**
