@@ -8,6 +8,10 @@ export default {
     const router = useRouter();
     const routerTab = useRouterTab();
 
+    setTimeout(() => {
+      routerTab.closeOthers();
+    }, 3000);
+
     return {
       handlePush(value: string) {
         router.push(value);
