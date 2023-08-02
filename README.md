@@ -1,6 +1,6 @@
 # Vue3-router-tab
 
-> 在 vue3 中，使用 vue-router 与插件结合实现Tab与前端路由的交互同步，比如打开路由时新增tab；功能基本参考 [vue-router-tab](https://github.com/bhuh12/vue-router-tab)；
+> 在 vue3 中，使用 vue-router 与插件结合实现Tab与前端路由的交互同步，比如打开路由时新增tab；功能基本参考vue2版本的 [vue-router-tab](https://github.com/bhuh12/vue-router-tab)；
 > 目前还在开发当中
 
 ## 功能
