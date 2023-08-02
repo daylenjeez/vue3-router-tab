@@ -12,9 +12,8 @@
       - [x] 自定义函数：(router)=>string
    - [ ] handler api
      - [ ] close api
-        - [ ] close current
-        - [ ] closeAll
-        - [ ] close others
+        - [x] close current
+        - [x] close others
      - [ ] open api
         - [ ] replace
         - [ ] refresh
