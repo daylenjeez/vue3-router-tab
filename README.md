@@ -11,7 +11,7 @@
       - [x] fullpath: 根据fullpath匹配tab
       - [x] 自定义函数：(router)=>string
    - [ ] handler api
-     - [ ] close api
+     - [x] close api
         - [x] close current
         - [x] close others
      - [ ] open api
