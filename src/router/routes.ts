@@ -18,8 +18,8 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        name: "用户列表",
-        path: "/page1",
+        name: "列表",
+        path: "/list",
         component: () => import("../views/first.vue"),
         meta: {
           tabConfig: {
@@ -29,7 +29,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         name: "详情页",
-        path: "/page2/:id",
+        path: "/detail/:id",
         component: () => import("../views/second.vue"),
         meta: {
           tabConfig: {

@@ -8,9 +8,6 @@ export default {
     const router = useRouter();
     const routerTab = useRouterTab();
 
-    setTimeout(() => {
-      routerTab.close();
-    }, 2000);
     return {
       handlePush(value: string) {
         router.push(value);
@@ -23,10 +20,10 @@ export default {
 <template>
   <div style="margin-bottom: 30px">
     <button @click="() => handlePush('/home')">首页</button>
-    <button @click="() => handlePush('/page1?id=1')">用户列表+query</button>
-    <button @click="() => handlePush('/page1?id=2')">用户列表+query</button>
-    <button @click="() => handlePush('/page2/2')">用户详情+params2</button>
-    <button @click="() => handlePush('/page2/3')">用户详情+params3</button>
+    <button @click="() => handlePush('/list?id=1')">用户列表+query</button>
+    <button @click="() => handlePush('/list?id=2')">用户列表+query</button>
+    <button @click="() => handlePush('/detail/2')">用户详情+params2</button>
+    <button @click="() => handlePush('/detail/3')">用户详情+params3</button>
     <router-tab />
   </div>
 </template>

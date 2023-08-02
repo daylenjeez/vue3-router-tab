@@ -238,7 +238,7 @@ const open = function (this: RouterStore, to: RouteLocationRaw) {
 
 /**
  * @param {string} key created by TabConfig['key']
- * //TODO: if remove current tab, open before tab
+ * //if remove current tab, open before tab，
  */
 const close: Close = function (this: RouterStore, key?: string) {
   const _key = key ?? this.activeTabId;
@@ -246,8 +246,6 @@ const close: Close = function (this: RouterStore, key?: string) {
   if (this.tabs.length <= 1) return;
   const index = this._indexOfTab(_key);
   const beforeTab = this.tabs[index - 1];
-
-  const removeTab = this._removeTab(_key);
 
   if (beforeTab) {
     this._setActiveTab(beforeTab.id);
@@ -259,7 +257,7 @@ const close: Close = function (this: RouterStore, key?: string) {
   if (this.activeTabId) {
     this.open(this.activeTabId);
   }
-  return removeTab;
+  return this._removeTab(_key);
 };
 
 /**
