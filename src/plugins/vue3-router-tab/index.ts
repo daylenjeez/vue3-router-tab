@@ -1,5 +1,5 @@
-import { Plugin, App, markRaw } from "vue";
 import "@total-typescript/ts-reset";
+import { Plugin, App, markRaw } from "vue";
 import RouterTab from "./router-tab";
 import { createPinia } from "pinia";
 import { RouteLocationNormalized, Router } from "vue-router";

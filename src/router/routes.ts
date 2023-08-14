@@ -39,6 +39,11 @@ const routes: Array<RouteRecordRaw> = [
           },
         },
       },
+      {
+        name: "编辑页",
+        path: "/edit/:id",
+        component: () => import("../views/third.vue"),
+      },
     ],
   },
 ];

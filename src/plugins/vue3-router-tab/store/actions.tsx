@@ -54,6 +54,10 @@ interface CloseOthers {
   (): Tab | undefined;
 }
 
+interface GetTabs {
+  (): Tab[];
+}
+
 export type Actions = CreateActions<
   string,
   State,
@@ -71,6 +75,7 @@ export type Actions = CreateActions<
     open: Open;
     close: Close;
     closeOthers: CloseOthers;
+    getTabs: GetTabs;
   }
 >;
 
@@ -158,6 +163,8 @@ const _getTabIdByRoute = function (
   this: RouterStore,
   route: RouteLocationNormalizedLoaded
 ) {
+  console.log(route);
+
   const key =
     (route.meta?.tabConfig as TabConfig)?.key ?? INITIAL_TAB_CONFIG.key;
   const tabId = this._createTabId(key, route);
@@ -260,17 +267,23 @@ const close: Close = function (this: RouterStore, key?: string) {
 
 /**
  * @param {string} key created by TabConfig['key']
- * //if remove current tab, open before tab，
+ * if remove current tab, open before tab，if has not before tab,open last tab
  */
 
 const closeOthers = function (this: RouterStore) {
   const { activeTabId } = this;
   if (!activeTabId) return;
   const currentIndex = this._indexOfTab(activeTabId);
-  console.log(currentIndex, this.tabs);
 
   this.tabs = this.tabs.filter((_, index) => index === currentIndex);
   return this.tabs[0];
+};
+
+/**
+ * get all tabs
+ */
+const getTabs = function (this: RouterStore) {
+  return this.tabs;
 };
 
 /**
@@ -295,4 +308,5 @@ export default {
   open,
   close,
   closeOthers,
+  getTabs,
 };
