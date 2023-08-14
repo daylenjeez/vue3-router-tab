@@ -47,7 +47,10 @@ interface Open {
 }
 
 interface Close {
-  (key?: string): Tab | undefined;
+  (
+    before?: TabId | RouteLocationNormalizedLoaded,
+    after?: TabId | RouteLocationNormalizedLoaded
+  ): Tab | undefined;
 }
 
 interface CloseOthers {
@@ -72,6 +75,7 @@ export type Actions = CreateActions<
     _removeTab: RemoveTab;
     _setActiveTab: SetActiveTab;
     _openTab: OpenTab;
+
     open: Open;
     close: Close;
     closeOthers: CloseOthers;
@@ -163,8 +167,6 @@ const _getTabIdByRoute = function (
   this: RouterStore,
   route: RouteLocationNormalizedLoaded
 ) {
-  console.log(route);
-
   const key =
     (route.meta?.tabConfig as TabConfig)?.key ?? INITIAL_TAB_CONFIG.key;
   const tabId = this._createTabId(key, route);
@@ -249,11 +251,19 @@ const open = function (this: RouterStore, to: RouteLocationRaw) {
 };
 
 /**
- * @param {string} key created by TabConfig['key']
+ * @param {string} tabId created by TabConfig['key']
  * //if remove current tab, open before tab;if has not before tab,open last tab
+ * //TODO:after tab
  */
-const close: Close = function (this: RouterStore, key?: string) {
-  const _key = key ?? this.activeTabId; //if has no key,use activeTabId
+const close: Close = function (this: RouterStore, before, after) {
+  let tabId: string | null = null;
+  if (!before) {
+    tabId = this.activeTabId; //if has no key,use activeTabId
+  } else {
+    tabId =
+      typeof before === "string" ? before : _getTabIdByRoute.call(this, before);
+  }
+  const _key = tabId;
   if (!_key) return;
   if (this.tabs.length <= 1) return;
   const index = this._indexOfTab(_key);
