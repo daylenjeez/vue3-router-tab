@@ -276,8 +276,7 @@ const close: Close = function (this: RouterStore, before, after) {
 };
 
 /**
- * @param {string} key created by TabConfig['key']
- * if remove current tab, open before tab，if has not before tab,open last tab
+ * close others tabs
  */
 
 const closeOthers = function (this: RouterStore) {
