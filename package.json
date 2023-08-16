@@ -4,9 +4,10 @@
   "version": "1.0.0.rc",
   "type": "module",
   "scripts": {
-    "dev": "vitest",
+    "dev": "vite",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest"
   },
   "dependencies": {
     "@vue/eslint-config-typescript": "^11.0.2",
