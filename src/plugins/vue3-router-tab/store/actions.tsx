@@ -137,7 +137,7 @@ const _getTabConfigInRouterMeta: GetTabConfigInRouterMeta = function (
 };
 
 /**
- *
+ * get tab index by tabId
  * @param {TabId} tabId
  * @returns {Tab|undefined} tab
  */
@@ -145,6 +145,11 @@ const _indexOfTab: IndexOfTab = function (this: RouterStore, tabId: TabId) {
   return this.tabs.findIndex(({ id }) => id === tabId);
 };
 
+/**
+ * has tab by tabId
+ * @param {TabId} tabId
+ * @returns {boolean} hasTab
+ */
 const _hasTab: HasTab = function (this: RouterStore, tabId: TabId) {
   return this.tabs.some(({ id }) => id === tabId);
 };

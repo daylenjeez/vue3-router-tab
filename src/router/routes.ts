@@ -7,7 +7,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         name: "主页",
-        path: "/",
+        path: "/home",
         component: () => import("../views/home.vue"),
         meta: {
           tabConfig: {
