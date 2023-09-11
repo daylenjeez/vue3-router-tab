@@ -4,9 +4,9 @@ import {
   RouteLocationRaw,
   Router,
 } from "vue-router";
+import { State } from "./../state";
 import { Tab, TabId, TabKey } from "../../types";
 import { CreateActions } from "../type";
-import { State } from "./../state";
 
 export interface CreateTabId {
   (tabKey: TabKey | undefined | null, router: RouteLocationNormalized): TabId;
