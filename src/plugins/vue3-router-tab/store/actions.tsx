@@ -2,90 +2,23 @@ import {
   RouteLocationNormalized,
   RouteLocationNormalizedLoaded,
   RouteLocationRaw,
-  Router,
 } from "vue-router";
 import { INITIAL_TAB_CONFIG } from "../constants";
 import { Tab, TabConfig, TabId, TabKey } from "../types";
 import { isFunction, isString, throwError } from "../utils";
-import { State } from "./state";
-import { CreateActions } from "./type";
-
-interface CreateTabId {
-  (tabKey: TabKey | undefined | null, router: RouteLocationNormalized): TabId;
-}
-interface GetTabConfigInRouterMeta {
-  (router: RouteLocationNormalized): Tab;
-}
-interface HasTab {
-  (tabId: TabId): boolean;
-}
-interface IndexOfTab {
-  (tabId: TabId): number;
-}
-interface GetTab {
-  (tabId: TabId): Tab | undefined;
-}
-interface GetTabIdByRoute {
-  (router: RouteLocationNormalized): TabId;
-}
-interface AddTab {
-  (tab: Tab, options?: { setActive?: boolean }): number;
-}
-interface RemoveTab {
-  (tabId: TabId): Tab | undefined;
-}
-interface OpenTab {
-  (tabId: TabId): void;
-}
-
-interface SetActiveTab {
-  (tabId: TabId | null): number;
-}
-
-interface Open {
-  (to: RouteLocationRaw): ReturnType<Router["push"]>;
-}
-
-interface Close {
-  (
-    before?: TabId | RouteLocationNormalizedLoaded,
-    after?: TabId | RouteLocationNormalizedLoaded
-  ): Tab | undefined;
-}
-
-interface CloseOthers {
-  (): Tab | undefined;
-}
-
-interface GetTabs {
-  (): Tab[];
-}
-
-export type Actions = CreateActions<
-  string,
-  State,
-  {
-    _createTabId: CreateTabId;
-    _getTabConfigInRouterMeta: GetTabConfigInRouterMeta;
-    _hasTab: HasTab;
-    _indexOfTab: IndexOfTab;
-    _getTab: GetTab;
-    _getTabIdByRoute: GetTabIdByRoute;
-    _addTab: AddTab;
-    _removeTab: RemoveTab;
-    _setActiveTab: SetActiveTab;
-    _openTab: OpenTab;
-
-    open: Open;
-    close: Close;
-    closeOthers: CloseOthers;
-    getTabs: GetTabs;
-  }
->;
-
-export type RouterStore = ReturnType<
-  typeof import("./index")["useRouterTabStore"]
->;
+import {
+  AddTab,
+  Close,
+  CreateTabId,
+  GetTab,
+  GetTabConfigInRouterMeta,
+  HasTab,
+  IndexOfTab,
+  OpenTab,
+  RemoveTab,
+  RouterStore,
+  SetActiveTab,
+} from "./type/actions";
 
 /**
  * create tabId

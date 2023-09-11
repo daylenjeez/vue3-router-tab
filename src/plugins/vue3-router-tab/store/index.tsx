@@ -1,7 +1,8 @@
 //store.js
-import { defineStore, Store, StoreDefinition } from "pinia";
+import { defineStore, StoreDefinition } from "pinia";
 import state, { State } from "./state";
-import actions, { Actions } from "./actions";
+import actions from "./actions";
+import { Actions } from "./type/actions";
 
 export type UseRouterTabStore = StoreDefinition<string, State, {}, Actions>;
 export const useRouterTabStore: UseRouterTabStore = defineStore("routerTab", {
