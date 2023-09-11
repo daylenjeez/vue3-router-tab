@@ -1,22 +1,30 @@
-import { setActivePinia, createPinia } from "pinia";
-import { describe, it, beforeEach } from "vitest";
+import { describe, it } from "vitest";
 import { useRouterTab } from "..";
-import * as VueRouter from "vue-router";
-import routes from "../../../router/routes";
+// import * as VueRouter from "vue-router";
+// import routes from "../../../router/routes";
+import App from "../../../App.vue";
+import router from "../../../router";
+import routerTab from "../";
+import { createApp } from "vue";
 
 describe("Vue3RouteTab Store", () => {
-  let router;
-  beforeEach(async () => {
-    router = VueRouter.createRouter({
-      history: VueRouter.createWebHistory(),
-      routes: routes,
-    });
+  const app = createApp(App);
 
-    router.push("/");
-    await router.isReady();
+  app.use(router);
+  app.use(routerTab, { router });
 
-    setActivePinia(createPinia());
-  });
+  // let router;
+  // beforeEach(async () => {
+  //   router = VueRouter.createRouter({
+  //     history: VueRouter.createWebHistory(),
+  //     routes: routes,
+  //   });
+
+  //   router.push("/");
+  //   await router.isReady();
+
+  //   setActivePinia(createPinia());
+  // });
 
   it("increments", ({ expect }) => {
     const routeTab = useRouterTab();
@@ -25,6 +33,13 @@ describe("Vue3RouteTab Store", () => {
 
   it("increments by amount", ({ expect }) => {
     const routeTab = useRouterTab();
-    expect(routeTab.getTabs()).toEqual([]);
+    expect(routeTab.getTabs()).toEqual([
+      {
+        fullPath: "/",
+        id: "/",
+        keepAlive: true,
+        name: "/",
+      },
+    ]);
   });
 });

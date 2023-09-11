@@ -3,7 +3,7 @@ import Tabs from "./components/tabs";
 import Pages from "./components/pages/index.vue";
 
 export default defineComponent({
-  name: "router-Tab",
+  name: "router-tab",
   setup() {
     return () => (
       <div class="rt-container">
