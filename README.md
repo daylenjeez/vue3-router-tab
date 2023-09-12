@@ -10,9 +10,9 @@
 
 ## 特点
 
-- **简单易上手**：学习成本低，简单引入即可使用，沿用 [Vue Router Tab](https://bhuh12.github.io/vue-router-tab/zh/) 的大部分功能；
-- **高度定制化**：提供丰富的api和配置，你可以简单使用基本功能，也可以根据需要高度定制化；
-- **多组件兼容**：支持多种主流组件库样式，如elementPlus、antdV、naviUI、Tailwind.css；
+- **✊简单易上手**：学习成本低，简单引入即可使用，沿用 [Vue Router Tab](https://bhuh12.github.io/vue-router-tab/zh/) 的大部分功能；
+- **🎨高度定制化**：提供丰富的api和配置，你可以简单使用基本功能，也可以根据需要高度定制化；
+- **📚多组件兼容**：支持多种主流组件库样式，如elementPlus、antdV、naviUI、Tailwind.css；
 
 ## 功能
 - [ ] 响应路由打开/切换页签
