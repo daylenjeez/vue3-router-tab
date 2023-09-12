@@ -1,57 +1,60 @@
-# Vue3-router-tab
+<p align="center">
+    <div align="center"><img src="https://github.com/daylenjeez/vue3-router-tab/assets/111993029/71058201-d832-43d2-8396-04def7756971" width=240 /></div>
+    <h2 align="center">vue3-router-tab</h2>
+    <div align="center">实现在<code>vue3</code>中通过路由响应打开/切换页签，同时支持页签keepAlive；兼容多个组件库样式并提供丰富的Api；</div>
+    <div align="center"><strong>中文</strong> | <a href="">English</a></div>
+</p>
 
-> 在 vue3 中，使用 vue-router 与插件结合实现Tab与前端路由的交互同步，比如打开路由时新增tab；功能基本参考vue2版本的 [vue-router-tab](https://github.com/bhuh12/vue-router-tab)；
-> 目前还在开发当中
+> [!WARNING]  
+> 项目还在开发当中，暂未发布，由于白天要上班偶尔还要加班，所以更新较慢😭
+
+## 特点
+
+- **简单易上手**：学习成本低，简单引入即可使用，沿用 [Vue Router Tab](https://bhuh12.github.io/vue-router-tab/zh/) 的大部分功能；
+- **高度定制化**：提供丰富的api和配置，你可以简单使用基本功能，也可以根据需要高度定制化；
+- **多组件兼容**：支持多种主流组件库样式，如elementPlus、antdV、naviUI、Tailwind.css；
 
 ## 功能
+- [ ] 响应路由打开/切换页签
+- [ ] 打开/关闭/刷新/切换/右键页签
+- [ ] 缓存控制，滚动位置记住
+- [ ] 组件样式兼容，包含elementPlus、antdV、naviUI、tailwind.css
+- [ ] iframe嵌入
+- [ ] 默认打开的页签，保存配置配置
 
-- 基本
-  - [x] $router.push or router-link 路由跳转触发新增tab
-      - [x] path：根据path匹配tab
-      - [x] fullpath: 根据fullpath匹配tab
-      - [x] 自定义函数：(router)=>string
-   - [ ] handler api
-     - [x] close api
-        - [x] close current
-        - [x] close others
-     - [ ] open api
-        - [ ] replace
-        - [ ] refresh
-        - [ ] insert opsition
-- 全局配置
-    - [ ] 往前插入 or 往后插入
-    - [ ] keepalive
-    - [ ] icon
-    - [ ] theme
-        - [ ] initial
-        - [ ] element plus
-        - [ ] antdv
-    - [ ]  hooks
- 
-- 高级
-   - [ ] iframe
-   - [ ] scroll position
-   - [ ] transition
-   - [ ] context menu
- 
+## 安装
+
+```bash
+npm install vue3-router-tab
+```
+
 ## 使用
 
-```js
-   import { createApp } from "vue";
-   import App from "./App.vue";
-   import router from "./router";
-   import RouterTab from "./plugins/vue3-router-tab";
+1. 在入口文件引入``vue3-router-tab``
 
-   const app = createApp(App);
+   ```ts
+     // main.ts
+     import { createApp } from "vue";
+     import App from "./App.vue";
+     import router from "./router";
+     import RouterTab from "./plugins/vue3-router-tab";
 
-   app.use(router);
-   app.use(RouterTab, { router });
-   app.mount("#app");
+     const app = createApp(App);
 
-```
+     app.use(router);
+     app.use(RouterTab, { router });
+     app.mount("#app");
+   ```
+2. 在需要的位置引入``vue-router-tab``组件
 
-```vue
-<template>
-  <router-tab />
-</template>
-```
+  ```html
+  <!-- App.vue -->
+    <template>
+      <div class="container">
+        <vue-router-tab />
+      </div>
+    </template>
+   ```
+
+
+
