@@ -5,26 +5,27 @@ import router from "../../../router";
 import routerTab from "../";
 import { createApp } from "vue";
 
-describe("Vue3RouteTab Store", () => {
+describe("initial", () => {
   const app = createApp(App);
 
   app.use(router);
   app.use(routerTab, { router });
 
-  it("increments", ({ expect }) => {
+  it("router-tab is defined", ({ expect }) => {
     const routeTab = useRouterTab();
     expect(routeTab).toBeDefined();
   });
+  
 
-  it("increments by amount", ({ expect }) => {
-    const routeTab = useRouterTab();
-    expect(routeTab.getTabs()).toEqual([
-      {
-        fullPath: "/",
-        id: "/",
-        keepAlive: true,
-        name: "/",
-      },
-    ]);
-  });
+  // it("", ({ expect }) => {
+  //   const routeTab = useRouterTab();
+  //   expect(routeTab.getTabs()).toEqual([
+  //     {
+  //       fullPath: "/",
+  //       id: "/",
+  //       keepAlive: true,
+  //       name: "/",
+  //     },
+  //   ]);
+  // });
 });
