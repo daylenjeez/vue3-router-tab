@@ -46,6 +46,13 @@ export interface Tab {
 
 export type TabId = Tab["id"];
 
+/**
+ * router tab meta type
+ * @interface RouterTab
+ * @property {Tab[]} tabs
+ * @property {boolean} keepAlive
+ * @property {number} maxAlive
+ */
 export interface RouterTab {
   tabs: Tab[];
   keepAlive?: boolean;
