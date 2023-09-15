@@ -1,6 +1,6 @@
 <template>
   page1
-  <input />
+  <input>
 </template>
 
 <script lang="ts">
