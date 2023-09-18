@@ -2,10 +2,10 @@ import { describe, it } from "vitest";
 import { useRouterTab } from "..";
 import App from "../../../App.vue";
 import router from "../../../router";
-import routerTab from "../";
+import routerTab from "..";
 import { createApp } from "vue";
 
-describe("initial", () => {
+describe("init", () => {
   const app = createApp(App);
 
   app.use(router);
@@ -17,15 +17,15 @@ describe("initial", () => {
   });
   
 
-  // it("", ({ expect }) => {
-  //   const routeTab = useRouterTab();
-  //   expect(routeTab.getTabs()).toEqual([
-  //     {
-  //       fullPath: "/",
-  //       id: "/",
-  //       keepAlive: true,
-  //       name: "/",
-  //     },
-  //   ]);
-  // });
+  it("initial tab is home", ({ expect }) => {
+    const routeTab = useRouterTab();
+    expect(routeTab.getTabs()).toEqual([
+      {
+        fullPath: "/",
+        id: "/",
+        keepAlive: true,
+        name: "/",
+      },
+    ]);
+  });
 });
