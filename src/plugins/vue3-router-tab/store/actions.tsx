@@ -59,12 +59,15 @@ const _getTabConfigInRouterMeta: GetTabConfigInRouterMeta = function (
     keepAlive,
     isIframe = false,
   } = (meta.tabConfig as TabConfig) || INITIAL_TAB_CONFIG;
-  const tab = {
+
+  const tab:Tab = {
     name: name ?? router.name ?? router.path,
     id: this._createTabId(key, router),
     keepAlive: keepAlive ?? INITIAL_TAB_CONFIG.keepAlive,
     fullPath: router.fullPath,
-  } as Tab;
+    isIframe:false
+  };
+  
   if (isIframe) tab.isIframe = true;
   return tab;
 };
