@@ -67,7 +67,7 @@ const _getTabConfigInRouterMeta: GetTabConfigInRouterMeta = function (
     fullPath: router.fullPath,
     isIframe:false
   };
-  
+
   if (isIframe) tab.isIframe = true;
   return tab;
 };
@@ -91,9 +91,9 @@ const _hasTab: HasTab = function (this: RouterStore, tabId: TabId) {
 };
 
 /**
- * get tab by tabId, if tabId is undefined, return active tab
- * @param {TabId} tabId TabId
- * @returns {Tab | undefined} tab
+ * Retrieves a tab by its ID. If no tabId is provided, the active tab is returned.
+ * @param {TabId} [tabId] - The ID of the tab to retrieve.
+ * @returns {Tab | undefined} The found tab or undefined.
  */
 const _getTab: GetTab = function (this: RouterStore, tabId?: TabId) {
   return this.tabs.find(({ id }) => id === (tabId ?? this.activeTabId));

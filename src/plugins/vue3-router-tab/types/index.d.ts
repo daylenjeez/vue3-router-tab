@@ -21,6 +21,7 @@ export interface TabConfig {
   icon?: string;
   configKeyInMeta?: string;
   isIframe?: boolean;
+  ui:Ui
 }
 
 /**
@@ -58,3 +59,5 @@ export interface RouterTab {
   keepAlive?: boolean;
   maxAlive?: number;
 }
+
+export type Ui = 'elementPlus'|'antd'|'naviUi'|'tailWind'
