@@ -21,7 +21,7 @@ export interface TabConfig {
   icon?: string;
   configKeyInMeta?: string;
   isIframe?: boolean;
-  ui:Ui
+  ui?:Ui
 }
 
 /**
