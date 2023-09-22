@@ -34,9 +34,7 @@ const interceptRoute = (
 ) => {
   const tab = store._getTabConfigInRouterMeta(guard);
 
-  const hasTab = store._hasTab(tab.id);
-
-  if (!hasTab) {
+  if (!store._hasTab(tab.id)) {
     store._addTab(tab);
   } else {
     store._setActiveTab(tab.id);
@@ -49,9 +47,8 @@ const interceptRoute = (
  * @param {Options} options
  */
 const init = (app: App, options: Options) => {
-  const { router } = options;
-  piniaInit(app, router);
-  routerInit(router);
+  piniaInit(app, options.router);
+  routerInit(options.router);
 };
 
 /**
@@ -60,7 +57,6 @@ const init = (app: App, options: Options) => {
  */
 const routerInit = (router: Router) => {
   const store = useRouterTabStore();
-  useRouterTab = _useRouterTab(store);
 
   router.beforeEach((guard) => {
     console.log("router.beforeEach", guard);
