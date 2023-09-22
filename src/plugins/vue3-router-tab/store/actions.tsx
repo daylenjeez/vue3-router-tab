@@ -124,9 +124,7 @@ const _addTab: AddTab = function (this: RouterStore, tab: Tab, options) {
   const { setActive } = options ?? { setActive: true };
   const index = this.tabs.push(tab);
 
-  if (setActive) {
-    this._setActiveTab(tab.id);
-  }
+  if (setActive) this._setActiveTab(tab.id);
   return index;
 };
 
@@ -158,7 +156,7 @@ const _setActiveTab: SetActiveTab = function (
     const tab = this.tabs[tabIndex];
     if (!tab) {
       throwError(`Tab not found, please check the tab id: ${tabId}`);
-      return -1;
+      return tabIndex;
     }
   }
 
@@ -170,6 +168,7 @@ const _setActiveTab: SetActiveTab = function (
 /**
  * open tab by tab id
  * @param {TabId} tabId
+ * @returns {void}
  */
 const _openTab: OpenTab = function (this: RouterStore, tabId: TabId) {
   const tab = this._getTab(tabId);
