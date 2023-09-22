@@ -10,15 +10,14 @@ interface Options {
 }
 
 const _useRouterTab = (store: RouterTabStore) => {
-  return () => {
-    return {
-      tabs: store.tabs,
-      open: store.open,
-      close: store.close,
-      closeOthers: store.closeOthers,
-      getTabs: store.getTabs,
-    };
-  };
+  const { tabs, open, close, closeOthers, getTabs } = store;
+  return () => ({
+    tabs,
+    open,
+    close,
+    closeOthers,
+    getTabs
+  });
 };
 
 let useRouterTab: ReturnType<typeof _useRouterTab>;
@@ -34,7 +33,9 @@ const interceptRoute = (
 ) => {
   const tab = store._getTabConfigInRouterMeta(guard);
 
-  if (!store._hasTab(tab.id)) {
+  const hasTab = store._hasTab(tab.id);
+
+  if (!hasTab) {
     store._addTab(tab);
   } else {
     store._setActiveTab(tab.id);
@@ -47,8 +48,9 @@ const interceptRoute = (
  * @param {Options} options
  */
 const init = (app: App, options: Options) => {
-  piniaInit(app, options.router);
-  routerInit(options.router);
+  const { router } = options;
+  piniaInit(app, router);
+  routerInit(router);
 };
 
 /**
@@ -57,6 +59,7 @@ const init = (app: App, options: Options) => {
  */
 const routerInit = (router: Router) => {
   const store = useRouterTabStore();
+  useRouterTab = _useRouterTab(store);
 
   router.beforeEach((guard) => {
     console.log("router.beforeEach", guard);

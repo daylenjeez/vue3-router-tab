@@ -3,6 +3,8 @@ import { useRouter } from "vue-router";
 import { useRouterTab } from "./plugins/vue3-router-tab";
 import "./style/index.less";
 
+
+
 export default {
   setup() {
     const router = useRouter();
