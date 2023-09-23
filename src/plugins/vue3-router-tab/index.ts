@@ -1,10 +1,15 @@
 import "@total-typescript/ts-reset";
 import { Plugin, App, markRaw } from "vue";
-import RouterTab from "./router-tab";
-import { createPinia } from "pinia";
 import { RouteLocationNormalized, Router } from "vue-router";
+import { createPinia } from "pinia";
+
+import RouterTab from "./router-tab";
 import { RouterTabStore, useRouterTabStore } from "./store";
 
+/**
+ * Add configuration during initialization
+ * @property {Router} router
+ */
 interface Options {
   router: Router;
 }
@@ -23,11 +28,11 @@ const _useRouterTab = (store: RouterTabStore) => {
 let useRouterTab: ReturnType<typeof _useRouterTab>;
 
 /**
- * intercept route to add tab
+ * * Handler executed before each route change in the router's `beforeEach` hook
  * @param {RouteLocationNormalized} guard
  * @param {RouterTabStore} store
  */
-const interceptRoute = (
+const handleBeforeEachRoute = (
   guard: RouteLocationNormalized,
   store: RouterTabStore
 ) => {
@@ -63,7 +68,7 @@ const routerInit = (router: Router) => {
 
   router.beforeEach((guard) => {
     console.log("router.beforeEach", guard);
-    interceptRoute(guard, store);
+    handleBeforeEachRoute(guard, store);
   });
 };
 
