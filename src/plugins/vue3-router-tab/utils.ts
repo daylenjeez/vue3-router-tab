@@ -18,6 +18,8 @@ export const isFunction = (value: unknown): value is Function =>
 export const isString = (value: unknown): value is string =>
   isType("String")(value);
 
+export  const isNonEmptyString = (value: unknown): boolean => isString(value) && value !== "";
+
 export const throwError = (message: string) => {
   console.error(`[vue3-router-tab]: ${message}`);
 };

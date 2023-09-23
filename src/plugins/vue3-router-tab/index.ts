@@ -15,24 +15,6 @@ interface Options {
 }
 
 /**
- * Create RouterTab Hook
- * @param store {RouterTabStore}
- * @returns {tabs,open,close,closeOthers,getTabs}
- */
-const createRouterTabHook = (store: RouterTabStore) => {
-  const { tabs, open, close, closeOthers, getTabs } = store;
-  return () => ({
-    tabs,
-    open,
-    close,
-    closeOthers,
-    getTabs
-  });
-};
-
-let useRouterTab: ReturnType<typeof createRouterTabHook>;
-
-/**
  * * Handler executed before each route change in the router's `beforeEach` hook
  * @param {RouteLocationNormalized} guard
  * @param {RouterTabStore} store
@@ -43,9 +25,9 @@ const handleBeforeEachRoute = (
 ) => {
   const tab = store._getTabConfigInRouterMeta(guard);
 
-  const hasTab = store._hasTab(tab.id);
+  if(!tab) return;
 
-  if (!hasTab) {
+  if (!store._hasTab(tab.id)) {
     store._addTab(tab);
   } else {
     store._setActiveTab(tab.id);
@@ -64,17 +46,32 @@ const init = (app: App, options: Options) => {
 };
 
 /**
+ * Create RouterTab Hook
+ * @param store {RouterTabStore}
+ * @returns {tabs,open,close,closeOthers,getTabs}
+ */
+const createRouterTabHook = (store: RouterTabStore) => {
+  const { tabs, open, close, closeOthers, getTabs } = store;
+  return () => ({
+    tabs,
+    open,
+    close,
+    closeOthers,
+    getTabs
+  });
+};
+
+let useRouterTab: ReturnType<typeof createRouterTabHook>;
+
+/**
  * router init, add router hook
  * @param {Router} router
  */
 const routerInit = (router: Router) => {
   const store = useRouterTabStore();
-  useRouterTab = createRouterTabHook(store);
+  router.beforeEach((guard) => handleBeforeEachRoute(guard, store));
 
-  router.beforeEach((guard) => {
-    // console.log("router.beforeEach", guard);
-    handleBeforeEachRoute(guard, store);
-  });
+  useRouterTab = createRouterTabHook(store);
 };
 
 /**

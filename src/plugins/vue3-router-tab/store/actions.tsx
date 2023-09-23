@@ -5,7 +5,7 @@ import {
 } from "vue-router";
 import { INITIAL_TAB_CONFIG } from "../constants";
 import { Tab, TabConfig, TabId, TabKey } from "../types";
-import { isFunction, isString, throwError } from "../utils";
+import { isFunction, isNonEmptyString, isString, throwError } from "../utils";
 import {
   AddTab,
   Close,
@@ -30,16 +30,15 @@ const _createTabId: CreateTabId = function (
   this: RouterStore,
   tabKey: TabKey | undefined | null,
   router: RouteLocationNormalized
-) {
+):string | void {
   const _tabKey = tabKey ?? INITIAL_TAB_CONFIG.key;
   const tabId = isFunction(_tabKey) ? _tabKey(router) : router[_tabKey];
 
-  if (!isString(tabId) || tabId === "") {
-    throwError(
-      "tabKey is not 'path','fullPath' or a function, or the return value of the function is not empty."
-    );
-  }
-  return tabId;
+  if (isNonEmptyString(tabId)) return tabId as string;
+
+  throwError(
+    "tabKey is not 'path','fullPath' or a function, or the return value of the function is not empty."
+  );
 };
 
 /**
@@ -51,18 +50,24 @@ const _getTabConfigInRouterMeta: GetTabConfigInRouterMeta = function (
   this: RouterStore,
   router: RouteLocationNormalized
 ) {
-  const { meta } = router;
 
   const {
     key,
     name,
     keepAlive,
     isIframe = false,
-  } = (meta.tabConfig as TabConfig) || INITIAL_TAB_CONFIG;
+  } = (router.meta.tabConfig as TabConfig) || INITIAL_TAB_CONFIG;
 
+  const tabId = this._createTabId(key, router);
+
+  if(!tabId){
+    throwError(`TabId is not found, please check the tab key: ${key}`);
+    return;
+  }
+  
   const tab:Tab = {
     name: name ?? router.name ?? router.path,
-    id: this._createTabId(key, router),
+    id: tabId,
     keepAlive: keepAlive ?? INITIAL_TAB_CONFIG.keepAlive,
     fullPath: router.fullPath,
     isIframe:false
@@ -196,7 +201,7 @@ const open = function (this: RouterStore, to: RouteLocationRaw) {
  * //TODO:after tab
  */
 const close: Close = function (this: RouterStore, before, after) {
-  let tabId: string | null = null;
+  let tabId: string | null| void = null;
   if (!before) {
     tabId = this.activeTabId; //if has no key,use activeTabId
   } else {
