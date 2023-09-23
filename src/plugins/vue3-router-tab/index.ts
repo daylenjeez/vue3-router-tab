@@ -14,7 +14,12 @@ interface Options {
   router: Router;
 }
 
-const _useRouterTab = (store: RouterTabStore) => {
+/**
+ * createRouterTabHook
+ * @param store {RouterTabStore}
+ * @returns {tabs,open,close,closeOthers,getTabs}
+ */
+const createRouterTabHook = (store: RouterTabStore) => {
   const { tabs, open, close, closeOthers, getTabs } = store;
   return () => ({
     tabs,
@@ -25,7 +30,7 @@ const _useRouterTab = (store: RouterTabStore) => {
   });
 };
 
-let useRouterTab: ReturnType<typeof _useRouterTab>;
+let useRouterTab: ReturnType<typeof createRouterTabHook>;
 
 /**
  * * Handler executed before each route change in the router's `beforeEach` hook
@@ -64,10 +69,10 @@ const init = (app: App, options: Options) => {
  */
 const routerInit = (router: Router) => {
   const store = useRouterTabStore();
-  useRouterTab = _useRouterTab(store);
+  useRouterTab = createRouterTabHook(store);
 
   router.beforeEach((guard) => {
-    console.log("router.beforeEach", guard);
+    // console.log("router.beforeEach", guard);
     handleBeforeEachRoute(guard, store);
   });
 };
