@@ -5,7 +5,7 @@ import {
 } from "vue-router";
 import { INITIAL_TAB_CONFIG } from "../constants";
 import { Tab, TabConfig, TabId, TabKey } from "../types";
-import { isFunction, isNonEmptyString, isString, throwError } from "../utils";
+import { isFunction, isNonEmptyString, throwError } from "../utils";
 import {
   AddTab,
   Close,
@@ -36,7 +36,7 @@ const _createTabId: CreateTabId = function (
 
   if (isNonEmptyString(tabId)) return tabId as string;
 
-  throwError(
+  return throwError(
     "tabKey is not 'path','fullPath' or a function, or the return value of the function is not empty."
   );
 };
@@ -60,10 +60,7 @@ const _getTabConfigInRouterMeta: GetTabConfigInRouterMeta = function (
 
   const tabId = this._createTabId(key, router);
 
-  if(!tabId){
-    throwError(`TabId is not found, please check the tab key: ${key}`);
-    return;
-  }
+  if(!tabId) return throwError(`TabId is not found, please check the tab key: ${key}`);
   
   const tab:Tab = {
     name: name ?? router.name ?? router.path,
@@ -160,8 +157,7 @@ const _setActiveTab: SetActiveTab = function (
     tabIndex = this._indexOfTab(tabId);
     const tab = this.tabs[tabIndex];
     if (!tab) {
-      throwError(`Tab not found, please check the tab id: ${tabId}`);
-      return tabIndex;
+      return throwError(`Tab not found, please check the tab id: ${tabId}`);
     }
   }
 
@@ -178,8 +174,7 @@ const _setActiveTab: SetActiveTab = function (
 const _openTab: OpenTab = function (this: RouterStore, tabId: TabId) {
   const tab = this._getTab(tabId);
   if (!tab) {
-    throwError(`Tab not found, please check the tab id: ${tabId}`);
-    return;
+    return throwError(`Tab not found, please check the tab id: ${tabId}`);
   }
   this.open(tab.fullPath);
 };
