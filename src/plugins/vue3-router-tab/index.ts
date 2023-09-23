@@ -15,7 +15,7 @@ interface Options {
 }
 
 /**
- * createRouterTabHook
+ * Create RouterTab Hook
  * @param store {RouterTabStore}
  * @returns {tabs,open,close,closeOthers,getTabs}
  */
