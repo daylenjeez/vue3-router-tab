@@ -18,27 +18,27 @@ describe("init", () => {
     expect(routeTab).toBeDefined();
   });
 
-  it("should return tabs of type Tab[] from useRouterTab", () => {
+  it("should have 'tabs' property of type Tab[] in useRouterTab", () => {
     const routeTab = useRouterTab();
     expectTypeOf(routeTab.tabs).toEqualTypeOf<Tab[]>();
   });
 
-  it("should return getTabs of type GetTabs from useRouterTab", () => {
+  it("should have 'getTabs' property of type GetTabs in useRouterTab", () => {
     const routeTab = useRouterTab();
     expectTypeOf(routeTab.getTabs).toEqualTypeOf<GetTabs>();
   });
 
-  it("should return close of type Close from useRouterTab", () => {
+  it("should have 'close' property of type Close in useRouterTab", () => {
     const routeTab = useRouterTab();
     expectTypeOf(routeTab.close).toEqualTypeOf<Close>();
   });
 
-  it("should return closeOthers of type CloseOthers from useRouterTab", () => {
+  it("should have 'closeOthers' property of type CloseOthers in useRouterTab", () => {
     const routeTab = useRouterTab();
     expectTypeOf(routeTab.closeOthers).toEqualTypeOf<CloseOthers>();
   });
 
-  it("should return open of type Open from useRouterTab", () => {
+  it("should have 'open' property of type Open in useRouterTab", () => {
     const routeTab = useRouterTab();
     expectTypeOf(routeTab.open).toEqualTypeOf<Open>();
   });
