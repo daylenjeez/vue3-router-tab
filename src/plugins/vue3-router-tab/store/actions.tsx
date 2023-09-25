@@ -11,7 +11,8 @@ import {
   Close,
   CreateTabId,
   GetTab,
-  GetTabConfigInRouterMeta,
+  GetTabFromRouteMeta,
+  GetTabIdByRoute,
   HasTab,
   IndexOfTab,
   OpenTab,
@@ -34,7 +35,7 @@ const _createTabId: CreateTabId = function (
   const _tabKey = tabKey ?? INITIAL_TAB_CONFIG.key;
   const tabId = isFunction(_tabKey) ? _tabKey(router) : router[_tabKey];
 
-  if (isNonEmptyString(tabId)) return tabId as string;
+  if (isNonEmptyString(tabId)) return tabId;
 
   return throwError(
     "tabKey is not 'path','fullPath' or a function, or the return value of the function is not empty."
@@ -46,7 +47,7 @@ const _createTabId: CreateTabId = function (
  * @param {RouteLocationNormalized} router
  * @returns {Tab} tab
  */
-const _getTabConfigInRouterMeta: GetTabConfigInRouterMeta = function (
+const _getTabFromRouteMeta: GetTabFromRouteMeta = function (
   this: RouterStore,
   router: RouteLocationNormalized
 ) {
@@ -106,7 +107,7 @@ const _getTab: GetTab = function (this: RouterStore, tabId?: TabId) {
  * @param {RouteLocationNormalizedLoaded} route
  * @returns {TabId} tabId
  */
-const _getTabIdByRoute = function (
+const _getTabIdByRoute:GetTabIdByRoute = function (
   this: RouterStore,
   route: RouteLocationNormalizedLoaded
 ) {
@@ -196,7 +197,7 @@ const open = function (this: RouterStore, to: RouteLocationRaw) {
  * //if remove current tab, open before tab;if has not before tab,open last tab
  * //TODO:after tab
  */
-const close: Close = function (this: RouterStore, before, after) {
+const close: Close = function (this: RouterStore, before) {
   let tabId: string | null| void = null;
   if (!before) {
     tabId = this.activeTabId; //if has no key,use activeTabId
@@ -245,7 +246,7 @@ const getTabs = function (this: RouterStore) {
 
 export default {
   _createTabId,
-  _getTabConfigInRouterMeta,
+  _getTabFromRouteMeta,
   _hasTab,
   _indexOfTab,
   _addTab,

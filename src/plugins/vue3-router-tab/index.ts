@@ -23,7 +23,7 @@ const handleBeforeEachRoute = (
   guard: RouteLocationNormalized,
   store: RouterTabStore
 ) => {
-  const tab = store._getTabConfigInRouterMeta(guard);
+  const tab = store._getTabFromRouteMeta(guard);
 
   if(!tab) return;
 
