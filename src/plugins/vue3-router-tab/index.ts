@@ -23,8 +23,8 @@ const handleBeforeEachRoute = (
   guard: RouteLocationNormalized,
   store: RouterTabStore
 ) => {
-  const tab = store._getTabFromRouteMeta(guard);
-
+  const tab = store._getTabByRouteMeta(guard);
+  
   if(!tab) return;
 
   store._hasTab(tab.id) ? store._setActiveTab(tab.id) : store._addTab(tab);
@@ -60,7 +60,7 @@ const createRouterTabHook = (store: RouterTabStore) => {
 let useRouterTab: ReturnType<typeof createRouterTabHook>;
 
 /**
- * router init, add router hook
+ * Router init, add router hook
  * @param {Router} router
  */
 const routerInit = (router: Router) => {
@@ -71,7 +71,7 @@ const routerInit = (router: Router) => {
 };
 
 /**
- * pinia init, add router to pinia
+ * Pinia init, add router to pinia
  * @param app
  * @param {Router} router
  */

@@ -11,7 +11,7 @@ import {
   Close,
   CreateTabId,
   GetTab,
-  GetTabFromRouteMeta,
+  GetTabByRouteMeta,
   GetTabIdByRoute,
   HasTab,
   IndexOfTab,
@@ -43,11 +43,11 @@ const _createTabId: CreateTabId = function (
 };
 
 /**
- * router meta to tab
+ * Router meta to tab
  * @param {RouteLocationNormalized} router
  * @returns {Tab} tab
  */
-const _getTabFromRouteMeta: GetTabFromRouteMeta = function (
+const _getTabByRouteMeta: GetTabByRouteMeta = function (
   this: RouterStore,
   router: RouteLocationNormalized
 ) {
@@ -103,7 +103,7 @@ const _getTab: GetTab = function (this: RouterStore, tabId?: TabId) {
 };
 
 /**
- * get tabId by route
+ * Get tabId by route
  * @param {RouteLocationNormalizedLoaded} route
  * @returns {TabId} tabId
  */
@@ -246,7 +246,7 @@ const getTabs = function (this: RouterStore) {
 
 export default {
   _createTabId,
-  _getTabFromRouteMeta,
+  _getTabByRouteMeta,
   _hasTab,
   _indexOfTab,
   _addTab,
