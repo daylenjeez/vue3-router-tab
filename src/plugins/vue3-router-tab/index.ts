@@ -27,11 +27,7 @@ const handleBeforeEachRoute = (
 
   if(!tab) return;
 
-  if (!store._hasTab(tab.id)) {
-    store._addTab(tab);
-  } else {
-    store._setActiveTab(tab.id);
-  }
+  store._hasTab(tab.id) ? store._setActiveTab(tab.id) : store._addTab(tab);
 };
 
 /**

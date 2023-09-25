@@ -157,7 +157,8 @@ const _setActiveTab: SetActiveTab = function (
     tabIndex = this._indexOfTab(tabId);
     const tab = this.tabs[tabIndex];
     if (!tab) {
-      return throwError(`Tab not found, please check the tab id: ${tabId}`);
+      throwError(`Tab not found, please check the tab id: ${tabId}`);
+      return tabIndex;
     }
   }
 
