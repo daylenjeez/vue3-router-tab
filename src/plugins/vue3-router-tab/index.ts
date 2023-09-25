@@ -5,6 +5,7 @@ import { createPinia } from "pinia";
 
 import RouterTab from "./router-tab";
 import { RouterTabStore, useRouterTabStore } from "./store";
+import { pick } from "./utils";
 
 /**
  * Add configuration during initialization
@@ -50,14 +51,7 @@ const init = (app: App, options: Options) => {
  * @returns {tabs,open,close,closeOthers,getTabs}
  */
 const createRouterTabHook = (store: RouterTabStore) => {
-  const { tabs, open, close, closeOthers, getTabs } = store;
-  return () => ({
-    tabs,
-    open,
-    close,
-    closeOthers,
-    getTabs
-  });
+  return () => pick(store, "tabs", "open", "close", "closeOthers", "getTabs");
 };
 
 let useRouterTab: ReturnType<typeof createRouterTabHook>;
