@@ -16,7 +16,6 @@ describe("init", () => {
   it("router-tab is defined", ({ expect }) => {
     const routeTab = useRouterTab();
     expect(routeTab).toBeDefined();
-    console.log(routeTab);
   });
 
   it("should return tabs of type Tab[] from useRouterTab", () => {
