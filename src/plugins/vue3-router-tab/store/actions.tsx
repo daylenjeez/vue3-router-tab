@@ -13,7 +13,7 @@ import {
   CreateTabId,
   GetTab,
   GetTabByRouteMeta,
-  GetTabIdByRoute,
+  GetTabIdByRouteMeta,
   HasTab,
   IndexOfTab,
   OpenTab,
@@ -92,6 +92,21 @@ const _getTabByRouteMeta: GetTabByRouteMeta = function (
 };
 
 /**
+ * Get tabId by route
+ * @param {RouteLocationNormalizedLoaded} route
+ * @returns {TabId} tabId
+ */
+const _getTabIdByRouteMeta: GetTabIdByRouteMeta = function (
+  this: RouterStore,
+  route: RouteLocationNormalizedLoaded
+) {
+  const key =
+    (route.meta?.tabConfig as TabConfig)?.key ?? INITIAL_TAB_CONFIG.key;
+  const tabId = this._createTabId(key, route);
+  return tabId;
+};
+
+/**
  * get tab index by tabId
  * @param {TabId} tabId
  * @returns {Tab|undefined} tab
@@ -116,21 +131,6 @@ const _hasTab: HasTab = function (this: RouterStore, tabId: TabId) {
  */
 const _getTab: GetTab = function (this: RouterStore, tabId?: TabId) {
   return this.tabs.find(({ id }) => id === (tabId ?? this.activeTabId));
-};
-
-/**
- * Get tabId by route
- * @param {RouteLocationNormalizedLoaded} route
- * @returns {TabId} tabId
- */
-const _getTabIdByRoute: GetTabIdByRoute = function (
-  this: RouterStore,
-  route: RouteLocationNormalizedLoaded
-) {
-  const key =
-    (route.meta?.tabConfig as TabConfig)?.key ?? INITIAL_TAB_CONFIG.key;
-  const tabId = this._createTabId(key, route);
-  return tabId;
 };
 
 /**
@@ -219,7 +219,7 @@ const close: Close = function (this: RouterStore, before) {
     tabId = this.activeTabId; //if has no key,use activeTabId
   } else {
     tabId =
-      typeof before === "string" ? before : _getTabIdByRoute.call(this, before);
+      typeof before === "string" ? before : _getTabIdByRouteMeta.call(this, before);
   }
   const _key = tabId;
   if (!_key) return;
@@ -268,7 +268,7 @@ export default {
   _indexOfTab,
   _addTab,
   _getTab,
-  _getTabIdByRoute,
+  _getTabIdByRouteMeta,
   _removeTab,
   _setActiveTab,
   _openTab,

@@ -24,7 +24,7 @@ const handleBeforeEachRoute = (
   guard: RouteLocationNormalized,
   store: RouterTabStore
 ) => {
-  const tabId = store._getTabIdByRoute(guard);
+  const tabId = store._getTabIdByRouteMeta(guard);
 
   if (tabId && store._hasTab(tabId)) {
     store._setActiveTab(tabId);
@@ -35,7 +35,7 @@ const handleBeforeEachRoute = (
 };
 
 /**
- * init
+ * Init
  * @param {App} app
  * @param {Options} options
  */
