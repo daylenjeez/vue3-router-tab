@@ -9,6 +9,7 @@ import { isFunction, isNonEmptyString, throwError } from "../utils";
 import {
   AddTab,
   Close,
+  CreateTab,
   CreateTabId,
   GetTab,
   GetTabByRouteMeta,
@@ -31,7 +32,7 @@ const _createTabId: CreateTabId = function (
   this: RouterStore,
   tabKey: TabKey | undefined | null,
   router: RouteLocationNormalized
-):string | void {
+): string | void {
   const _tabKey = tabKey ?? INITIAL_TAB_CONFIG.key;
   const tabId = isFunction(_tabKey) ? _tabKey(router) : router[_tabKey];
 
@@ -43,15 +44,12 @@ const _createTabId: CreateTabId = function (
 };
 
 /**
- * Router meta to tab
- * @param {RouteLocationNormalized} router
+ * create tab
+ * @param {TabKey} tabKey
  * @returns {Tab} tab
  */
-const _getTabByRouteMeta: GetTabByRouteMeta = function (
-  this: RouterStore,
-  router: RouteLocationNormalized
-) {
-
+const _createTab:CreateTab = function (this: RouterStore,
+  router: RouteLocationNormalized) {
   const {
     key,
     name,
@@ -61,18 +59,36 @@ const _getTabByRouteMeta: GetTabByRouteMeta = function (
 
   const tabId = this._createTabId(key, router);
 
-  if(!tabId) return throwError(`TabId is not found, please check the tab key: ${key}`);
-  
-  const tab:Tab = {
+  if (!tabId) return throwError(`TabId is not found, please check the tab key: ${key}`);
+
+  const tab: Tab = {
     name: name ?? router.name ?? router.path,
     id: tabId,
     keepAlive: keepAlive ?? INITIAL_TAB_CONFIG.keepAlive,
     fullPath: router.fullPath,
-    isIframe:false
+    isIframe: false
   };
 
   if (isIframe) tab.isIframe = true;
   return tab;
+};
+
+/**
+ * Retrieves the tab identifier using the route's meta information
+ * @param {RouteLocationNormalized} router
+ * @returns {Tab} tab|void
+ */
+const _getTabByRouteMeta: GetTabByRouteMeta = function (
+  this: RouterStore,
+  router: RouteLocationNormalized
+) {
+
+  const { key } = (router.meta.tabConfig as TabConfig) || INITIAL_TAB_CONFIG;
+
+  const tabId = this._createTabId(key, router);
+
+  if (!tabId) return throwError(`TabId is not found, please check the tab key: ${key}`);
+  return this._getTab(tabId);
 };
 
 /**
@@ -107,7 +123,7 @@ const _getTab: GetTab = function (this: RouterStore, tabId?: TabId) {
  * @param {RouteLocationNormalizedLoaded} route
  * @returns {TabId} tabId
  */
-const _getTabIdByRoute:GetTabIdByRoute = function (
+const _getTabIdByRoute: GetTabIdByRoute = function (
   this: RouterStore,
   route: RouteLocationNormalizedLoaded
 ) {
@@ -198,7 +214,7 @@ const open = function (this: RouterStore, to: RouteLocationRaw) {
  * //TODO:after tab
  */
 const close: Close = function (this: RouterStore, before) {
-  let tabId: string | null| void = null;
+  let tabId: string | null | void = null;
   if (!before) {
     tabId = this.activeTabId; //if has no key,use activeTabId
   } else {
@@ -246,6 +262,7 @@ const getTabs = function (this: RouterStore) {
 
 export default {
   _createTabId,
+  _createTab,
   _getTabByRouteMeta,
   _hasTab,
   _indexOfTab,

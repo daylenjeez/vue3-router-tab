@@ -11,6 +11,9 @@ import { CreateActions } from "../type";
 export interface CreateTabId {
   (tabKey: TabKey | undefined | null, router: RouteLocationNormalized): TabId | void;
 }
+export interface CreateTab {
+  (router: RouteLocationNormalized): Tab | void;
+}
 export interface GetTabByRouteMeta {
   (router: RouteLocationNormalized): Tab|void;
 }
@@ -64,6 +67,7 @@ export type Actions = CreateActions<
   State,
   {
     _createTabId: CreateTabId;
+    _createTab:CreateTab;
     _getTabByRouteMeta: GetTabByRouteMeta;
     _hasTab: HasTab;
     _indexOfTab: IndexOfTab;

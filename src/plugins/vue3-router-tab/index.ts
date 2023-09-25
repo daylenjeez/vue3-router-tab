@@ -23,11 +23,14 @@ const handleBeforeEachRoute = (
   guard: RouteLocationNormalized,
   store: RouterTabStore
 ) => {
-  const tab = store._getTabByRouteMeta(guard);
-  
-  if(!tab) return;
+  const tabId = store._getTabIdByRoute(guard);
 
-  store._hasTab(tab.id) ? store._setActiveTab(tab.id) : store._addTab(tab);
+  if (tabId && store._hasTab(tabId)) {
+    store._setActiveTab(tabId);
+  } else {
+    const tab = store._createTab(guard);
+    if (tab) store._addTab(tab);
+  }
 };
 
 /**
