@@ -62,7 +62,9 @@ let useRouterTab: ReturnType<typeof createRouterTabHook>;
  */
 const routerInit = (router: Router) => {
   const store = useRouterTabStore();
-  router.beforeEach((guard) => handleBeforeEachRoute(guard, store));
+  router.beforeEach((guard) => {
+    handleBeforeEachRoute(guard, store);
+  });
 
   useRouterTab = createRouterTabHook(store);
 };

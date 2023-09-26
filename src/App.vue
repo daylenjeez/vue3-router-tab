@@ -1,18 +1,18 @@
 <script lang="ts">
-import { useRouter } from "vue-router";
-import { useRouterTab } from "./plugins/vue3-router-tab";
+// import { useRouter } from "vue-router";
+// import { useRouterTab } from "./plugins/vue3-router-tab";
 import "./style/index.less";
 
 
 
 export default {
   setup() {
-    const router = useRouter();
-    const routerTab = useRouterTab();
+    // const router = useRouter();
+    // const routerTab = useRouterTab();
 
     return {
       handlePush(value: string) {
-        router.push(value);
+        // router.push(value);
       },
     };
   },
@@ -20,7 +20,7 @@ export default {
 </script>
 
 <template>
-  <div
+  <!-- <div
     class
     style="margin-bottom: 30px"
   >
@@ -40,5 +40,5 @@ export default {
       用户详情+params3
     </button>
     <router-tab />
-  </div>
+  </div> -->
 </template>
