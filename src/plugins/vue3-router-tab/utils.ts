@@ -22,7 +22,7 @@ export  const isNonEmptyString = (value: unknown): boolean => isString(value) &&
 
 export const throwError = (message: string) => {
   console.error(`[vue3-router-tab]: ${message}`);
-  return undefined;
+  return void 0;
 };
 
 
