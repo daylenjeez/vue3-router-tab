@@ -66,7 +66,6 @@ const _createTab:CreateTab = function (this: RouterStore,
     id: tabId,
     keepAlive: keepAlive ?? INITIAL_TAB_CONFIG.keepAlive,
     fullPath: router.fullPath,
-    isIframe: false
   };
 
   if (isIframe) tab.isIframe = true;
@@ -169,19 +168,13 @@ const _setActiveTab: SetActiveTab = function (
   this: RouterStore,
   tabId: TabId | null
 ) {
-  let tabIndex = -1;
-  if (tabId) {
-    tabIndex = this._indexOfTab(tabId);
-    const tab = this.tabs[tabIndex];
-    if (!tab) {
-      throwError(`Tab not found, please check the tab id: ${tabId}`);
-      return tabIndex;
-    }
-  }
+  const tab = tabId ? this._getTab(tabId) : null;
+
+  if (!tab) return throwError(`Tab not found, please check the tab id: ${tabId}`);
 
   this.activeTabId = tabId;
 
-  return tabIndex;
+  return tab;
 };
 
 /**

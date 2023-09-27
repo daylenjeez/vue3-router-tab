@@ -41,7 +41,7 @@ export interface Tab {
   icon?: string;
   keepAlive: boolean;
   fullPath: string;
-  isIframe: boolean;
+  isIframe?: boolean;
   allowClose?: boolean;
 }
 
