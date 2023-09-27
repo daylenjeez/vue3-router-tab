@@ -9,13 +9,13 @@ import { Tab, TabId, TabKey } from "../../types";
 import { CreateActions } from "../type";
 
 export interface CreateTabId {
-  (tabKey: TabKey | undefined | null, router: RouteLocationNormalized): TabId | void;
+  (tabKey: TabKey | undefined | null, router: RouteLocationNormalized): TabId | undefined;
 }
 export interface CreateTab {
-  (router: RouteLocationNormalized): Tab | void;
+  (router: RouteLocationNormalized): Tab | undefined;
 }
 export interface GetTabByRouteMeta {
-  (router: RouteLocationNormalized): Tab|void;
+  (router: RouteLocationNormalized): Tab | undefined;
 }
 export interface HasTab {
   (tabId: TabId): boolean;
@@ -24,10 +24,10 @@ export interface IndexOfTab {
   (tabId: TabId): number;
 }
 export interface GetTab {
-  (tabId: TabId): Tab | void;
+  (tabId: TabId): Tab | undefined;
 }
 export interface GetTabIdByRouteMeta {
-  (router: RouteLocationNormalized): TabId|void;
+  (router: RouteLocationNormalized): TabId | undefined;
 }
 export interface AddTab {
   (tab: Tab, options?: { setActive?: boolean }): number;
@@ -36,11 +36,11 @@ export interface RemoveTab {
   (tabId: TabId): Tab | undefined;
 }
 export interface OpenTab {
-  (tabId: TabId): void;
+  (tabId: TabId): undefined;
 }
 
 export interface SetActiveTab {
-  (tab: Tab | void): Tab|void;
+  (tab: Tab | undefined): Tab | undefined;
 }
 
 export interface Open {
@@ -62,8 +62,8 @@ export interface GetTabs {
   (): Tab[];
 }
 
-export interface GetActiveTabId{
-  ():TabId|null
+export interface GetActiveTab {
+  (): Tab | undefined
 }
 
 export type Actions = CreateActions<
@@ -71,7 +71,7 @@ export type Actions = CreateActions<
   State,
   {
     _createTabId: CreateTabId;
-    _createTab:CreateTab;
+    _createTab: CreateTab;
     _getTabByRouteMeta: GetTabByRouteMeta;
     _hasTab: HasTab;
     _indexOfTab: IndexOfTab;
@@ -86,7 +86,6 @@ export type Actions = CreateActions<
     close: Close;
     closeOthers: CloseOthers;
     getTabs: GetTabs;
-    getActiveTabId:GetActiveTabId
   }
 >;
 

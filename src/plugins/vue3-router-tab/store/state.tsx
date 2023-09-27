@@ -2,7 +2,7 @@ import { Tab } from "../types";
 
 export interface State {
   tabs: Tab[];
-  activeTab: void | Tab;
+  activeTab: Tab | undefined;
 }
 
 export default (): State => ({ tabs: [], activeTab: void 0 });

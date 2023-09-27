@@ -32,7 +32,7 @@ const _createTabId: CreateTabId = function (
   this: RouterStore,
   tabKey: TabKey | undefined | null,
   router: RouteLocationNormalized
-): string | void {
+): string | undefined {
   const _tabKey = tabKey ?? INITIAL_TAB_CONFIG.key;
   const tabId = isFunction(_tabKey) ? _tabKey(router) : router[_tabKey];
 
@@ -75,7 +75,7 @@ const _createTab: CreateTab = function (this: RouterStore,
 /**
  * Retrieves the tab identifier using the route's meta information
  * @param {RouteLocationNormalized} router
- * @returns {Tab} tab|void
+ * @returns {Tab} tab|undefined
  */
 const _getTabByRouteMeta: GetTabByRouteMeta = function (
   this: RouterStore,
@@ -168,7 +168,7 @@ const _removeTab: RemoveTab = function (this: RouterStore, tabId: TabId) {
  */
 const _setActiveTab: SetActiveTab = function (
   this: RouterStore,
-  tab: Tab | void
+  tab: Tab | undefined
 ) {
   if (!tab) return throwError(`Tab not found, please check the tab id: ${tab}`);
   this.activeTab = tab;
@@ -178,7 +178,7 @@ const _setActiveTab: SetActiveTab = function (
 /**
  * open tab by tab id
  * @param {TabId} tabId
- * @returns {void}
+ * @returns {undefined}
  */
 const _openTab: OpenTab = function (this: RouterStore, tabId: TabId) {
   const tab = this._getTab(tabId);

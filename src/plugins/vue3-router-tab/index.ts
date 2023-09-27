@@ -30,7 +30,7 @@ const handleBeforeEachRoute = (
     store._setActiveTab(store._getTab(tabId));
   } else {
     const tab = store._createTab(guard);
-    if (tab) store._addTab(tab,{setActive:true});
+    if (tab) store._addTab(tab, { setActive: true });
   }
 };
 
@@ -50,9 +50,15 @@ const init = (app: App, options: Options) => {
  * @param store {RouterTabStore}
  * @returns Pick<store,tabs|activeTab|open|close|closeOthers|getTabs>
  */
-const createRouterTabHook = (store: RouterTabStore) => {
-  return ()=>store;
-  // return () => pick(store, "tabs", "activeTab", "open", "close", "closeOthers", "getTabs","getActiveTabId");
+const createRouterTabHook = (useRouterTabStore: any) => {
+  return () => {
+    const store = useRouterTabStore();
+    return store;
+    // return pick(store, "tabs", "activeTab", "open", "close", "closeOthers", "getTabs");
+  };
+
+
+  // return () => 
 };
 
 let useRouterTab: ReturnType<typeof createRouterTabHook>;
@@ -65,7 +71,7 @@ const routerInit = (router: Router) => {
   const store = useRouterTabStore();
   router.beforeEach((guard) => handleBeforeEachRoute(guard, store));
 
-  useRouterTab = createRouterTabHook(store);
+  useRouterTab = createRouterTabHook(useRouterTabStore);
 };
 
 /**
