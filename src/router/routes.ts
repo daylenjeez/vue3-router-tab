@@ -19,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "fullpath",
         path: "/fullpath",
         component: () => import("../views/home.vue"),
-        meta: { tabConfig: { key: 'fullpath' } }
+        meta: { tabConfig: { key: 'fullPath' } }
       }, {
         name: "custom",
         path: "/custom",

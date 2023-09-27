@@ -139,8 +139,10 @@ const _getTab: GetTab = function (this: RouterStore, tabId?: TabId) {
  * @returns {Number} index
  */
 const _addTab: AddTab = function (this: RouterStore, tab: Tab, options) {
-  const { setActive } = options ?? { setActive: true };
+  const { setActive } = options ?? { setActive: false };
+  
   const index = this.tabs.push(tab);
+  console.log(setActive);
 
   if (setActive) this._setActiveTab(tab.id);
   return index;
@@ -163,6 +165,7 @@ const _removeTab: RemoveTab = function (this: RouterStore, tabId: TabId) {
  * set active tab
  * @param {TabId} tabId
  * @returns {number} index
+ * //TODO:处理 null 的情况
  */
 const _setActiveTab: SetActiveTab = function (
   this: RouterStore,

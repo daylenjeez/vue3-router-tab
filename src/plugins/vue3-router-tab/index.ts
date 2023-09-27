@@ -30,7 +30,7 @@ const handleBeforeEachRoute = (
     store._setActiveTab(tabId);
   } else {
     const tab = store._createTab(guard);
-    if (tab) store._addTab(tab);
+    if (tab) store._addTab(tab,{setActive:true});
   }
 };
 
@@ -62,9 +62,7 @@ let useRouterTab: ReturnType<typeof createRouterTabHook>;
  */
 const routerInit = (router: Router) => {
   const store = useRouterTabStore();
-  router.beforeEach((guard) => {
-    handleBeforeEachRoute(guard, store);
-  });
+  router.beforeEach((guard) => handleBeforeEachRoute(guard, store));
 
   useRouterTab = createRouterTabHook(store);
 };
