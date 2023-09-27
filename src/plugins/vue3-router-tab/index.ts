@@ -51,7 +51,7 @@ const init = (app: App, options: Options) => {
  * @returns Pick<store,tabs|activeTabId|open|close|closeOthers|getTabs>
  */
 const createRouterTabHook = (store: RouterTabStore) => {
-  return () => pick(store, "tabs", "activeTabId", "open", "close", "closeOthers", "getTabs");
+  return () => pick(store, "tabs", "activeTabId", "open", "close", "closeOthers", "getTabs","getActiveTabId");
 };
 
 let useRouterTab: ReturnType<typeof createRouterTabHook>;

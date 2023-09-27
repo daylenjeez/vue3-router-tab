@@ -1,8 +1,8 @@
-import { Tab, TabId } from "../types";
+import { Tab } from "../types";
 
 export interface State {
   tabs: Tab[];
-  activeTabId: null | TabId;
+  activeTab: void | Tab;
 }
 
-export default (): State => ({ tabs: [], activeTabId: null });
+export default (): State => ({ tabs: [], activeTab: void 0 });
