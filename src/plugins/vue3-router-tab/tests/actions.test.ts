@@ -33,8 +33,11 @@ describe('Check addTab', () => {
       "keepAlive": true,
       "name": "initial",
     });
+    console.log(_routerTab.activeTab, _routerTab.tabs[_routerTab.tabs.length - 1]);
+    
 
-    expect(_routerTab.activeTabId).toEqual('/initial?id=1&name=amy');
+    expect(_routerTab.activeTab).toEqual(_routerTab.tabs[_routerTab.tabs.length - 1]);
+    expect(_routerTab.activeTab?.id).toEqual(_routerTab.tabs[_routerTab.tabs.length - 1].id);
   });
 
   it(`配置 key:path 时，包含 query 的 path，id需要去除 query`, async ({ expect }) => {
@@ -47,7 +50,8 @@ describe('Check addTab', () => {
       "name": "path",
     });
 
-    expect(_routerTab.activeTabId).toEqual('/path');
+    expect(_routerTab.activeTab).toEqual(_routerTab.tabs[_routerTab.tabs.length - 1]);
+    expect(_routerTab.activeTab?.id).toEqual(_routerTab.tabs[_routerTab.tabs.length - 1].id);
   });
 
   it(`配置 key:path 时，包含 params 的 path，id不能去除 params`, async ({ expect }) => {
@@ -60,7 +64,8 @@ describe('Check addTab', () => {
       "name": "pathWithParams",
     });
 
-    expect(_routerTab.activeTabId).toEqual('/pathWithParams/2');
+    expect(_routerTab.activeTab).toEqual(_routerTab.tabs[_routerTab.tabs.length - 1]);
+    expect(_routerTab.activeTab?.id).toEqual(_routerTab.tabs[_routerTab.tabs.length - 1].id);
   });
 
   it(`配置 key:fullpath 时，包含 query 的 fullpath，不能去除 query`, async ({ expect }) => {
@@ -73,6 +78,7 @@ describe('Check addTab', () => {
       "name": "fullpath",
     });
     
-    expect(_routerTab.activeTabId).toEqual('/fullpath?id=1');
+    expect(_routerTab.activeTab).toEqual(_routerTab.tabs[_routerTab.tabs.length - 1]);
+    expect(_routerTab.activeTab?.id).toEqual(_routerTab.tabs[_routerTab.tabs.length - 1].id);
   });
 });

@@ -5,7 +5,7 @@ import styles from "./style.module.less";
 import { useRouterTabStore } from "../../../store";
 
 export default defineComponent({
-  name: "rt-tab",
+  name: "RtTab",
   props: {
     name: {
       type: String as PropType<Tab["name"]>,
@@ -19,7 +19,7 @@ export default defineComponent({
   setup(props) {
     const store = useRouterTabStore();
     const tabsLength = computed(() => store.tabs.length);
-    const active = computed(() => store.activeTabId === props.id);
+    const active = computed(() => store.activeTab?.id === props.id);
 
     const classNames = computed(() => [
       styles["rt-tab"],

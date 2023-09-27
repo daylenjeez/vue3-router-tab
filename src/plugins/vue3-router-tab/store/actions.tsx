@@ -48,7 +48,7 @@ const _createTabId: CreateTabId = function (
  * @param {TabKey} tabKey
  * @returns {Tab} tab
  */
-const _createTab:CreateTab = function (this: RouterStore,
+const _createTab: CreateTab = function (this: RouterStore,
   router: RouteLocationNormalized) {
   const {
     key,
@@ -140,10 +140,10 @@ const _getTab: GetTab = function (this: RouterStore, tabId?: TabId) {
  */
 const _addTab: AddTab = function (this: RouterStore, tab: Tab, options) {
   const { setActive } = options ?? { setActive: false };
-  
+
   const index = this.tabs.push(tab);
 
-  if (setActive) this._setActiveTab(tab.id);
+  if (setActive) this._setActiveTab(tab);  
   return index;
 };
 
@@ -168,14 +168,10 @@ const _removeTab: RemoveTab = function (this: RouterStore, tabId: TabId) {
  */
 const _setActiveTab: SetActiveTab = function (
   this: RouterStore,
-  tabId: TabId | null
+  tab: Tab | void
 ) {
-  const tab = tabId ? this._getTab(tabId) : null;
-
-  if (!tab) return throwError(`Tab not found, please check the tab id: ${tabId}`);
-
+  if (!tab) return throwError(`Tab not found, please check the tab id: ${tab}`);
   this.activeTab = tab;
-
   return tab;
 };
 
@@ -209,23 +205,17 @@ const open = function (this: RouterStore, to: RouteLocationRaw) {
  * //TODO:after tab
  */
 const close: Close = function (this: RouterStore, before) {
-  let tabId: string | void;
-  if (!before) {
-    tabId = this.activeTab?.id; //if has no key,use activeTab
-  } else {
-    tabId = this.activeTab ? 
-      typeof before === "string" ? before : _getTabIdByRouteMeta.call(this, before);
-    const _key = tabId;
-    if (!_key) return;
-    if (this.tabs.length <= 1) return;
-    const index = this._indexOfTab(_key);
-    const afterTab = this.tabs[index - 1] ?? this.tabs[index + 1] ?? null;
-    this._setActiveTab(afterTab?.id);
 
-    if (this.activeTab) this.open(this.activeTab.id);
+  const tabId = before ? typeof before === "string" ? before : _getTabIdByRouteMeta.call(this, before) : this.activeTab?.id;
+  if (!tabId) return;
+  if (this.tabs.length <= 1) return;
+  const index = this._indexOfTab(tabId);
+  const afterTab = this.tabs[index - 1] ?? this.tabs[index + 1] ?? null;
+  this._setActiveTab(afterTab);
 
-    return this._removeTab(_key);
-  }
+  if (this.activeTab) this.open(this.activeTab.id);
+
+  return this._removeTab(tabId);
 };
 
 /**

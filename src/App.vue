@@ -11,7 +11,7 @@ export default {
     const routerTab = useRouterTab();
 
     setTimeout(() => {
-
+      console.log(routerTab);
     }, 2000);
 
     return {

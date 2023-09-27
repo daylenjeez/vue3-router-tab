@@ -40,7 +40,7 @@ export interface OpenTab {
 }
 
 export interface SetActiveTab {
-  (tabId: TabId | null): Tab|void;
+  (tab: Tab | void): Tab|void;
 }
 
 export interface Open {
