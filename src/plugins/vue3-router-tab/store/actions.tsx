@@ -238,6 +238,13 @@ const getTabs = function (this: RouterStore) {
 };
 
 /**
+ * get active tab
+ */
+const getActiveTab = function (this: RouterStore) {
+  return this.activeTab;
+};
+
+/**
  * @param {string} path //TODO:add other type,RouteLocationRaw
  */
 // const openIframe = function (this: RouterStore, path: string) {
@@ -261,4 +268,5 @@ export default {
   close,
   closeOthers,
   getTabs,
+  getActiveTab,
 };

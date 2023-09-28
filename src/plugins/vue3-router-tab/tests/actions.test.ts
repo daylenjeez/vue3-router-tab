@@ -1,6 +1,6 @@
 import { createRouter, createMemoryHistory } from 'vue-router';
 import { describe, it } from 'vitest';
-import { createApp } from 'vue';
+import { computed, createApp, watch } from 'vue';
 import routerTab, { useRouterTab } from "..";
 import App from "../../../App.vue";
 
@@ -24,61 +24,64 @@ describe('Check addTab', () => {
 
   const _routerTab = useRouterTab();
 
+  // watch(_routerTab.getActiveTab,(val)=>{
+  //   console.log(val);
+  // });
+
   it(`默认没有配置 key 时，应该默认使用 'fullPath' 的类型`, async ({ expect }) => {
     await router.push('/initial?id=1&name=amy');
 
-    expect(_routerTab.tabs[1]).toEqual({
+    expect(_routerTab.getTabs().at(-1)).toEqual({
       "fullPath": "/initial?id=1&name=amy",
       "id": "/initial?id=1&name=amy",
       "keepAlive": true,
       "name": "initial",
     });
-    console.log(_routerTab.activeTab, _routerTab.tabs[_routerTab.tabs.length - 1]);
     
 
-    expect(_routerTab.activeTab).toEqual(_routerTab.tabs[_routerTab.tabs.length - 1]);
-    expect(_routerTab.activeTab?.id).toEqual(_routerTab.tabs[_routerTab.tabs.length - 1].id);
+    expect(_routerTab.getActiveTab()).toEqual(_routerTab.getTabs().at(-1));
+    expect(_routerTab.getActiveTab()?.id).toEqual(_routerTab.getTabs().at(-1)?.id);
   });
 
   it(`配置 key:path 时，包含 query 的 path，id需要去除 query`, async ({ expect }) => {
     await router.push('/path?id=1');
 
-    expect(_routerTab.tabs[_routerTab.tabs.length - 1]).toEqual({
+    expect(_routerTab.getTabs().at(-1)).toEqual({
       "fullPath": "/path?id=1",
       "id": "/path",
       "keepAlive": true,
       "name": "path",
     });
 
-    expect(_routerTab.activeTab).toEqual(_routerTab.tabs[_routerTab.tabs.length - 1]);
-    expect(_routerTab.activeTab?.id).toEqual(_routerTab.tabs[_routerTab.tabs.length - 1].id);
+    expect(_routerTab.getActiveTab()).toEqual(_routerTab.getTabs().at(-1));
+    expect(_routerTab.getActiveTab()?.id).toEqual(_routerTab.getTabs().at(-1)?.id);
   });
 
   it(`配置 key:path 时，包含 params 的 path，id不能去除 params`, async ({ expect }) => {
     await router.push('/pathWithParams/2');
 
-    expect(_routerTab.tabs[_routerTab.tabs.length - 1]).toEqual({
+    expect(_routerTab.getTabs().at(-1)).toEqual({
       "fullPath": "/pathWithParams/2",
       "id": "/pathWithParams/2",
       "keepAlive": true,
       "name": "pathWithParams",
     });
 
-    expect(_routerTab.activeTab).toEqual(_routerTab.tabs[_routerTab.tabs.length - 1]);
-    expect(_routerTab.activeTab?.id).toEqual(_routerTab.tabs[_routerTab.tabs.length - 1].id);
+    expect(_routerTab.getActiveTab()).toEqual(_routerTab.getTabs().at(-1));
+    expect(_routerTab.getActiveTab()?.id).toEqual(_routerTab.getTabs().at(-1)?.id);
   });
 
   it(`配置 key:fullpath 时，包含 query 的 fullpath，不能去除 query`, async ({ expect }) => {
     await router.push('/fullpath?id=1');
 
-    expect(_routerTab.tabs[_routerTab.tabs.length - 1]).toEqual({
+    expect(_routerTab.getTabs().at(-1)).toEqual({
       "fullPath": "/fullpath?id=1",
       "id": "/fullpath?id=1",
       "keepAlive": true,
       "name": "fullpath",
     });
     
-    expect(_routerTab.activeTab).toEqual(_routerTab.tabs[_routerTab.tabs.length - 1]);
-    expect(_routerTab.activeTab?.id).toEqual(_routerTab.tabs[_routerTab.tabs.length - 1].id);
+    expect(_routerTab.getActiveTab()).toEqual(_routerTab.getTabs().at(-1));
+    expect(_routerTab.getActiveTab()?.id).toEqual(_routerTab.getTabs().at(-1)?.id);
   });
 });

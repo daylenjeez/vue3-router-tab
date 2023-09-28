@@ -11,3 +11,14 @@ export const useRouterTabStore: UseRouterTabStore = defineStore("routerTab", {
 });
 
 export type RouterTabStore = ReturnType<UseRouterTabStore>;
+
+
+export const useRouterTab = ()=> {
+  const routerTab = useRouterTabStore();
+  return {
+    open:routerTab.open,
+    getTabs:routerTab.getTabs,
+    getActiveTab: routerTab.getActiveTab,
+  };
+};
+

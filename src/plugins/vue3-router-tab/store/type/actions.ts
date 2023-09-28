@@ -86,6 +86,7 @@ export type Actions = CreateActions<
     close: Close;
     closeOthers: CloseOthers;
     getTabs: GetTabs;
+    getActiveTab:GetActiveTab;
   }
 >;
 
