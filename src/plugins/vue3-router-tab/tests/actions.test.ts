@@ -1,39 +1,15 @@
-import { createRouter, createMemoryHistory } from 'vue-router';
 import { ExpectStatic, describe, it } from 'vitest';
-import { createApp } from 'vue';
-import routerTab, { useRouterTab } from "..";
-import App from "../../../App.vue";
 import { RouterTabType } from '../store';
+import { getRouterTab, reset, router } from './common';
 
 const expectActiveTab = (expect: ExpectStatic, routerTab: RouterTabType) => {
   expect(routerTab.getActiveTab()).toEqual(routerTab.getTabs().at(-1));
   expect(routerTab.getActiveTab()?.id).toEqual(routerTab.getTabs().at(-1)?.id);
 };
 
-const getRouterTab = () => {
-  const app = createApp(App);
-
-  app.use(router);
-  app.use(routerTab, { router });
-
-  return useRouterTab();
-};
-
-// 创建一个内存路由
-const history = createMemoryHistory();
-const router = createRouter({
-  history,
-  routes: [
-    { path: '/', component: {}, name: 'home', },
-    { path: '/initial', component: {}, name: 'initial', },
-    { path: '/path', component: {}, name: 'path', meta: { tabConfig: { key: 'path' } } },
-    { path: '/pathWithParams/:id', component: {}, name: 'pathWithParams', meta: { tabConfig: { key: 'path' } } },
-    { path: '/fullpath', component: {}, name: 'fullpath', meta: { tabConfig: { key: 'fullPath' } } },
-    { path: '/fullpathWithParams/:id', component: {}, name: 'fullpathWithParams', meta: { tabConfig: { key: 'fullPath' } } },
-  ]
-});
-
 const _routerTab = getRouterTab();
+
+const _reset = reset.bind(null, _routerTab);
 
 describe('Check addTab', () => {
 
@@ -90,23 +66,20 @@ describe('Check addTab', () => {
   });
 });
 
-const reset = async ()=>{
-  await router.push('/');
-  _routerTab.clear();
-};
+
 
 describe('Check add Tab when the same route', () => {
-  it(`fullPath时，相同path，相同params，应该同一条`, async ({ expect }) => {
-    await reset();
+  it(`fullPath时：相同path，相同query，应该同一条`, async ({ expect }) => {
+    await _reset();
     await router.push('/initial?id=1&name=amy');
-    await router.push('/initial?id=1&name=amy');
+    await router.push({path:'/initial',query:{id:'1',name:'amy'}});
 
     expect(_routerTab.getTabs()).length(1);
     expect(_routerTab.getActiveTab()).equal(_routerTab.getTabs().at(-1));
   });
 
-  it(`fullPath时，相同path，不同params，应该新增一条`, async ({ expect }) => {
-    await reset();
+  it(`fullPath时：相同path，不同query，应该新增一条`, async ({ expect }) => {
+    await _reset();
 
     await router.push('/initial?id=1&name=amy');
     await router.push('/initial?id=1');
@@ -115,8 +88,8 @@ describe('Check add Tab when the same route', () => {
     expect(_routerTab.getActiveTab()).equal(_routerTab.getTabs().at(-1));
   });
 
-  it(`fullPath时，相同path，不同query，应该新增一条`, async ({ expect }) => {
-    await reset();
+  it(`fullPath时：相同path，不同params，应该新增一条`, async ({ expect }) => {
+    await _reset();
 
     await router.push('/fullpathWithParams/1');
     await router.push('/fullpathWithParams/2');
@@ -125,29 +98,29 @@ describe('Check add Tab when the same route', () => {
     expect(_routerTab.getActiveTab()).equal(_routerTab.getTabs().at(-1));
   });
 
-  it(`path时，相同path，相同params，应该同一条`, async ({ expect }) => {
-    await reset();
+  it(`path时：相同path，相同query，应该同一条`, async ({ expect }) => {
+    await _reset();
 
     await router.push('/path?id=1&name=amy');
-    await router.push('/path?id=1&name=amy');
+    await router.push({path:'/path',query:{id:'1',name:'amy'}});
 
     expect(_routerTab.getTabs()).length(1);
   });
 
-  it(`path时，相同path，不同params，应该同一条`, async ({ expect }) => {
-    await reset();
+  it(`path时：相同path，不同query，应该同一条`, async ({ expect }) => {
+    await _reset();
 
     await router.push('/path?id=1&name=amy');
-    await router.push('/path?id=1');
+    await router.push({path:'/path',query:{id:'1'}});
 
     expect(_routerTab.getTabs()).length(1);
   });
 
-  it(`path时，相同path，不同query，应该新增一条`, async ({ expect }) => {
-    await reset();
+  it(`path时：相同path，不同params，应该新增一条`, async ({ expect }) => {
+    await _reset();
 
     await router.push('/pathWithParams/1');
-    await router.push('/pathWithParams/2');
+    await router.push({path:'/pathWithParams',params:{id:'2'}});
 
     expect(_routerTab.getTabs()).length(2);
     expect(_routerTab.getActiveTab()).equal(_routerTab.getTabs().at(-1));
