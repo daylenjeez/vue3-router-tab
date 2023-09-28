@@ -1,8 +1,14 @@
 import { createRouter, createMemoryHistory } from 'vue-router';
-import { describe, it } from 'vitest';
-import { computed, createApp, watch } from 'vue';
+import { ExpectStatic, describe, it } from 'vitest';
+import {  createApp } from 'vue';
 import routerTab, { useRouterTab } from "..";
 import App from "../../../App.vue";
+import { RouterTabType } from '../store';
+
+const expectActiveTab = (expect:ExpectStatic,routerTab:RouterTabType)=>{
+  expect(routerTab.getActiveTab()).toEqual(routerTab.getTabs().at(-1));
+  expect(routerTab.getActiveTab()?.id).toEqual(routerTab.getTabs().at(-1)?.id);
+};
 
 // 创建一个内存路由
 const history = createMemoryHistory();
@@ -37,10 +43,8 @@ describe('Check addTab', () => {
       "keepAlive": true,
       "name": "initial",
     });
-    
 
-    expect(_routerTab.getActiveTab()).toEqual(_routerTab.getTabs().at(-1));
-    expect(_routerTab.getActiveTab()?.id).toEqual(_routerTab.getTabs().at(-1)?.id);
+    expectActiveTab(expect,_routerTab);
   });
 
   it(`配置 key:path 时，包含 query 的 path，id需要去除 query`, async ({ expect }) => {
@@ -53,8 +57,7 @@ describe('Check addTab', () => {
       "name": "path",
     });
 
-    expect(_routerTab.getActiveTab()).toEqual(_routerTab.getTabs().at(-1));
-    expect(_routerTab.getActiveTab()?.id).toEqual(_routerTab.getTabs().at(-1)?.id);
+    expectActiveTab(expect,_routerTab);
   });
 
   it(`配置 key:path 时，包含 params 的 path，id不能去除 params`, async ({ expect }) => {
@@ -67,8 +70,7 @@ describe('Check addTab', () => {
       "name": "pathWithParams",
     });
 
-    expect(_routerTab.getActiveTab()).toEqual(_routerTab.getTabs().at(-1));
-    expect(_routerTab.getActiveTab()?.id).toEqual(_routerTab.getTabs().at(-1)?.id);
+    expectActiveTab(expect,_routerTab);
   });
 
   it(`配置 key:fullpath 时，包含 query 的 fullpath，不能去除 query`, async ({ expect }) => {
@@ -81,7 +83,6 @@ describe('Check addTab', () => {
       "name": "fullpath",
     });
     
-    expect(_routerTab.getActiveTab()).toEqual(_routerTab.getTabs().at(-1));
-    expect(_routerTab.getActiveTab()?.id).toEqual(_routerTab.getTabs().at(-1)?.id);
+    expectActiveTab(expect,_routerTab);
   });
 });

@@ -22,3 +22,5 @@ export const useRouterTab = ()=> {
   };
 };
 
+export type RouterTabType = ReturnType<typeof useRouterTab>;
+
