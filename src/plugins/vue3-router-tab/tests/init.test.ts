@@ -20,7 +20,7 @@ describe("init", () => {
 
   it("should have 'tabs' property of type Tab[] in useRouterTab", () => {
     const routeTab = useRouterTab();
-    expectTypeOf(routeTab.tabs).toEqualTypeOf<Tab[]>();
+    expectTypeOf(routeTab.getTabs()).toEqualTypeOf<Tab[]>();
   });
 
   it("should have 'getTabs' property of type GetTabs in useRouterTab", () => {
@@ -43,8 +43,4 @@ describe("init", () => {
     expectTypeOf(routeTab.open).toEqualTypeOf<Open>();
   });
 
-  it("should have tabs property equal to the result of getTabs method", ({expect}) => {
-    const routeTab = useRouterTab();
-    expect(routeTab.tabs).to.equal(routeTab.getTabs());
-  });
 });

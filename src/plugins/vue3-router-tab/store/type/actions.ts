@@ -38,34 +38,30 @@ export interface RemoveTab {
 export interface OpenTab {
   (tabId: TabId): undefined;
 }
-
 export interface SetActiveTab {
   (tab: Tab | undefined): Tab | undefined;
 }
-
 export interface Open {
   (to: RouteLocationRaw): ReturnType<Router["push"]>;
 }
-
 export interface Close {
   (
     before?: TabId | RouteLocationNormalizedLoaded,
     after?: TabId | RouteLocationNormalizedLoaded
   ): Tab | undefined;
 }
-
 export interface CloseOthers {
   (): Tab | undefined;
 }
-
+export interface Clear {
+  (): void;
+}
 export interface GetTabs {
   (): Tab[];
 }
-
 export interface GetActiveTab {
   (): Tab | undefined
 }
-
 export type Actions = CreateActions<
   string,
   State,
@@ -84,12 +80,12 @@ export type Actions = CreateActions<
 
     open: Open;
     close: Close;
+    clear: Clear;
     closeOthers: CloseOthers;
     getTabs: GetTabs;
     getActiveTab:GetActiveTab;
   }
 >;
-
 export type RouterStore = ReturnType<
   typeof import("../../store")["useRouterTabStore"]
 >;

@@ -8,6 +8,7 @@ import { Tab, TabConfig, TabId, TabKey } from "../types";
 import { isFunction, isNonEmptyString, throwError } from "../utils";
 import {
   AddTab,
+  Clear,
   Close,
   CreateTab,
   CreateTabId,
@@ -170,7 +171,7 @@ const _setActiveTab: SetActiveTab = function (
   this: RouterStore,
   tab: Tab | undefined
 ) {
-  if (!tab) return throwError(`Tab not found, please check the tab id: ${tab}`);
+  // if (!tab) return throwError(`Tab not found, please check the tab id: ${tab}`);
   this.activeTab = tab;
   return tab;
 };
@@ -186,6 +187,11 @@ const _openTab: OpenTab = function (this: RouterStore, tabId: TabId) {
     return throwError(`Tab not found, please check the tab id: ${tabId}`);
   }
   this.open(tab.fullPath);
+};
+
+const clear:Clear =  function (this: RouterStore) {
+  this.tabs = [];
+  this._setActiveTab(void 0);
 };
 
 // const addRoute = function (this: RouterStore) {};
@@ -263,6 +269,7 @@ export default {
   _removeTab,
   _setActiveTab,
   _openTab,
+  clear,
 
   open,
   close,
