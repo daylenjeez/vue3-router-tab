@@ -126,7 +126,7 @@ describe('Check add Tab when the same route', () => {
     expect(_routerTab.getActiveTab()).equal(_routerTab.getTabs().at(-1));
   });
 
-  it(`custom：相同params的id，应该同一条`, async ({ expect }) => {
+  it(`custom：相同query的id，应该同一条`, async ({ expect }) => {
     await _reset();
 
     await router.push('/custom?id=1&name=amy');
@@ -136,7 +136,7 @@ describe('Check add Tab when the same route', () => {
     expect(_routerTab.getActiveTab()?.id).toEqual('/custom?id=1');
   });
 
-  it(`custom：不同query的id，应该同一条`, async ({ expect }) => {
+  it(`custom：不同params的id，应该同一条`, async ({ expect }) => {
     await _reset();
 
     await router.push('/customWithParams/1');
