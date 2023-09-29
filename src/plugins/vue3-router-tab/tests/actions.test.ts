@@ -69,7 +69,7 @@ describe('Check addTab', () => {
 
 
 describe('Check add Tab when the same route', () => {
-  it(`fullPath时：相同path，相同query，应该同一条`, async ({ expect }) => {
+  it(`fullPath：相同path，相同query，应该同一条`, async ({ expect }) => {
     await _reset();
     await router.push('/initial?id=1&name=amy');
     await router.push({path:'/initial',query:{id:'1',name:'amy'}});
@@ -78,7 +78,7 @@ describe('Check add Tab when the same route', () => {
     expect(_routerTab.getActiveTab()).equal(_routerTab.getTabs().at(-1));
   });
 
-  it(`fullPath时：相同path，不同query，应该新增一条`, async ({ expect }) => {
+  it(`fullPath：相同path，不同query，应该新增一条`, async ({ expect }) => {
     await _reset();
 
     await router.push('/initial?id=1&name=amy');
@@ -88,17 +88,17 @@ describe('Check add Tab when the same route', () => {
     expect(_routerTab.getActiveTab()).equal(_routerTab.getTabs().at(-1));
   });
 
-  it(`fullPath时：相同path，不同params，应该新增一条`, async ({ expect }) => {
+  it(`fullPath：相同path，不同params，应该新增一条`, async ({ expect }) => {
     await _reset();
 
     await router.push('/fullpathWithParams/1');
     await router.push('/fullpathWithParams/2');
-
+    
     expect(_routerTab.getTabs()).length(2);
     expect(_routerTab.getActiveTab()).equal(_routerTab.getTabs().at(-1));
   });
 
-  it(`path时：相同path，相同query，应该同一条`, async ({ expect }) => {
+  it(`path：相同path，相同query，应该同一条`, async ({ expect }) => {
     await _reset();
 
     await router.push('/path?id=1&name=amy');
@@ -107,7 +107,7 @@ describe('Check add Tab when the same route', () => {
     expect(_routerTab.getTabs()).length(1);
   });
 
-  it(`path时：相同path，不同query，应该同一条`, async ({ expect }) => {
+  it(`path：相同path，不同query，应该同一条`, async ({ expect }) => {
     await _reset();
 
     await router.push('/path?id=1&name=amy');
@@ -116,14 +116,24 @@ describe('Check add Tab when the same route', () => {
     expect(_routerTab.getTabs()).length(1);
   });
 
-  it(`path时：相同path，不同params，应该新增一条`, async ({ expect }) => {
+  it(`path：相同path，不同params，应该新增一条`, async ({ expect }) => {
     await _reset();
 
     await router.push('/pathWithParams/1');
-    await router.push({path:'/pathWithParams',params:{id:'2'}});
+    await router.push({name:'pathWithParams',params:{id:'2'}});
 
     expect(_routerTab.getTabs()).length(2);
     expect(_routerTab.getActiveTab()).equal(_routerTab.getTabs().at(-1));
+  });
+
+  it(`custom：`, async ({ expect }) => {
+    await _reset();
+
+    await router.push('/custom?id=1&name=amy');
+    await router.push({path:'/custom',query:{id:'1',name:'jean'}});
+
+    expect(_routerTab.getTabs()).length(1);
+    expect(_routerTab.getActiveTab()?.id).toEqual('/custom?id=1');
   });
 });
 

@@ -5,7 +5,7 @@ import RtTab from "./tab";
 import styles from "./style.module.less";
 
 export default defineComponent({
-  name: "rt-tabs",
+  name: "RtTabs",
   setup() {
     const store = useRouterTabStore();
     const tabs = computed(() => store.tabs);

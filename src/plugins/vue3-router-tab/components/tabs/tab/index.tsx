@@ -5,7 +5,7 @@ import styles from "./style.module.less";
 import { useRouterTabStore } from "../../../store";
 
 export default defineComponent({
-  name: "RtTab",
+  name: "RtTabs",
   props: {
     name: {
       type: String as PropType<Tab["name"]>,
@@ -40,7 +40,7 @@ export default defineComponent({
     return () => (
       <div class={classNames.value} onClick={click}>
         <div></div>
-        <div>{props.name}</div>
+        <div class={styles['rt-tab-label']}>{props.name}</div>
         {tabsLength.value > 1 && <div onClick={close}>x</div>}
       </div>
     );

@@ -31,7 +31,7 @@ import {
  */
 const _createTabId: CreateTabId = function (
   this: RouterStore,
-  tabKey: TabKey | undefined | null,
+  tabKey: TabKey | undefined,
   router: RouteLocationNormalized
 ): string | undefined {
   const _tabKey = tabKey ?? INITIAL_TAB_CONFIG.key;
@@ -171,7 +171,6 @@ const _setActiveTab: SetActiveTab = function (
   this: RouterStore,
   tab: Tab | undefined
 ) {
-  // if (!tab) return throwError(`Tab not found, please check the tab id: ${tab}`);
   this.activeTab = tab;
   return tab;
 };

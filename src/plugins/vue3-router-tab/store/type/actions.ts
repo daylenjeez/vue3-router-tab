@@ -9,7 +9,7 @@ import { Tab, TabId, TabKey } from "../../types";
 import { CreateActions } from "../type";
 
 export interface CreateTabId {
-  (tabKey: TabKey | undefined | null, router: RouteLocationNormalized): TabId | undefined;
+  (tabKey: TabKey | undefined, router: RouteLocationNormalized): TabId | undefined;
 }
 export interface CreateTab {
   (router: RouteLocationNormalized): Tab | undefined;

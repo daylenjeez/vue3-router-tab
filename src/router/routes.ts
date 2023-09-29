@@ -24,7 +24,14 @@ const routes: Array<RouteRecordRaw> = [
         name: "custom",
         path: "/custom",
         component: () => import("../views/home.vue"),
-        meta: { tabConfig: { key: (router: RouteLocationNormalized) => router.fullPath } }
+        meta: {
+          tabConfig: {
+            key: (router: RouteLocationNormalized) => {
+              const { path, query } = router;
+              return `${path}?id=${query.id}`;
+            } 
+          } 
+        }
       }
       // {
       //   name: "主页",
