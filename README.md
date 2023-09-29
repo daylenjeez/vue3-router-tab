@@ -15,12 +15,20 @@
 - **📚多组件兼容**：支持多种主流组件库样式，如elementPlus、antdV、naviUI、Tailwind.css；
 
 ## 功能
-- [x] 响应路由打开/切换页签
-- [ ] 打开/关闭/刷新/切换/右键页签
-- [ ] 缓存控制，滚动位置记住
-- [ ] 组件样式兼容，包含elementPlus、antdV、naviUI、tailwind.css
-- [ ] iframe嵌入
-- [ ] 默认打开的页签，保存配置配置
+- ### 基础
+    - [x] 事件：响应路由打开/切换页签
+    - [ ] 方法：打开/关闭/关闭其它/刷新/切换/右键页签
+    - [ ] 缓存：缓存控制
+    - [ ] 配置：全局配置、自定义配置
+- ### 高级
+    - [ ] iframe：iframe路由
+    - [ ] 样式：包含``elementPlus``、``antdV``、``naviUI``、``tailwind``
+    - [ ] hooks：各种before/after
+    - [ ] 通信：tab间通信
+- ### 其它
+    - [ ] 滚动位置记住
+    - [ ] 动画
+    - [ ] ``i18n``
 
 ## 安装
 
@@ -56,5 +64,9 @@ npm install vue3-router-tab
     </template>
    ```
 
+## 依赖
 
+- **💪TypeScript**：在开发阶段开始让代码更健壮；
+- **🍍Pinia**：Vue3的状态管理的最优解决方案；
+- **👬Vitest**：最值得信任的测试伙伴；
 
