@@ -25,6 +25,15 @@ export const router = createRouter({
         } 
       } 
     },
+    {
+      path: '/customWithParams/:id', component: {}, name: 'customWithParams', meta: {
+        tabConfig:{
+          key: () => {
+            return '/customWithParams';
+          } 
+        } 
+      } 
+    },
   ]
 });
 
