@@ -66,7 +66,7 @@ npm install vue3-router-tab
 
 ## 依赖
 
-- **💪TypeScript**：在开发阶段开始让代码更健壮；
+- **💪TypeScript**：在开发阶段就让代码更健壮；
 - **🍍Pinia**：Vue3的状态管理的最优解决方案；
 - **👬Vitest**：最值得信任的测试伙伴；
 
