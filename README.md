@@ -15,7 +15,7 @@
 - **📚多组件兼容**：支持多种主流组件库样式，如elementPlus、antdV、naviUI、Tailwind.css；
 
 ## 功能
-- [ ] 响应路由打开/切换页签
+- [x] 响应路由打开/切换页签
 - [ ] 打开/关闭/刷新/切换/右键页签
 - [ ] 缓存控制，滚动位置记住
 - [ ] 组件样式兼容，包含elementPlus、antdV、naviUI、tailwind.css
