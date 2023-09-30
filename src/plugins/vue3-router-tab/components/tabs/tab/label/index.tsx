@@ -3,7 +3,7 @@ import { Tab } from "../../../../types";
 import styles from './style.module.less';
 
 export default defineComponent({
-  name: "RtTab",
+  name: "RtTabLabel",
   props: {
     name: {
       type: String as PropType<Tab["name"]>,

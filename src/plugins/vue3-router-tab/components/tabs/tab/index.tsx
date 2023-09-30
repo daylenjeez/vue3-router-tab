@@ -1,11 +1,12 @@
 import { computed, defineComponent, PropType } from "vue";
 import { Tab } from "../../../types"; //TODO: use relative path
+import Tablabel from "./label";
 
 import styles from "./style.module.less";
 import { useRouterTabStore } from "../../../store";
 
 export default defineComponent({
-  name: "RtTabs",
+  name: "RtTab",
   props: {
     name: {
       type: String as PropType<Tab["name"]>,
@@ -40,7 +41,7 @@ export default defineComponent({
     return () => (
       <div class={classNames.value} onClick={click}>
         <div></div>
-        <div class={styles['rt-tab-label']}>{props.name}</div>
+        <Tablabel name={props.name} />
         {tabsLength.value > 1 && <div onClick={close}>x</div>}
       </div>
     );

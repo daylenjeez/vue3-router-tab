@@ -12,7 +12,7 @@ describe('check tabs', async () => {
     expect(Tabs).toBeTruthy();
   });
 
-  it('tab components 数量需跟 tabs 数量保持一致，且顺序一致', async () => {
+  it('tab components 数量需跟 tabs 数量保持一致，且顺序一致，且activeId正确', async () => {
     _reset();
     const wrapper = mount(Tabs);
 
@@ -24,11 +24,23 @@ describe('check tabs', async () => {
     await router.push('/fullpath?id=3');
     const tabs = _routerTab.getTabs();
 
-    expect(wrapper.findAllComponents({ name: 'RtTabs' }).length).equal(tabs.length).equal(5);
+    expect(wrapper.findAllComponents({ name: 'RtTab' }).length).equal(tabs.length).equal(5);
 
     wrapper.findAllComponents({ name: 'RtTab' }).forEach((tab, index) => {
       const tabLabel = tab.getComponent({ name: 'RtTabLabel' });
       expect(tabLabel.text()).toBe(tabs[index].name);
     });
+    
+    const hasActiveTab = wrapper.findAllComponents({ name: 'RtTab' }).some((tab) => {
+
+      const classes = tab.classes();
+      
+      if(classes.some(item=>item.toString().startsWith('_rt-tab-active'))) {
+        const tabLabel = tab.getComponent({ name: 'RtTabLabel' });
+        return tabLabel.text() === _routerTab.getActiveTab()?.name;
+      }
+    });
+
+    expect(hasActiveTab).toBeTruthy();
   });
 });

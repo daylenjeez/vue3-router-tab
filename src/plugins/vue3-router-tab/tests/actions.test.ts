@@ -8,11 +8,9 @@ const expectActiveTab = (expect: ExpectStatic, routerTab: RouterTabType) => {
 };
 
 const _routerTab = getRouterTab();
-
 const _reset = reset.bind(null, _routerTab);
 
 describe('Check addTab', () => {
-
   it(`默认没有配置 key 时，应该默认使用 'fullPath' 的类型`, async ({ expect }) => {
     await router.push('/initial?id=1&name=amy');
 
@@ -65,8 +63,6 @@ describe('Check addTab', () => {
     expectActiveTab(expect, _routerTab);
   });
 });
-
-
 
 describe('Check add Tab when the same route', () => {
   it(`fullPath：相同path，相同query，应该同一条`, async ({ expect }) => {
