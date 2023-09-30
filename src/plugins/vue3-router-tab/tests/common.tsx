@@ -10,29 +10,29 @@ export const router = createRouter({
   history,
   routes: [
     { path: '/', component: {}, name: 'home', },
-    { path: '/initial', component: {}, name: 'initial', },
+    { path: '/initial', component: {}, name: 'initial', meta: { tabConfig: { name: <div>custom render</div> } } },
     { path: '/path', component: {}, name: 'path', meta: { tabConfig: { key: 'path' } } },
     { path: '/pathWithParams/:id', component: {}, name: 'pathWithParams', meta: { tabConfig: { key: 'path' } } },
     { path: '/fullpath', component: {}, name: 'fullpath', meta: { tabConfig: { key: 'fullPath' } } },
     { path: '/fullpathWithParams/:id', component: {}, name: 'fullpathWithParams', meta: { tabConfig: { key: 'fullPath' } } },
     {
       path: '/custom', component: {}, name: 'custom', meta: {
-        tabConfig:{
+        tabConfig: {
           key: (router: RouteLocationNormalized) => {
             const { path, query } = router;
             return `${path}?id=${query.id}`;
-          } 
-        } 
-      } 
+          }
+        }
+      }
     },
     {
       path: '/customWithParams/:id', component: {}, name: 'customWithParams', meta: {
-        tabConfig:{
+        tabConfig: {
           key: () => {
             return '/customWithParams';
-          } 
-        } 
-      } 
+          }
+        }
+      }
     },
   ]
 });
@@ -47,7 +47,7 @@ export const getRouterTab = () => {
 };
 
 
-export const reset = async (_routerTab:RouterTabType)=>{
+export const reset = async (_routerTab: RouterTabType) => {
   await router.push('/');
   _routerTab.clear();
 };
