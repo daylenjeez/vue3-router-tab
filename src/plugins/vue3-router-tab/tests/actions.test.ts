@@ -142,6 +142,3 @@ describe('Check add Tab when the same route', () => {
     expect(_routerTab.getActiveTab()?.id).toEqual('/customWithParams');
   });
 });
-
-
-

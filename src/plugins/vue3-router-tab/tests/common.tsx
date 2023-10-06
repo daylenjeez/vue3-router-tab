@@ -10,7 +10,7 @@ export const router = createRouter({
   history,
   routes: [
     { path: '/', component: {}, name: 'home', },
-    { path: '/initial', component: {}, name: 'initial', meta: { tabConfig: { name: <div>custom render</div> } } },
+    { path: '/initial', component: {}, name: 'initial'},
     { path: '/path', component: {}, name: 'path', meta: { tabConfig: { key: 'path' } } },
     { path: '/pathWithParams/:id', component: {}, name: 'pathWithParams', meta: { tabConfig: { key: 'path' } } },
     { path: '/fullpath', component: {}, name: 'fullpath', meta: { tabConfig: { key: 'fullPath' } } },
