@@ -1,14 +1,14 @@
 import { defineComponent } from "vue";
 import Tabs from "./components/tabs";
-import Pages from "./components/pages/index.vue";
+import Page from "./components/page/index.vue";
 
 export default defineComponent({
-  name: "router-tab",
+  name: "RouterTab",
   setup() {
     return () => (
       <div class="rt-container">
         <Tabs />
-        <Pages />
+        <Page />
       </div>
     );
   },

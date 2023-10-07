@@ -24,7 +24,7 @@ export interface IndexOfTab {
   (tabId: TabId): number;
 }
 export interface GetTab {
-  (tabId: TabId): Tab | undefined;
+  (tabId: TabId | undefined): Tab | undefined;
 }
 export interface GetTabIdByRouteMeta {
   (router: RouteLocationNormalized): TabId | undefined;
@@ -83,7 +83,7 @@ export type Actions = CreateActions<
     clear: Clear;
     closeOthers: CloseOthers;
     getTabs: GetTabs;
-    getActiveTab:GetActiveTab;
+    getActiveTab: GetActiveTab;
   }
 >;
 export type RouterStore = ReturnType<

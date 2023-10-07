@@ -1,7 +1,6 @@
 <template>
   <div
     v-if="tab"
-    :class="Style['rt-pages']"
   >
     <router-view v-slot="{ Component }">
       <keep-alive>
@@ -14,29 +13,21 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, KeepAlive, computed } from "vue";
-import { useRouter } from "vue-router";
+import { defineComponent, computed } from "vue";
 import { useRouterTabStore } from "../../store";
 import RtIframe from "./iframe";
 
-import Style from "./style.module.less";
 
 export default defineComponent({
   name: "RtPages",
-  components: {"rt-iframe": RtIframe,},
+  components: { "rt-iframe": RtIframe },
   setup() {
     const tabStore = useRouterTabStore();
-    const vueRouter = useRouter();
 
-    const key = computed(() =>
-      tabStore._getTabIdByRouteMeta(vueRouter.currentRoute.value)
-    );
-
-    const tab = computed(() => tabStore._getTab(key.value));
+    const tab = computed(tabStore.getActiveTab);
 
     return {
-      Style,
-      key,
+      key:tab.value?.id,
       tab,
     };
   },

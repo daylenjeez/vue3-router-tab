@@ -10,13 +10,13 @@ export const router = createRouter({
   history,
   routes: [
     { path: '/', component: {}, name: 'home', },
-    { path: '/initial', component: {}, name: 'initial'},
-    { path: '/path', component: {}, name: 'path', meta: { tabConfig: { key: 'path' } } },
-    { path: '/pathWithParams/:id', component: {}, name: 'pathWithParams', meta: { tabConfig: { key: 'path' } } },
-    { path: '/fullpath', component: {}, name: 'fullpath', meta: { tabConfig: { key: 'fullPath' } } },
-    { path: '/fullpathWithParams/:id', component: {}, name: 'fullpathWithParams', meta: { tabConfig: { key: 'fullPath' } } },
+    { path: '/initial', component: () => import('./pages/initial'), name: 'initial' },
+    { path: '/path', component: () => import('./pages/path'), name: 'path', meta: { tabConfig: { key: 'path' } } },
+    { path: '/pathWithParams/:id', component: () => import('./pages/pathWithParams'), name: 'pathWithParams', meta: { tabConfig: { key: 'path' } } },
+    { path: '/fullpath', component: () => import('./pages/fullpath'), name: 'fullpath', meta: { tabConfig: { key: 'fullPath' } } },
+    { path: '/fullpathWithParams/:id', component: () => import('./pages/fullpathWithParams'), name: 'fullpathWithParams', meta: { tabConfig: { key: 'fullPath' } } },
     {
-      path: '/custom', component: {}, name: 'custom', meta: {
+      path: '/custom', component: () => import('./pages/custom'), name: 'custom', meta: {
         tabConfig: {
           key: (router: RouteLocationNormalized) => {
             const { path, query } = router;
@@ -26,7 +26,7 @@ export const router = createRouter({
       }
     },
     {
-      path: '/customWithParams/:id', component: {}, name: 'customWithParams', meta: {
+      path: '/customWithParams/:id', component: () => import('./pages/customWithParams'), name: 'customWithParams', meta: {
         tabConfig: {
           key: () => {
             return '/customWithParams';

@@ -4,12 +4,11 @@ import { getRouterTab,reset,router } from '../common';
 import { mount } from '@vue/test-utils';
 
 const _routerTab = getRouterTab();
-
 const _reset = reset.bind(null, _routerTab);
 
 describe('check tabs', async () => {
   it('should render tabs', () => {
-    expect(Tabs).toBeTruthy();
+    expect(Tabs).toBeDefined();
   });
 
   it('tab components 数量需跟 tabs 数量保持一致，且顺序一致，且activeId正确', async () => {
@@ -25,7 +24,6 @@ describe('check tabs', async () => {
     const tabs = _routerTab.getTabs();
 
     const tabComponents = wrapper.findAllComponents({ name: 'RtTab' });
-
     //长度一致
     expect(tabComponents.length).equal(tabs.length).equal(5);
 

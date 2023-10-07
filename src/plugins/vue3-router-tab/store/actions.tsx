@@ -125,12 +125,12 @@ const _hasTab: HasTab = function (this: RouterStore, tabId: TabId) {
 };
 
 /**
- * Retrieves a tab by its ID. If no tabId is provided, the active tab is returned.
+ * Retrieves a tab by its ID.
  * @param {TabId} [tabId] - The ID of the tab to retrieve.
  * @returns {Tab | undefined} The found tab or undefined.
  */
-const _getTab: GetTab = function (this: RouterStore, tabId?: TabId) {
-  return tabId ? this.tabs.find(({ id }) => id === tabId) : this.activeTab;
+const _getTab: GetTab = function (this: RouterStore, tabId: TabId | undefined) {
+  return this.tabs.find(({ id }) => id === tabId);
 };
 
 /**
@@ -144,7 +144,7 @@ const _addTab: AddTab = function (this: RouterStore, tab: Tab, options) {
 
   const index = this.tabs.push(tab);
 
-  if (setActive) this._setActiveTab(tab);  
+  if (setActive) this._setActiveTab(tab);
   return index;
 };
 
@@ -188,7 +188,7 @@ const _openTab: OpenTab = function (this: RouterStore, tabId: TabId) {
   this.open(tab.fullPath);
 };
 
-const clear:Clear =  function (this: RouterStore) {
+const clear: Clear = function (this: RouterStore) {
   this.tabs = [];
   this._setActiveTab(void 0);
 };
@@ -210,7 +210,6 @@ const open = function (this: RouterStore, to: RouteLocationRaw) {
  * //TODO:after tab
  */
 const close: Close = function (this: RouterStore, before) {
-
   const tabId = before ? typeof before === "string" ? before : _getTabIdByRouteMeta.call(this, before) : this.activeTab?.id;
   if (!tabId) return;
   if (this.tabs.length <= 1) return;
@@ -268,8 +267,8 @@ export default {
   _removeTab,
   _setActiveTab,
   _openTab,
-  clear,
 
+  clear,
   open,
   close,
   closeOthers,
