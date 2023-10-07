@@ -17,6 +17,6 @@ describe('YourComponent', () => {
 
     await wrapper.vm.$nextTick();
     
-    // expect(wrapper.findComponent(Page).exists());
+    expect(wrapper.findComponent(Page).exists());
   });
 });
