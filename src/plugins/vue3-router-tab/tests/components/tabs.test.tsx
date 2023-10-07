@@ -24,14 +24,18 @@ describe('check tabs', async () => {
     await router.push('/fullpath?id=3');
     const tabs = _routerTab.getTabs();
 
-    expect(wrapper.findAllComponents({ name: 'RtTab' }).length).equal(tabs.length).equal(5);
+    const tabComponents = wrapper.findAllComponents({ name: 'RtTab' });
 
-    wrapper.findAllComponents({ name: 'RtTab' }).forEach((tab, index) => {
-      const tabLabel = tab.getComponent({ name: 'RtTabLabel' }); 
-      
-      expect(tabLabel.text()).toBe(tabs[index].name);
+    //长度一致
+    expect(tabComponents.length).equal(tabs.length).equal(5);
+
+    //顺序一致
+    tabComponents.forEach((tab, index) => {
+      const tabLabel = tab.getComponent({ name: 'RtTabLabel' });
+      expect(tabLabel.text()).toBe(tabs[index].name);//TODO:jsx
     });
     
+    //activeId正确
     const hasActiveTab = wrapper.findAllComponents({ name: 'RtTab' }).some((tab) => {
       const classes = tab.classes();
       
