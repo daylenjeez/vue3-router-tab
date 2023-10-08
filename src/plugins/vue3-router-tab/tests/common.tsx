@@ -32,7 +32,8 @@ export const router = createRouter({
           }
         }
       }
-    }, { path: '/noKeepAlivePath', component: () => import('./pages/keepAlive'), name: 'noKeepAlive', meta: { tabConfig: { keepAlive: false } } }
+    }, { path: '/noKeepAlivePath', component: () => import('./pages/noKeepAlive'), name: 'noKeepAlive', meta: { tabConfig: { keepAlive: false } } },
+    { path: '/keepAlivePath', component: () => import('./pages/keepAlive'), name: 'keepAlive' }
   ]
 });
 

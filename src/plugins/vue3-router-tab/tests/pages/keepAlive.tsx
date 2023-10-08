@@ -10,6 +10,8 @@ export default defineComponent({
     return { deactivatedCalled, unmountedCalled };
   },
   unmounted() {
+    console.log('unmounted keep alive');
+
     this.unmountedCalled = true;
   },
   deactivated() {

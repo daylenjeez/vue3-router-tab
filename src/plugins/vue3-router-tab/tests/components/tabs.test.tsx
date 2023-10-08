@@ -5,6 +5,7 @@ import Tabs from '@/plugins/vue3-router-tab/components/tabs';
 
 describe('check tabs', async () => {
   beforeEach(async () => await reset());
+  // afterEach(async () => await reset());
 
   it('should render tabs', () => expect(Tabs).toBeDefined());
 
