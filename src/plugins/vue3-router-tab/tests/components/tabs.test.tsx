@@ -1,13 +1,14 @@
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { router, reset, routerTab, } from '../common';
 import Tabs from '@/plugins/vue3-router-tab/components/tabs';
 
 describe('check tabs', async () => {
+  beforeEach(async () => await reset());
+
   it('should render tabs', () => expect(Tabs).toBeDefined());
 
   it('tab components 数量需跟 tabs 数量保持一致，且顺序一致，且activeId正确', async () => {
-    reset();
     const wrapper = mount(Tabs);
 
     await router.push('/initial');

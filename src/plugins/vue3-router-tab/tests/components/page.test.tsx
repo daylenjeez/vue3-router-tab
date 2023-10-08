@@ -7,9 +7,31 @@ import { router } from '../common';
 
 describe('VueRouterTab Plugin', async () => {
   const wrapper = await mount(App, { global: { plugins: [router, [VueRouterTab, { router }]] } });
+  const pageComponent = wrapper.findComponent(Page);
 
-  it('should render the page', async ({ expect }) => {
+  it('Page content should be changed when route changed', async ({ expect }) => {
     await router.push('/initial');
-    expect(wrapper.findComponent(Page).html()).toContain('render initial');
+    expect(pageComponent.findComponent({ name: 'InitialRouter' }).exists()).toBeTruthy();
+    expect(pageComponent.html()).toContain('/initial');
+
+    await router.push('/initial?id=1');
+    expect(pageComponent.findComponent({ name: 'InitialRouter' }).exists()).toBeTruthy();
+    expect(pageComponent.html()).toContain('/initial?id=1');
+
+    await router.push('/path');
+    expect(pageComponent.findComponent({ name: 'PathRouter' }).exists()).toBeTruthy();
+    expect(pageComponent.html()).toContain('/path');
+
+    await router.push('/path?id=1');
+    expect(pageComponent.findComponent({ name: 'PathRouter' }).exists()).toBeTruthy();
+    expect(pageComponent.html()).toContain('/path?id=1');
+
+    await router.push('/fullpath');
+    expect(pageComponent.findComponent({ name: 'FullPathRouter' }).exists()).toBeTruthy();
+    expect(pageComponent.html()).toContain('/fullpath');
+
+    await router.push('/fullpath?id=1');
+    expect(pageComponent.findComponent({ name: 'FullPathRouter' }).exists()).toBeTruthy();
+    expect(pageComponent.html()).toContain('/fullpath?id=1');
   });
 });

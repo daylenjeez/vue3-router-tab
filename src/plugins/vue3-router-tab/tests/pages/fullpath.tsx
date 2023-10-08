@@ -1,8 +1,10 @@
 import { defineComponent } from "vue";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
-  name: "FullPath",
+  name: "FullPathRouter",
   setup() {
-    return () => 'fullpath';
+    const router = useRouter();
+    return () => router.currentRoute.value.fullPath;
   },
 });
