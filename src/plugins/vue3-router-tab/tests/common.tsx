@@ -1,5 +1,5 @@
 import App from "@/App.vue";
-import RouterTabPlugin,{useRouterTab} from "..";
+import RouterTabPlugin, { useRouterTab } from "..";
 import { RouteLocationNormalized, createMemoryHistory, createRouter } from "vue-router";
 import { mount } from "@vue/test-utils";
 
@@ -36,8 +36,7 @@ export const router = createRouter({
   ]
 });
 
-
-export const wrapper = await mount(App, {global: {plugins: [router, [RouterTabPlugin, {router}]]}});
+export const wrapper = await mount(App, { global: { plugins: [router, [RouterTabPlugin, { router }]] } });
 
 export const reset = async () => {
   await router.push('/');

@@ -34,4 +34,18 @@ describe('VueRouterTab Plugin', async () => {
     expect(pageComponent.findComponent({ name: 'FullPathRouter' }).exists()).toBeTruthy();
     expect(pageComponent.html()).toContain('/fullpath?id=1');
   });
+
+  it('keep-alive', async ({ expect }) => {
+    await router.push('/initial');
+    const page1 = pageComponent.getComponent({ name: 'InitialRouter' });
+    await router.push('/path');
+
+    const page2 = pageComponent.getComponent({ name: 'PathRouter' });
+    expect(page2.vm.deactivatedCalled).toBe(false);
+    expect(page1.vm.deactivatedCalled).toBe(true);
+
+    await router.push('/initial');
+    expect(page2.vm.deactivatedCalled).toBe(true);
+    expect(page1.vm.deactivatedCalled).toBe(false);
+  });
 });
