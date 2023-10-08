@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import VueRouterTab from '@/plugins/vue3-router-tab';
+import VueRouterTab, { useRouterTab } from '@/plugins/vue3-router-tab';
 import App from '@/App.vue';
 import Page from '@/plugins/vue3-router-tab/components/page/index.vue';
 import { describe, it } from 'vitest';
@@ -35,7 +35,7 @@ describe('VueRouterTab Plugin', async () => {
     expect(pageComponent.html()).toContain('/fullpath?id=1');
   });
 
-  it('keep-alive', async ({ expect }) => {
+  it('keep-alive should work', async ({ expect }) => {
     await router.push('/initial');
     const page1 = pageComponent.getComponent({ name: 'InitialRouter' });
     await router.push('/path');
@@ -47,5 +47,15 @@ describe('VueRouterTab Plugin', async () => {
     await router.push('/initial');
     expect(page2.vm.deactivatedCalled).toBe(true);
     expect(page1.vm.deactivatedCalled).toBe(false);
+
+    await router.push('/noKeepAlivePath');
+    const page3 = pageComponent.getComponent({ name: 'PathRouter' });
+    expect(page3.vm.deactivatedCalled).toBe(false);
+
+    const routerTab = useRouterTab();
+    console.log(routerTab.getTabs());
+
+    await router.push('/initial');
+    expect(page3.vm.deactivatedCalled).toBe(false);
   });
 });

@@ -32,7 +32,7 @@ export const router = createRouter({
           }
         }
       }
-    },
+    }, { path: '/noKeepAlivePath', component: () => import('./pages/path'), name: 'noKeepAlive', meta: { tabConfig: { keepAlive: false } } }
   ]
 });
 
