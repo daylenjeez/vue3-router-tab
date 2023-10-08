@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { router, reset, routerTab, } from '../common';
 import Tabs from '@/plugins/vue3-router-tab/components/tabs';

@@ -1,4 +1,4 @@
-import { ExpectStatic, describe, it, beforeEach } from 'vitest';
+import { ExpectStatic, describe, it, beforeEach, afterEach } from 'vitest';
 import { RouterTabType } from '../store';
 import { reset, router, routerTab } from './common';
 
@@ -9,6 +9,7 @@ const expectActiveTab = (expect: ExpectStatic, routerTab: RouterTabType) => {
 
 describe('Check addTab', () => {
   beforeEach(async () => await reset());
+  afterEach(async () => await reset());
 
   it(`默认没有配置 key 时，应该默认使用 'fullPath' 的类型`, async ({ expect }) => {
     await router.push('/initial?id=1&name=amy');
@@ -67,6 +68,7 @@ describe('Check add Tab when the same route', () => {
   beforeEach(async () => {
     await reset();
   });
+  afterEach(async () => await reset());
 
   it(`fullPath：相同path，相同query，应该同一条`, async ({ expect }) => {
     await router.push('/initial?id=1&name=amy');

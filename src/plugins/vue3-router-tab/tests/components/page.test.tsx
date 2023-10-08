@@ -1,9 +1,9 @@
 import { mount } from '@vue/test-utils';
-import VueRouterTab, { useRouterTab } from '@/plugins/vue3-router-tab';
+import VueRouterTab from '@/plugins/vue3-router-tab';
 import App from '@/App.vue';
 import Page from '@/plugins/vue3-router-tab/components/page/index.vue';
-import { describe, it } from 'vitest';
-import { router } from '../common';
+import { beforeEach, describe, it, vi } from 'vitest';
+import { reset, router } from '../common';
 
 describe('VueRouterTab Plugin', async () => {
   const wrapper = await mount(App, { global: { plugins: [router, [VueRouterTab, { router }]] } });
@@ -46,16 +46,17 @@ describe('VueRouterTab Plugin', async () => {
 
     await router.push('/initial');
     expect(page2.vm.deactivatedCalled).toBe(true);
+    expect(page2.vm.unmountedCalled).toBe(false);
     expect(page1.vm.deactivatedCalled).toBe(false);
 
     await router.push('/noKeepAlivePath');
-    const page3 = pageComponent.getComponent({ name: 'PathRouter' });
+    const page3 = pageComponent.getComponent({ name: 'KeepAliveRouter' });
+    expect(page2.vm.unmountedCalled).toBe(false);
+    expect(page3.vm.unmountedCalled).toBe(false);
     expect(page3.vm.deactivatedCalled).toBe(false);
 
-    const routerTab = useRouterTab();
-    console.log(routerTab.getTabs());
-
     await router.push('/initial');
+    expect(page3.vm.unmountedCalled).toBe(true);
     expect(page3.vm.deactivatedCalled).toBe(false);
   });
 });

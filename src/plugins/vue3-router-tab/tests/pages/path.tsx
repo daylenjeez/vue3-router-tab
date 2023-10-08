@@ -5,10 +5,16 @@ export default defineComponent({
   name: "PathRouter",
   setup() {
     const deactivatedCalled = ref(false);
+    const unmountedCalled = ref(false);
 
-    return { deactivatedCalled };
+    return { deactivatedCalled, unmountedCalled };
+  },
+  unmounted() {
+    console.log('path unmounted');
+    this.unmountedCalled = true;
   },
   deactivated() {
+    console.log('path deactivated');
     this.deactivatedCalled = true;
   },
   activated() {

@@ -2,7 +2,7 @@ import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 
 export default defineComponent({
-  name: "InitialRouter",
+  name: "KeepAliveRouter",
   setup() {
     const deactivatedCalled = ref(false);
     const unmountedCalled = ref(false);
