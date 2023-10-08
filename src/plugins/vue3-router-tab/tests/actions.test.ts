@@ -1,6 +1,7 @@
 import { ExpectStatic, describe, it, beforeEach, afterEach } from 'vitest';
-import { RouterTabType } from '../store';
-import { reset, router, routerTab } from './common';
+import { RouterTabType, useRouterTab } from '../store';
+import { beforeEachFn, getRouter, getWrapper } from './unit';
+import { Router } from 'vue-router';
 
 const expectActiveTab = (expect: ExpectStatic, routerTab: RouterTabType) => {
   expect(routerTab.getActiveTab()).toEqual(routerTab.getTabs().at(-1));
@@ -8,8 +9,14 @@ const expectActiveTab = (expect: ExpectStatic, routerTab: RouterTabType) => {
 };
 
 describe('Check addTab', () => {
-  beforeEach(async () => await reset());
-  afterEach(async () => await reset());
+  let router: Router;
+  let routerTab: RouterTabType;
+
+  beforeEach(async () => {
+    const item = await beforeEachFn();
+    router = item.router;
+    routerTab = item.routerTab;
+  });
 
   it(`默认没有配置 key 时，应该默认使用 'fullPath' 的类型`, async ({ expect }) => {
     await router.push('/initial?id=1&name=amy');
@@ -62,13 +69,21 @@ describe('Check addTab', () => {
 
     expectActiveTab(expect, routerTab);
   });
+
+
 });
 
-describe('Check add Tab when the same route', () => {
+describe('Check add Tab when the same route', async () => {
+
+  let router: Router;
+  let routerTab: RouterTabType;
+
   beforeEach(async () => {
-    await reset();
+    const item = await beforeEachFn();
+    router = item.router;
+    routerTab = item.routerTab;
   });
-  afterEach(async () => await reset());
+
 
   it(`fullPath：相同path，相同query，应该同一条`, async ({ expect }) => {
     await router.push('/initial?id=1&name=amy');

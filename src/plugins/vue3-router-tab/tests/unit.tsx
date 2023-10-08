@@ -1,11 +1,12 @@
-import App from "@/App.vue";
 import RouterTabPlugin, { useRouterTab } from "..";
-import { RouteLocationNormalized, createMemoryHistory, createRouter } from "vue-router";
+import { RouteLocationNormalized, Router, createMemoryHistory, createRouter } from "vue-router";
 import { mount } from "@vue/test-utils";
+import { afterEach, beforeEach } from "vitest";
+import { RouterTabType } from "../store";
 
 // 创建一个内存路由
 const history = createMemoryHistory();
-export const router = createRouter({
+export const getRouter = () => createRouter({
   history,
   routes: [
     { path: '/', component: () => import('./pages/home'), name: 'home', },
@@ -37,12 +38,28 @@ export const router = createRouter({
   ]
 });
 
-export const wrapper = await mount(App, { global: { plugins: [router, [RouterTabPlugin, { router }]] } });
+export const getWrapper = (router: Router) => mount({
+  render() {
+    return <div><router-tab /></div>;
+  }
+}, { global: { plugins: [router, [RouterTabPlugin, { router }]] } });
 
-export const reset = async () => {
-  await router.push('/');
+export const beforeEachFn = async () => {
+  const router = getRouter();
+  const wrapper = await getWrapper(router);
   const routerTab = useRouterTab();
+  await router.push('/');
   routerTab.clear();
+
+  return {
+    router,
+    routerTab,
+    wrapper
+  };
 };
 
-export const routerTab = useRouterTab();
+export const afterEachFn = async ({ routerTab, wrapper }: { routerTab: RouterTabType, wrapper: any }) => {
+  routerTab!.clear();
+  wrapper.unmount();
+};
+

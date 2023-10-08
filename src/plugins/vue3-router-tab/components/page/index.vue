@@ -1,20 +1,18 @@
 <template>
   <div v-if="tab">
-    {{ key }}
     <router-view v-slot="{ Component }">
-      <template v-if="tab.keepAlive">
-        <keep-alive>
-          <component
-            :is="Component"
-            :key="key"
-          />
-        </keep-alive>
-      </template>
-      <template v-else>
+      <keep-alive>
         <component
           :is="Component"
+          v-if="tab.keepAlive"
+          :key="key"
         />
-      </template>
+      </keep-alive>
+      <component
+        :is="Component"
+        v-if="!tab.keepAlive"
+        :key="key"
+      />
     </router-view>
   </div>
 </template>

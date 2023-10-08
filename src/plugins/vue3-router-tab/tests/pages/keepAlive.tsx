@@ -11,7 +11,6 @@ export default defineComponent({
   },
   unmounted() {
     console.log('unmounted keep alive');
-
     this.unmountedCalled = true;
   },
   deactivated() {

@@ -1,17 +1,15 @@
-import { describe, expectTypeOf, it } from "vitest";
-import { useRouterTab } from "..";
-import App from "../../../App.vue";
-import router from "../../../router";
-import routerTab from "..";
-import { createApp } from "vue";
+import { beforeEach, describe, expectTypeOf, it } from "vitest";
 import { Tab } from "../types";
 import { Close, CloseOthers, GetTabs, Open } from "../store/type/actions";
+import { beforeEachFn, getRouter, getWrapper } from "./unit";
+import { useRouterTab } from "../store";
 
 describe("init", () => {
-  const app = createApp(App);
 
-  app.use(router);
-  app.use(routerTab, { router });
+  beforeEach(async () => {
+    await beforeEachFn();
+  });
+
 
   it("router-tab is defined", ({ expect }) => {
     const routeTab = useRouterTab();

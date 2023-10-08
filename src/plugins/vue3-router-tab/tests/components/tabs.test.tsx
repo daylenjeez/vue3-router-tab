@@ -1,11 +1,20 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { router, reset, routerTab, } from '../common';
+import { beforeEachFn, } from '../unit';
 import Tabs from '@/plugins/vue3-router-tab/components/tabs';
+import { RouterTabType } from '../../store';
+import { Router } from 'vue-router';
 
 describe('check tabs', async () => {
-  beforeEach(async () => await reset());
-  // afterEach(async () => await reset());
+
+  let router: Router;
+  let routerTab: RouterTabType;
+
+  beforeEach(async () => {
+    const item = await beforeEachFn();
+    router = item.router;
+    routerTab = item.routerTab;
+  });
 
   it('should render tabs', () => expect(Tabs).toBeDefined());
 
