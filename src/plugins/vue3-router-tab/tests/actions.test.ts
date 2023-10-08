@@ -1,8 +1,6 @@
-import { ExpectStatic, describe, it } from 'vitest';
+import { ExpectStatic, describe, it, beforeEach } from 'vitest';
 import { RouterTabType } from '../store';
 import { reset, router, routerTab } from './common';
-
-
 
 const expectActiveTab = (expect: ExpectStatic, routerTab: RouterTabType) => {
   expect(routerTab.getActiveTab()).toEqual(routerTab.getTabs().at(-1));
@@ -10,6 +8,10 @@ const expectActiveTab = (expect: ExpectStatic, routerTab: RouterTabType) => {
 };
 
 describe('Check addTab', () => {
+  beforeEach(async ()=>{
+    await reset();
+  });
+
   it(`默认没有配置 key 时，应该默认使用 'fullPath' 的类型`, async ({ expect }) => {
     await router.push('/initial?id=1&name=amy');
 
@@ -64,8 +66,11 @@ describe('Check addTab', () => {
 });
 
 describe('Check add Tab when the same route', () => {
-  it(`fullPath：相同path，相同query，应该同一条`, async ({ expect }) => {
+  beforeEach(async ()=>{
     await reset();
+  });
+
+  it(`fullPath：相同path，相同query，应该同一条`, async ({ expect }) => {
     await router.push('/initial?id=1&name=amy');
     await router.push({path:'/initial',query:{id:'1',name:'amy'}});
 
@@ -74,8 +79,6 @@ describe('Check add Tab when the same route', () => {
   });
 
   it(`fullPath：相同path，不同query，应该新增一条`, async ({ expect }) => {
-    await reset();
-
     await router.push('/initial?id=1&name=amy');
     await router.push('/initial?id=1');
 
@@ -84,8 +87,6 @@ describe('Check add Tab when the same route', () => {
   });
 
   it(`fullPath：相同path，不同params，应该新增一条`, async ({ expect }) => {
-    await reset();
-
     await router.push('/fullpathWithParams/1');
     await router.push('/fullpathWithParams/2');
     
@@ -94,8 +95,6 @@ describe('Check add Tab when the same route', () => {
   });
 
   it(`path：相同path，相同query，应该同一条`, async ({ expect }) => {
-    await reset();
-
     await router.push('/path?id=1&name=amy');
     await router.push({path:'/path',query:{id:'1',name:'amy'}});
 
@@ -103,8 +102,6 @@ describe('Check add Tab when the same route', () => {
   });
 
   it(`path：相同path，不同query，应该同一条`, async ({ expect }) => {
-    await reset();
-
     await router.push('/path?id=1&name=amy');
     await router.push({path:'/path',query:{id:'1'}});
 
@@ -112,8 +109,6 @@ describe('Check add Tab when the same route', () => {
   });
 
   it(`path：相同path，不同params，应该新增一条`, async ({ expect }) => {
-    await reset();
-
     await router.push('/pathWithParams/1');
     await router.push({name:'pathWithParams',params:{id:'2'}});
 
@@ -122,8 +117,6 @@ describe('Check add Tab when the same route', () => {
   });
 
   it(`custom：相同query的id，应该同一条`, async ({ expect }) => {
-    await reset();
-
     await router.push('/custom?id=1&name=amy');
     await router.push({path:'/custom',query:{id:'1',name:'jean'}});
 
@@ -132,8 +125,6 @@ describe('Check add Tab when the same route', () => {
   });
 
   it(`custom：不同params的id，应该同一条`, async ({ expect }) => {
-    await reset();
-
     await router.push('/customWithParams/1');
     await router.push({name:'customWithParams',params:{id:2}});
 
