@@ -1,10 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import Tabs from '../../components/tabs';
-import { getRouterTab,reset,router } from '../common';
+import { router,reset, routerTab, } from '../common';
 import { mount } from '@vue/test-utils';
 
-const _routerTab = getRouterTab();
-const _reset = reset.bind(null, _routerTab);
 
 describe('check tabs', async () => {
   it('should render tabs', () => {
@@ -12,7 +10,7 @@ describe('check tabs', async () => {
   });
 
   it('tab components 数量需跟 tabs 数量保持一致，且顺序一致，且activeId正确', async () => {
-    _reset();
+    reset();
     const wrapper = mount(Tabs);
 
     await router.push('/initial');
@@ -21,7 +19,7 @@ describe('check tabs', async () => {
     await router.push('/path?id=1&name=1');
     await router.push('/fullpath?id=1');
     await router.push('/fullpath?id=3');
-    const tabs = _routerTab.getTabs();
+    const tabs = routerTab.getTabs();
 
     const tabComponents = wrapper.findAllComponents({ name: 'RtTab' });
     //长度一致
@@ -39,7 +37,7 @@ describe('check tabs', async () => {
       
       if(classes.some(item=>item.toString().startsWith('_rt-tab-active'))) {
         const tabLabel = tab.getComponent({ name: 'RtTabLabel' });
-        return tabLabel.text() === _routerTab.getActiveTab()?.name;
+        return tabLabel.text() === routerTab.getActiveTab()?.name;
       }
     });
 

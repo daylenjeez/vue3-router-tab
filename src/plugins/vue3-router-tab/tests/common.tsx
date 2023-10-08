@@ -1,8 +1,7 @@
-import { createApp } from "vue";
-import App from "../../../App.vue";
-import routerTab, { useRouterTab } from "..";
+import App from "@/App.vue";
+import RouterTabPlugin,{useRouterTab} from "..";
 import { RouteLocationNormalized, createMemoryHistory, createRouter } from "vue-router";
-import { RouterTabType } from "../store";
+import { mount } from "@vue/test-utils";
 
 // 创建一个内存路由
 const history = createMemoryHistory();
@@ -37,17 +36,13 @@ export const router = createRouter({
   ]
 });
 
-export const getRouterTab = () => {
-  const app = createApp(App);
 
-  app.use(router);
-  app.use(routerTab, { router });
+export const wrapper = await mount(App, {global: {plugins: [router, [RouterTabPlugin, {router}]]}});
 
-  return useRouterTab();
-};
-
-
-export const reset = async (_routerTab: RouterTabType) => {
+export const reset = async () => {
   await router.push('/');
-  _routerTab.clear();
+  const routerTab = useRouterTab();
+  routerTab.clear();
 };
+
+export const routerTab = useRouterTab();
