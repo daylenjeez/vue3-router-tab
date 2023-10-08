@@ -52,7 +52,7 @@ npm install vue3-router-tab
      app.use(RouterTab, { router });
      app.mount("#app");
 ```
-3. 在需要的位置引入``vue-router-tab``组件
+2. 在需要的位置引入``vue-router-tab``组件
 ```html
   <!-- App.vue -->
     <template>
