@@ -1,8 +1,8 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "Initial",
+  name: "InitialRouter",
   setup() {
-    return () => 'initial';
+    return () => 'render initial';
   },
 });

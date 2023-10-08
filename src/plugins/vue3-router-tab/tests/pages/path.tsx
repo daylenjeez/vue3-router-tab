@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "Path",
+  name: "PathRouter",
   setup() {
     return () => 'path';
   },

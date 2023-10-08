@@ -1,8 +1,8 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "Home",
+  name: "HomeRouter",
   setup() {
-    return () => 'home';
+    return () => 'render home';
   },
 });

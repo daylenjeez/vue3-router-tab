@@ -1,22 +1,15 @@
-import { describe, expect, it } from 'vitest';
-import Page from '../../components/page/index.vue';
-import App from "../../../../App.vue";
-import { getRouterTab, reset,router } from '../common';
 import { mount } from '@vue/test-utils';
+import VueRouterTab from '@/plugins/vue3-router-tab';
+import App from '@/App.vue';
+import Page from '@/plugins/vue3-router-tab/components/page/index.vue';
+import { describe, it } from 'vitest';
+import { router } from '../common';
 
-const _routerTab = getRouterTab();
-const _reset = reset.bind(null, _routerTab);
+describe('VueRouterTab Plugin', async () => {
+  const wrapper = await mount(App, {global: {plugins: [router, [VueRouterTab, {router}]]}});
 
-describe('YourComponent', () => {
-  
-  it('renders the correct route component', async () => {
-    _reset();
-    const wrapper = mount(App, {global: {plugins: [router]}});
-
+  it('should render the page', async ({expect}) => {
     await router.push('/initial');
-
-    await wrapper.vm.$nextTick();
-    
-    expect(wrapper.findComponent(Page).exists());
+    expect(wrapper.findComponent(Page).html()).toContain('render initial');
   });
 });

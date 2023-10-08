@@ -9,7 +9,7 @@ const history = createMemoryHistory();
 export const router = createRouter({
   history,
   routes: [
-    { path: '/', component: {}, name: 'home', },
+    { path: '/', component: () => import('./pages/home'), name: 'home', },
     { path: '/initial', component: () => import('./pages/initial'), name: 'initial' },
     { path: '/path', component: () => import('./pages/path'), name: 'path', meta: { tabConfig: { key: 'path' } } },
     { path: '/pathWithParams/:id', component: () => import('./pages/pathWithParams'), name: 'pathWithParams', meta: { tabConfig: { key: 'path' } } },
