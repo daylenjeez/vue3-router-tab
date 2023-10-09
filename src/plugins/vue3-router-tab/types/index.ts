@@ -1,3 +1,4 @@
+import { KeepAliveProps } from "vue";
 import { RouteLocationNormalized } from "vue-router";
 
 export type TabKey =
@@ -12,6 +13,7 @@ export type TabKey =
  * @property {string} tabName
  * @property {boolean} keepAlive
  * @property {string} icon
+ * @property {boolean} isIframe
  * @property {string} configKeyInMeta
  */
 export interface TabConfig {
@@ -19,9 +21,8 @@ export interface TabConfig {
   name?: string;
   keepAlive?: boolean;
   icon?: string;
-  configKeyInMeta?: string;
   isIframe?: boolean;
-  ui?:Ui
+  configKeyInMeta?: string;
 }
 
 /**
@@ -48,16 +49,14 @@ export interface Tab {
 export type TabId = Tab["id"];
 
 /**
- * router tab meta type
+ * router tab config
  * @interface RouterTab
- * @property {Tab[]} tabs
- * @property {boolean} keepAlive
- * @property {number} maxAlive
+ * @property {KeepAliveProps} keepAliveProps
+ * @property {Ui} ui
  */
-export interface RouterTab {
-  tabs: Tab[];
-  keepAlive?: boolean;
-  maxAlive?: number;
+export interface RouterTabConfig {
+  keepAliveProps: KeepAliveProps;
+  ui?: Ui;
 }
 
-export type Ui = 'elementPlus'|'antd'|'naviUi'|'tailWind'
+export type Ui = 'elementPlus' | 'antd' | 'naviUi' | 'tailWind'

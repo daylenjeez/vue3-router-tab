@@ -1,7 +1,6 @@
 import RouterTabPlugin, { useRouterTab } from "..";
 import { RouteLocationNormalized, Router, createMemoryHistory, createRouter } from "vue-router";
 import { mount } from "@vue/test-utils";
-import { afterEach, beforeEach } from "vitest";
 import { RouterTabType } from "../store";
 
 // 创建一个内存路由

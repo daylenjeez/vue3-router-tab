@@ -165,12 +165,12 @@ const _removeTab: RemoveTab = function (this: RouterStore, tabId: TabId) {
  * set active tab
  * @param {TabId} tabId
  * @returns {number} index
- * //TODO:处理 null 的情况
  */
 const _setActiveTab: SetActiveTab = function (
   this: RouterStore,
   tab: Tab | undefined
 ) {
+  if (!tab) return throwError(`Tab not found, please check the tab: ${tab}`);
   this.activeTab = tab;
   return tab;
 };
@@ -182,9 +182,7 @@ const _setActiveTab: SetActiveTab = function (
  */
 const _openTab: OpenTab = function (this: RouterStore, tabId: TabId) {
   const tab = this._getTab(tabId);
-  if (!tab) {
-    return throwError(`Tab not found, please check the tab id: ${tabId}`);
-  }
+  if (!tab) return throwError(`Tab not found, please check the tab id: ${tabId}`);
   this.open(tab.fullPath);
 };
 
@@ -193,12 +191,8 @@ const clear: Clear = function (this: RouterStore) {
   this._setActiveTab(void 0);
 };
 
-// const addRoute = function (this: RouterStore) {};
-
-// const removeRoute = function (this: RouterStore) {};
-
 /**
- * @param {string} to
+ * @param {RouteLocationRaw} to
  */
 const open = function (this: RouterStore, to: RouteLocationRaw) {
   return this.$router.push(to);

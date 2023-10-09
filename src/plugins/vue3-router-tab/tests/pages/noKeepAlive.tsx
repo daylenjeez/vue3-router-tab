@@ -10,11 +10,9 @@ export default defineComponent({
     return { deactivatedCalled, unmountedCalled };
   },
   unmounted() {
-    console.log('unmounted noKeepAliveRouter');
     this.unmountedCalled = true;
   },
   deactivated() {
-    console.log('deactivated noKeepAliveRouter');
     this.deactivatedCalled = true;
   },
   activated() {

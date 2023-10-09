@@ -1,6 +1,6 @@
-import { ExpectStatic, describe, it, beforeEach, afterEach } from 'vitest';
-import { RouterTabType, useRouterTab } from '../store';
-import { beforeEachFn, getRouter, getWrapper } from './unit';
+import { ExpectStatic, describe, it, beforeEach } from 'vitest';
+import { RouterTabType } from '../store';
+import { beforeEachFn } from './unit';
 import { Router } from 'vue-router';
 
 const expectActiveTab = (expect: ExpectStatic, routerTab: RouterTabType) => {
@@ -8,7 +8,7 @@ const expectActiveTab = (expect: ExpectStatic, routerTab: RouterTabType) => {
   expect(routerTab.getActiveTab()?.id).toEqual(routerTab.getTabs().at(-1)?.id);
 };
 
-describe('Check addTab', () => {
+describe('Should add tab when router pushed', async () => {
   let router: Router;
   let routerTab: RouterTabType;
 
@@ -74,7 +74,6 @@ describe('Check addTab', () => {
 });
 
 describe('Check add Tab when the same route', async () => {
-
   let router: Router;
   let routerTab: RouterTabType;
 
@@ -147,3 +146,5 @@ describe('Check add Tab when the same route', async () => {
     expect(routerTab.getActiveTab()?.id).toEqual('/customWithParams');
   });
 });
+
+describe('Check ope tab')
