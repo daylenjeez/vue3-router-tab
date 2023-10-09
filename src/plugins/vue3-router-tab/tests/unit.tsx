@@ -1,7 +1,7 @@
 import RouterTabPlugin, { useRouterTab } from "..";
 import { RouteLocationNormalized, Router, createMemoryHistory, createRouter } from "vue-router";
 import { mount } from "@vue/test-utils";
-import { RouterTabType } from "../store";
+import { RouterTabType, useRouterTabStore } from "../store";
 
 // 创建一个内存路由
 const history = createMemoryHistory();
@@ -48,7 +48,7 @@ export const beforeEachFn = async () => {
   const wrapper = await getWrapper(router);
   const routerTab = useRouterTab();
   await router.push('/');
-  routerTab.clear();
+  useRouterTabStore()._clear();
 
   return {
     router,
@@ -57,8 +57,8 @@ export const beforeEachFn = async () => {
   };
 };
 
-export const afterEachFn = async ({ routerTab, wrapper }: { routerTab: RouterTabType, wrapper: any }) => {
-  routerTab!.clear();
+export const afterEachFn = async ({ wrapper }: { routerTab: RouterTabType, wrapper: any }) => {
+  useRouterTabStore()._clear();
   wrapper.unmount();
 };
 

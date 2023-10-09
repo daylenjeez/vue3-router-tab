@@ -1,6 +1,6 @@
-import { ExpectStatic, describe, it, beforeEach } from 'vitest';
-import { RouterTabType } from '../store';
-import { beforeEachFn } from './unit';
+import { ExpectStatic, describe, it, beforeEach, afterEach } from 'vitest';
+import { RouterTabType } from '../../store';
+import { beforeEachFn } from '../unit';
 import { Router } from 'vue-router';
 
 const expectActiveTab = (expect: ExpectStatic, routerTab: RouterTabType) => {
@@ -16,6 +16,10 @@ describe('Should add tab when router pushed', async () => {
     const item = await beforeEachFn();
     router = item.router;
     routerTab = item.routerTab;
+  });
+
+  afterEach(() => {
+    routerTab.close();
   });
 
   it(`默认没有配置 key 时，应该默认使用 'fullPath' 的类型`, async ({ expect }) => {
@@ -69,8 +73,6 @@ describe('Should add tab when router pushed', async () => {
 
     expectActiveTab(expect, routerTab);
   });
-
-
 });
 
 describe('Check add Tab when the same route', async () => {
@@ -146,5 +148,3 @@ describe('Check add Tab when the same route', async () => {
     expect(routerTab.getActiveTab()?.id).toEqual('/customWithParams');
   });
 });
-
-describe('Check ope tab')

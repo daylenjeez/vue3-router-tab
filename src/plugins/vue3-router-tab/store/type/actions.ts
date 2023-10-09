@@ -77,10 +77,10 @@ export type Actions = CreateActions<
     _removeTab: RemoveTab;
     _setActiveTab: SetActiveTab;
     _openTab: OpenTab;
+    _clear: Clear;
 
     open: Open;
     close: Close;
-    clear: Clear;
     closeOthers: CloseOthers;
     getTabs: GetTabs;
     getActiveTab: GetActiveTab;

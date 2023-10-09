@@ -186,7 +186,7 @@ const _openTab: OpenTab = function (this: RouterStore, tabId: TabId) {
   this.open(tab.fullPath);
 };
 
-const clear: Clear = function (this: RouterStore) {
+const _clear: Clear = function (this: RouterStore) {
   this.tabs = [];
   this._setActiveTab(void 0);
 };
@@ -261,8 +261,8 @@ export default {
   _removeTab,
   _setActiveTab,
   _openTab,
+  _clear,
 
-  clear,
   open,
   close,
   closeOthers,
