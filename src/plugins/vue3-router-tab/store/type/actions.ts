@@ -39,6 +39,9 @@ export interface RemoveTabById {
 export interface RemoveTabByIndex {
   (tabId: number): Tab | undefined;
 }
+export interface Remove {
+  (item?: TabId | RouteLocationNormalizedLoaded, toOptions?: ToOptions): Tab | undefined;
+}
 export interface OpenTabById {
   (tabId: TabId): undefined;
 }
@@ -86,7 +89,8 @@ export type Actions = CreateActions<
     _setActiveTab: SetActiveTab;
     _openTabById: OpenTabById;
     _clear: Clear;
-    _routerPush:RouterPush;
+    _remove: Remove;
+    _routerPush: RouterPush;
 
     open: Open;
     close: Close;
