@@ -1,14 +1,10 @@
-import {
-  RouteLocationNormalized,
-  RouteLocationNormalizedLoaded,
-  RouteLocationRaw,
-} from "vue-router";
 import { INITIAL_TAB_CONFIG } from "../constants";
-import { Tab, TabConfig, TabId, TabKey } from "../types";
+import { Tab, TabConfig, TabId } from "../types";
 import { isFunction, isNonEmptyString, throwError } from "../utils";
 import {
   AddTab,
   Clear,
+  Open,
   Close,
   CreateTab,
   CreateTabId,
@@ -17,9 +13,10 @@ import {
   GetTabIdByRouteMeta,
   HasTab,
   IndexOfTab,
-  OpenTab,
+  OpenTabById,
   RemoveTabById,
   RemoveTabByIndex,
+  RouterPush,
   RouterStore,
   SetActiveTab,
 } from "./type/actions";
@@ -32,8 +29,8 @@ import {
  */
 const _createTabId: CreateTabId = function (
   this: RouterStore,
-  tabKey: TabKey | undefined,
-  router: RouteLocationNormalized
+  tabKey,
+  router
 ): string | undefined {
   const _tabKey = tabKey ?? INITIAL_TAB_CONFIG.key;
   const tabId = isFunction(_tabKey) ? _tabKey(router) : router[_tabKey];
@@ -51,7 +48,7 @@ const _createTabId: CreateTabId = function (
  * @returns {Tab} tab
  */
 const _createTab: CreateTab = function (this: RouterStore,
-  router: RouteLocationNormalized) {
+  router) {
   const {
     key,
     name,
@@ -81,7 +78,7 @@ const _createTab: CreateTab = function (this: RouterStore,
  */
 const _getTabByRouteMeta: GetTabByRouteMeta = function (
   this: RouterStore,
-  router: RouteLocationNormalized
+  router
 ) {
 
   const { key } = (router.meta.tabConfig as TabConfig) || INITIAL_TAB_CONFIG;
@@ -99,7 +96,7 @@ const _getTabByRouteMeta: GetTabByRouteMeta = function (
  */
 const _getTabIdByRouteMeta: GetTabIdByRouteMeta = function (
   this: RouterStore,
-  route: RouteLocationNormalizedLoaded
+  route
 ) {
   const key =
     (route.meta?.tabConfig as TabConfig)?.key ?? INITIAL_TAB_CONFIG.key;
@@ -140,7 +137,7 @@ const _getTab: GetTab = function (this: RouterStore, tabId: TabId | undefined) {
  * @param {object} options //TODO: add options
  * @returns {Number} index
  */
-const _addTab: AddTab = function (this: RouterStore, tab: Tab, options) {
+const _addTab: AddTab = function (this: RouterStore, tab, options) {
   const { setActive } = options ?? { setActive: false };
 
   const index = this.tabs.push(tab);
@@ -190,10 +187,19 @@ const _setActiveTab: SetActiveTab = function (
  * @param {TabId} tabId
  * @returns {undefined}
  */
-const _openTab: OpenTab = function (this: RouterStore, tabId: TabId) {
+const _openTabById: OpenTabById = function (this: RouterStore, tabId) {
   const tab = this._getTab(tabId);
   if (!tab) return throwError(`Tab not found, please check the tab id: ${tabId}`);
-  this.open(tab.fullPath);
+  this._routerPush(tab.fullPath);
+};
+
+/**
+ * router push
+ * @param {RouteLocationRaw} to
+ * @returns {Promise<RouteLocationNormalized>} route
+ */
+const _routerPush: RouterPush = function (this: RouterStore, to) {
+  return this.$router.push(to);
 };
 
 const _clear: Clear = function (this: RouterStore) {
@@ -203,31 +209,45 @@ const _clear: Clear = function (this: RouterStore) {
 
 /**
  * @param {RouteLocationRaw} to
+ * @returns {Promise<RouteLocationNormalized>} route
  */
-const open = function (this: RouterStore, to: RouteLocationRaw) {
-  return this.$router.push(to);
+const open: Open = function (this: RouterStore, to) {
+  return this._routerPush(to);
 };
 
 /**
- * @param {string|RouteLocationNormalizedLoaded} item created by TabConfig['key']
- * //if remove current tab, open before tab;if has not before tab,open last tab
- * //TODO:after close
+ * close tab and after tab
+ * @param {TabId|RouteLocationNormalizedLoaded} item tabId or route
+ * @param {ToOptions} toOptions
+ * @returns {Tab | undefined}
  * //TODO:if only one tab and item is current tab, do nothing
  */
-const close: Close = async function (this: RouterStore, item) {
+const close: Close = async function (this: RouterStore, item, toOptions) {
   const tabId = item ? typeof item === "string" ? item : _getTabIdByRouteMeta.call(this, item) : this.activeTab?.id;
 
   if (!tabId) return throwError(`Tab not found, please check the param: ${item}`);
-  // if (this.tabs.length <= 1) return;
   const index = this._indexOfTab(tabId);
   if (index === -1) return throwError(`Tab not found, please check the tab id: ${tabId}`);
+  const res = this._removeTabByIndex(index);
 
-  const afterTab = this.tabs[index + 1] ?? this.tabs[index - 1] ?? void 0;
-  // this._setActiveTab(afterTab);
+  if (toOptions) {
+    const { id, fullPath } = toOptions;
 
-  if (afterTab) await this.open(afterTab.fullPath);
+    const _fullPath = this._getTab(id)?.fullPath ?? fullPath;
 
-  return this._removeTabByIndex(index);
+    if (_fullPath) {
+      await this.open(_fullPath);
+      return res;
+    }
+  }
+
+  if (tabId === this.activeTab?.id) {//if tab is active tab, open after tab
+    const afterTab = this.tabs[index + 1] ?? this.tabs[index - 1] ?? void 0;
+    if (afterTab) await this.open(afterTab.fullPath);
+  }
+
+
+  return res;
 };
 
 /**
@@ -275,8 +295,9 @@ export default {
   _removeTabById,
   _removeTabByIndex,
   _setActiveTab,
-  _openTab,
+  _openTabById,
   _clear,
+  _routerPush,
 
   open,
   close,

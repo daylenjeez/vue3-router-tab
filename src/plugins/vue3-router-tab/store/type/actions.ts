@@ -7,6 +7,7 @@ import {
 import { State } from "./../state";
 import { Tab, TabId, TabKey } from "../../types";
 import { CreateActions } from "../type";
+import { ToOptions } from "./options";
 
 export interface CreateTabId {
   (tabKey: TabKey | undefined, router: RouteLocationNormalized): TabId | undefined;
@@ -38,7 +39,7 @@ export interface RemoveTabById {
 export interface RemoveTabByIndex {
   (tabId: number): Tab | undefined;
 }
-export interface OpenTab {
+export interface OpenTabById {
   (tabId: TabId): undefined;
 }
 export interface SetActiveTab {
@@ -50,7 +51,7 @@ export interface Open {
 export interface Close {
   (
     item?: TabId | RouteLocationNormalizedLoaded,
-    after?: TabId | RouteLocationNormalizedLoaded
+    toOptions?: ToOptions
   ): Promise<Tab | undefined>;
 }
 export interface CloseOthers {
@@ -58,6 +59,9 @@ export interface CloseOthers {
 }
 export interface Clear {
   (): void;
+}
+export interface RouterPush {
+  (to: RouteLocationRaw): ReturnType<Router["push"]>;
 }
 export interface GetTabs {
   (): Tab[];
@@ -80,8 +84,9 @@ export type Actions = CreateActions<
     _removeTabById: RemoveTabById;
     _removeTabByIndex: RemoveTabByIndex;
     _setActiveTab: SetActiveTab;
-    _openTab: OpenTab;
+    _openTabById: OpenTabById;
     _clear: Clear;
+    _routerPush:RouterPush;
 
     open: Open;
     close: Close;
