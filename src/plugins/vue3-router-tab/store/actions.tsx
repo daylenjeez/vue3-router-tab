@@ -108,10 +108,14 @@ const _getTabIdByRouteMeta: GetTabIdByRouteMeta = function (
 /**
  * get tab index by tabId
  * @param {TabId} tabId
- * @returns {Tab|undefined} tab
+ * @returns {number} index
  */
-const _indexOfTab: IndexOfTab = function (this: RouterStore, tabId: TabId) {
-  return this.tabs.findIndex(({ id }) => id === tabId);
+const _indexOfTab: IndexOfTab = function (this: RouterStore, tabId) {
+  const index = this.tabs.findIndex(({ id }) => id === tabId);
+  if (index < 0) {
+    throwError(`Tab not found, please check the tab id: ${tabId}`);
+  }
+  return index;
 };
 
 /**
@@ -119,7 +123,7 @@ const _indexOfTab: IndexOfTab = function (this: RouterStore, tabId: TabId) {
  * @param {TabId} tabId
  * @returns {boolean} hasTab
  */
-const _hasTab: HasTab = function (this: RouterStore, tabId: TabId) {
+const _hasTab: HasTab = function (this: RouterStore, tabId) {
   return this.tabs.some(({ id }) => id === tabId);
 };
 
@@ -156,8 +160,9 @@ const _addTab: AddTab = function (this: RouterStore, tab, options) {
  */
 const _removeTabById: RemoveTabById = function (this: RouterStore, tabId) {
   const index = this._indexOfTab(tabId);
-  const removedTab = this._removeTabByIndex(index);
+  if (index < 0) return void 0;
 
+  const removedTab = this._removeTabByIndex(index);
   return removedTab ? { ...removedTab, index } : void 0;
 };
 
@@ -167,7 +172,7 @@ const _removeTabById: RemoveTabById = function (this: RouterStore, tabId) {
  * @returns {Tab | undefined}
  */
 const _removeTabByIndex: RemoveTabByIndex = function (this: RouterStore, index) {
-  if (index < 0) return void 0;
+  if (index < 0) return throwError(`Index is less than 0, please check the index: ${index}`);
   return this.tabs.splice(index, 1)[0];
 };
 
@@ -213,7 +218,7 @@ const _routerPush: RouterPush = function (this: RouterStore, to) {
  * @returns {TabWithIndex  | undefined}
  */
 const _remove: Remove = function (this: RouterStore, item) {
-  const tabId = item ? (typeof item === "string" ? item : this._getTabIdByRouteMeta(item)) : this.activeTab?.id;
+  const tabId = typeof item === "string" ? item : this._getTabIdByRouteMeta(item);
 
   if (!tabId) return throwError(`Tab not found, please check the param: ${item}`);
   return this._removeTabById(tabId);
@@ -242,7 +247,9 @@ const open: Open = function (this: RouterStore, to) {
  * //TODO:if only one tab and item is current tab, do nothing
  */
 const close: Close = async function (this: RouterStore, item, toOptions) {
-  const removedTab = this._remove(item);
+  if (!item && !this.activeTab) return void 0;
+
+  const removedTab = this._remove(item ?? this.activeTab!.id);
 
   if (toOptions) {
     const { id, fullPath } = toOptions;

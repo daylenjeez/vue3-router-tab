@@ -47,4 +47,26 @@ describe('Check tab closed', async () => {
     expect(routerTab.getTabs().length).toEqual(2);
   });
 
+  it(`after tab is active when current tab closed`, async ({ expect }) => {
+    await router.push('/initial?id=1');
+    await router.push('/path?id=1');
+
+    await routerTab.open('/initial?id=1');
+    expect(routerTab.getActiveTab()?.id).toEqual('/initial?id=1');
+
+    await routerTab.close('/initial?id=1');
+    expect(routerTab.getActiveTab()?.id).toEqual('/path');
+  });
+
+  it(`before tab is active when current tab closed and has not after tab`, async ({ expect }) => {
+    await router.push('/initial?id=1');
+    await router.push('/path?id=1');
+
+    await routerTab.open('/path?id=1');
+    expect(routerTab.getActiveTab()?.id).toEqual('/path');
+
+    await routerTab.close('/path');
+    expect(routerTab.getActiveTab()?.id).toEqual('/initial?id=1');
+  });
+
 });

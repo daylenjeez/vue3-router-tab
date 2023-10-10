@@ -40,7 +40,7 @@ export interface RemoveTabByIndex {
   (tabId: number): Tab | undefined;
 }
 export interface Remove {
-  (item?: TabId | RouteLocationNormalizedLoaded, toOptions?: ToOptions): TabWithIndex | undefined;
+  (item: TabId | RouteLocationNormalizedLoaded, toOptions?: ToOptions): TabWithIndex | undefined;
 }
 export interface OpenTabById {
   (tabId: TabId): undefined;
