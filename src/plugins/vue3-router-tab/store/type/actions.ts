@@ -5,7 +5,7 @@ import {
   Router,
 } from "vue-router";
 import { State } from "./../state";
-import { Tab, TabId, TabKey } from "../../types";
+import { Tab, TabId, TabKey, TabWithIndex } from "../../types";
 import { CreateActions } from "../type";
 import { ToOptions } from "./options";
 
@@ -34,13 +34,13 @@ export interface AddTab {
   (tab: Tab, options?: { setActive?: boolean }): number;
 }
 export interface RemoveTabById {
-  (tabId: TabId): Tab | undefined;
+  (tabId: TabId): TabWithIndex | undefined;
 }
 export interface RemoveTabByIndex {
   (tabId: number): Tab | undefined;
 }
 export interface Remove {
-  (item?: TabId | RouteLocationNormalizedLoaded, toOptions?: ToOptions): Tab | undefined;
+  (item?: TabId | RouteLocationNormalizedLoaded, toOptions?: ToOptions): TabWithIndex | undefined;
 }
 export interface OpenTabById {
   (tabId: TabId): undefined;

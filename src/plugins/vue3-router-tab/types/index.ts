@@ -48,6 +48,11 @@ export interface Tab {
 
 export type TabId = Tab["id"];
 
+export interface TabWithIndex extends Tab {
+  index: number;
+}
+
+
 /**
  * router tab config
  * @interface RouterTab

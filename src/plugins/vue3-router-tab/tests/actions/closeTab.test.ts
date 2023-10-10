@@ -43,6 +43,7 @@ describe('Check tab closed', async () => {
     await router.push('/path?id=1');
     expect(routerTab.getTabs().length).toEqual(2);
     await routerTab.close('/initial?id=2');
+
     expect(routerTab.getTabs().length).toEqual(2);
   });
 
