@@ -18,7 +18,8 @@ import {
   HasTab,
   IndexOfTab,
   OpenTab,
-  RemoveTab,
+  RemoveTabById,
+  RemoveTabByIndex,
   RouterStore,
   SetActiveTab,
 } from "./type/actions";
@@ -155,8 +156,17 @@ const _addTab: AddTab = function (this: RouterStore, tab: Tab, options) {
  * @param {TabId} tabId
  * @returns {Tab | undefined} tab
  */
-const _removeTab: RemoveTab = function (this: RouterStore, tabId: TabId) {
+const _removeTabById: RemoveTabById = function (this: RouterStore, tabId) {
   return this.tabs.splice(this._indexOfTab(tabId), 1)[0];
+};
+
+/**
+ * remove tab
+ * @param {number} index
+ * @returns {Tab | undefined} tab
+ */
+const _removeTabByIndex: RemoveTabByIndex = function (this: RouterStore, index) {
+  return this.tabs.splice(index, 1)[0];
 };
 
 //const _removeIframeTab = function (this: RouterStore, tab: Tab) {};
@@ -168,7 +178,7 @@ const _removeTab: RemoveTab = function (this: RouterStore, tabId: TabId) {
  */
 const _setActiveTab: SetActiveTab = function (
   this: RouterStore,
-  tab: Tab | undefined
+  tab
 ) {
   if (!tab) return throwError(`Tab not found, please check the tab: ${tab}`);
   this.activeTab = tab;
@@ -188,7 +198,7 @@ const _openTab: OpenTab = function (this: RouterStore, tabId: TabId) {
 
 const _clear: Clear = function (this: RouterStore) {
   this.tabs = [];
-  this._setActiveTab(void 0);
+  // this._setActiveTab(void 0);
 };
 
 /**
@@ -199,21 +209,25 @@ const open = function (this: RouterStore, to: RouteLocationRaw) {
 };
 
 /**
- * @param {string} tabId created by TabConfig['key']
+ * @param {string|RouteLocationNormalizedLoaded} item created by TabConfig['key']
  * //if remove current tab, open before tab;if has not before tab,open last tab
- * //TODO:after tab
+ * //TODO:after close
+ * //TODO:if only one tab and item is current tab, do nothing
  */
-const close: Close = function (this: RouterStore, before) {
-  const tabId = before ? typeof before === "string" ? before : _getTabIdByRouteMeta.call(this, before) : this.activeTab?.id;
-  if (!tabId) return;
-  if (this.tabs.length <= 1) return;
+const close: Close = async function (this: RouterStore, item) {
+  const tabId = item ? typeof item === "string" ? item : _getTabIdByRouteMeta.call(this, item) : this.activeTab?.id;
+
+  if (!tabId) return throwError(`Tab not found, please check the param: ${item}`);
+  // if (this.tabs.length <= 1) return;
   const index = this._indexOfTab(tabId);
-  const afterTab = this.tabs[index - 1] ?? this.tabs[index + 1] ?? null;
-  this._setActiveTab(afterTab);
+  if (index === -1) return throwError(`Tab not found, please check the tab id: ${tabId}`);
 
-  if (this.activeTab) this.open(this.activeTab.id);
+  const afterTab = this.tabs[index + 1] ?? this.tabs[index - 1] ?? void 0;
+  // this._setActiveTab(afterTab);
 
-  return this._removeTab(tabId);
+  if (afterTab) await this.open(afterTab.fullPath);
+
+  return this._removeTabByIndex(index);
 };
 
 /**
@@ -258,7 +272,8 @@ export default {
   _addTab,
   _getTab,
   _getTabIdByRouteMeta,
-  _removeTab,
+  _removeTabById,
+  _removeTabByIndex,
   _setActiveTab,
   _openTab,
   _clear,

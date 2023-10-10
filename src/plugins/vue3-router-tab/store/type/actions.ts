@@ -32,8 +32,11 @@ export interface GetTabIdByRouteMeta {
 export interface AddTab {
   (tab: Tab, options?: { setActive?: boolean }): number;
 }
-export interface RemoveTab {
+export interface RemoveTabById {
   (tabId: TabId): Tab | undefined;
+}
+export interface RemoveTabByIndex {
+  (tabId: number): Tab | undefined;
 }
 export interface OpenTab {
   (tabId: TabId): undefined;
@@ -46,9 +49,9 @@ export interface Open {
 }
 export interface Close {
   (
-    before?: TabId | RouteLocationNormalizedLoaded,
+    item?: TabId | RouteLocationNormalizedLoaded,
     after?: TabId | RouteLocationNormalizedLoaded
-  ): Tab | undefined;
+  ): Promise<Tab | undefined>;
 }
 export interface CloseOthers {
   (): Tab | undefined;
@@ -74,7 +77,8 @@ export type Actions = CreateActions<
     _getTab: GetTab;
     _getTabIdByRouteMeta: GetTabIdByRouteMeta;
     _addTab: AddTab;
-    _removeTab: RemoveTab;
+    _removeTabById: RemoveTabById;
+    _removeTabByIndex: RemoveTabByIndex;
     _setActiveTab: SetActiveTab;
     _openTab: OpenTab;
     _clear: Clear;
