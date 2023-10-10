@@ -220,6 +220,7 @@ const _routerPush: RouterPush = function (this: RouterStore, to) {
 const _remove: Remove = function (this: RouterStore, item) {
   const tabId = typeof item === "string" ? item : this._getTabIdByRouteMeta(item);
 
+
   if (!tabId) return throwError(`Tab not found, please check the param: ${item}`);
   return this._removeTabById(tabId);
 };
@@ -253,10 +254,18 @@ const close: Close = async function (this: RouterStore, item, toOptions) {
 
   if (toOptions) {
     const { id, fullPath } = toOptions;
+    if (id === item) {
+      return throwError('The id of the tab to be closed cannot be the same as the id of the tab to be opened,if you want to open the tab, please use the fullPath parameter.');
+    }
     const _fullPath = this._getTab(id)?.fullPath ?? fullPath;
+    console.log(_fullPath);
 
     if (_fullPath) {
-      await this.open(_fullPath);
+      await this._routerPush(_fullPath);
+      console.log(this.tabs);
+
+      // console.log(this.$router.currentRoute.value);
+
       return removedTab;
     }
   }
