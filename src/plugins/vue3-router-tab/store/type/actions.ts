@@ -43,7 +43,7 @@ export interface Remove {
   (item: TabId | RouteLocationNormalizedLoaded, toOptions?: ToOptions): TabWithIndex | undefined;
 }
 export interface OpenTabById {
-  (tabId: TabId): undefined;
+  (tabId: TabId): ReturnType<RouterPush> | undefined;
 }
 export interface SetActiveTab {
   (tab: Tab | undefined): Tab | undefined;

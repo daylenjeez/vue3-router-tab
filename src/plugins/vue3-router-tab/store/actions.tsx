@@ -181,7 +181,7 @@ const _removeTabByIndex: RemoveTabByIndex = function (this: RouterStore, index) 
 /**
  * set active tab
  * @param {TabId} tabId
- * @returns {number} index
+ * @returns {Tab|undefined}
  */
 const _setActiveTab: SetActiveTab = function (
   this: RouterStore,
@@ -195,12 +195,12 @@ const _setActiveTab: SetActiveTab = function (
 /**
  * open tab by tab id
  * @param {TabId} tabId
- * @returns {undefined}
+ * @returns {ReturnType<RouterPush>| undefined}
  */
 const _openTabById: OpenTabById = function (this: RouterStore, tabId) {
   const tab = this._getTab(tabId);
   if (!tab) return throwError(`Tab not found, please check the tab id: ${tabId}`);
-  this._routerPush(tab.fullPath);
+  return this._routerPush(tab.fullPath);
 };
 
 /**
