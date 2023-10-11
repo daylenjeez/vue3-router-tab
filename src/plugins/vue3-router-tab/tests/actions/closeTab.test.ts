@@ -13,86 +13,86 @@ describe('Check tab closed', async () => {
     routerTab = item.routerTab;
   });
 
-  // it(`close current tab`, async ({ expect }) => {
-  //   await router.push('/initial?id=1&name=amy');
-  //   expect(routerTab.getTabs().length).toEqual(1);
-  //   await routerTab.close();
-  //   expect(routerTab.getTabs().length).toEqual(0);
-  // });
+  it(`close current tab`, async ({ expect }) => {
+    await router.push('/initial?id=1&name=amy');
+    expect(routerTab.getTabs().length).toEqual(1);
+    await routerTab.close();
+    expect(routerTab.getTabs().length).toEqual(0);
+  });
 
-  // it(`close tab by id`, async ({ expect }) => {
-  //   await router.push('/initial?id=1');
-  //   await router.push('/path?id=1');
-  //   expect(routerTab.getTabs().length).toEqual(2);
-  //   await routerTab.close('/initial?id=1');
-  //   expect(routerTab.getTabs().length).toEqual(1);
-  // });
+  it(`close tab by id`, async ({ expect }) => {
+    await router.push('/initial?id=1');
+    await router.push('/path?id=1');
+    expect(routerTab.getTabs().length).toEqual(2);
+    await routerTab.close('/initial?id=1');
+    expect(routerTab.getTabs().length).toEqual(1);
+  });
 
-  // it(`close tab by route`, async ({ expect }) => {
-  //   await router.push('/initial?id=1');
-  //   await router.push('/path?id=1');
-  //   expect(routerTab.getTabs().length).toEqual(2);
-  //   await routerTab.close(router.currentRoute.value);
+  it(`close tab by route`, async ({ expect }) => {
+    await router.push('/initial?id=1');
+    await router.push('/path?id=1');
+    expect(routerTab.getTabs().length).toEqual(2);
+    await routerTab.close(router.currentRoute.value);
 
-  //   expect(routerTab.getTabs().length).toEqual(1);
-  //   expect(routerTab.getActiveTab()?.id).toEqual('/initial?id=1');
-  // });
+    expect(routerTab.getTabs().length).toEqual(1);
+    expect(routerTab.getActiveTab()?.id).toEqual('/initial?id=1');
+  });
 
-  // it(`close no funded tab`, async ({ expect }) => {
-  //   await router.push('/initial?id=1');
-  //   await router.push('/path?id=1');
-  //   expect(routerTab.getTabs().length).toEqual(2);
-  //   await routerTab.close('/initial?id=2');
+  it(`close no funded tab`, async ({ expect }) => {
+    await router.push('/initial?id=1');
+    await router.push('/path?id=1');
+    expect(routerTab.getTabs().length).toEqual(2);
+    await routerTab.close('/initial?id=2');
 
-  //   expect(routerTab.getTabs().length).toEqual(2);
-  // });
+    expect(routerTab.getTabs().length).toEqual(2);
+  });
 
-  // it(`close active tab if param is undefined`, async ({ expect }) => {
-  //   await router.push('/initial?id=1');
-  //   await router.push('/path?id=1');
+  it(`close active tab if param is undefined`, async ({ expect }) => {
+    await router.push('/initial?id=1');
+    await router.push('/path?id=1');
 
-  //   await routerTab.open('/initial?id=1');
-  //   expect(routerTab.getActiveTab()?.id).toEqual('/initial?id=1');
-  //   await routerTab.close();
-  //   expect(routerTab.getActiveTab()?.id).toEqual('/path');
+    await routerTab.open('/initial?id=1');
+    expect(routerTab.getActiveTab()?.id).toEqual('/initial?id=1');
+    await routerTab.close();
+    expect(routerTab.getActiveTab()?.id).toEqual('/path');
 
-  // });
+  });
 
-  // it(`after tab is active when current tab closed`, async ({ expect }) => {
-  //   await router.push('/initial?id=1');
-  //   await router.push('/path?id=1');
+  it(`after tab is active when current tab closed`, async ({ expect }) => {
+    await router.push('/initial?id=1');
+    await router.push('/path?id=1');
 
-  //   await routerTab.open('/initial?id=1');
-  //   expect(routerTab.getActiveTab()?.id).toEqual('/initial?id=1');
+    await routerTab.open('/initial?id=1');
+    expect(routerTab.getActiveTab()?.id).toEqual('/initial?id=1');
 
-  //   await routerTab.close('/initial?id=1');
-  //   expect(routerTab.getActiveTab()?.id).toEqual('/path');
-  // });
+    await routerTab.close('/initial?id=1');
+    expect(routerTab.getActiveTab()?.id).toEqual('/path');
+  });
 
-  // it(`before tab is active when current tab closed and has not after tab`, async ({ expect }) => {
-  //   await router.push('/initial?id=1');
-  //   await router.push('/path?id=1');
+  it(`before tab is active when current tab closed and has not after tab`, async ({ expect }) => {
+    await router.push('/initial?id=1');
+    await router.push('/path?id=1');
 
-  //   await routerTab.open('/path?id=1');
-  //   expect(routerTab.getActiveTab()?.id).toEqual('/path');
+    await routerTab.open('/path?id=1');
+    expect(routerTab.getActiveTab()?.id).toEqual('/path');
 
-  //   await routerTab.close('/path');
-  //   expect(routerTab.getActiveTab()?.id).toEqual('/initial?id=1');
-  // });
+    await routerTab.close('/path');
+    expect(routerTab.getActiveTab()?.id).toEqual('/initial?id=1');
+  });
 
-  // it(`navigate to custom tab when add config`, async ({ expect }) => {
-  //   await router.push('/initial?id=1');
-  //   await router.push('/initial?id=2');
-  //   await router.push('/initial?id=3');
-  //   await router.push('/path?id=1');
-  //   expect(routerTab.getTabs().length).toEqual(4);
-  //   expect(routerTab.getActiveTab()?.id).toEqual('/path');
+  it(`navigate to custom tab when add config`, async ({ expect }) => {
+    await router.push('/initial?id=1');
+    await router.push('/initial?id=2');
+    await router.push('/initial?id=3');
+    await router.push('/path?id=1');
+    expect(routerTab.getTabs().length).toEqual(4);
+    expect(routerTab.getActiveTab()?.id).toEqual('/path');
 
-  //   await routerTab.close('/path', { id: '/initial?id=2' });
-  //   expect(routerTab.getTabs().length).toEqual(4);
+    await routerTab.close('/path', { id: '/initial?id=2' });
+    expect(routerTab.getTabs().length).toEqual(3);
 
-  //   expect(routerTab.getActiveTab()?.id).toEqual('/initial?id=2');
-  // });
+    expect(routerTab.getActiveTab()?.id).toEqual('/initial?id=2');
+  });
 
   it(`close tab but open the same tab`, async ({ expect }) => {
     await router.push('/initial?id=1');

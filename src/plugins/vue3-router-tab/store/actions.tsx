@@ -258,21 +258,20 @@ const close: Close = async function (this: RouterStore, item, toOptions) {
       return throwError('The id of the tab to be closed cannot be the same as the id of the tab to be opened,if you want to open the tab, please use the fullPath parameter.');
     }
     const _fullPath = this._getTab(id)?.fullPath ?? fullPath;
-    console.log(_fullPath);
 
-    if (_fullPath) {
-      await this._routerPush(_fullPath);
-      console.log(this.tabs);
-
-      // console.log(this.$router.currentRoute.value);
-
-      return removedTab;
+    if (!_fullPath) {
+      return throwError(`The fullPath of the tab to be opened is not found, please check ${id ? id : fullPath}.`);
     }
+
+    await this._routerPush(_fullPath);
+    return removedTab;
   }
 
   if (removedTab && (removedTab.id === this.activeTab?.id)) {
-    const { index } = removedTab;
-    const afterTab = this.tabs[index] ?? this.tabs[index - 1] ?? void 0;
+    const { index: afterIndex } = removedTab;
+
+    const afterTab = this.tabs[afterIndex] ?? this.tabs[afterIndex - 1] ?? void 0;
+
     if (afterTab) await this.open(afterTab.fullPath);
   }
 
