@@ -1,5 +1,5 @@
 import { INITIAL_TAB_CONFIG } from "../constants";
-import { Tab, TabConfig, TabId } from "../types";
+import { Tab, TabConfig, TabId, TabWithIndex } from "../types";
 import { isFunction, isNonEmptyString, throwError } from "../utils";
 import {
   AddTab,
@@ -9,7 +9,6 @@ import {
   CreateTab,
   CreateTabId,
   GetTab,
-  GetTabByRouteMeta,
   GetTabIdByRouteMeta,
   HasTab,
   IndexOfTab,
@@ -75,25 +74,7 @@ const _createTab: CreateTab = function (this: RouterStore,
 };
 
 /**
- * Retrieves the tab identifier using the route's meta information
- * @param {RouteLocationNormalized} router
- * @returns {Tab} tab|undefined
- */
-const _getTabByRouteMeta: GetTabByRouteMeta = function (
-  this: RouterStore,
-  router
-) {
-
-  const { key } = (router.meta.tabConfig as TabConfig) || INITIAL_TAB_CONFIG;
-
-  const tabId = this._createTabId(key, router);
-
-  if (!tabId) return throwError(`TabId is not found, please check the tab key: ${key}`);
-  return this._getTab(tabId);
-};
-
-/**
- * Get tabId by route
+ * get tabId by route
  * @param {RouteLocationNormalizedLoaded} route
  * @returns {TabId} tabId
  */
@@ -139,10 +120,18 @@ const _getTab: GetTab = function (this: RouterStore, tabId: TabId | undefined) {
 };
 
 /**
+ * get tabId by fullpath
+ */
+const _getTabByFullpath = function (this: RouterStore, fullPath: string) {
+  const tab = this.tabs.find((tab) => tab.fullPath === fullPath);
+  return tab;
+};
+
+/**
  * add tab
  * @param {TabId} tab
  * @param {object} options //TODO: add options
- * @returns {Number} index
+ * @returns {Number}
  */
 const _addTab: AddTab = function (this: RouterStore, tab, options) {
   const { setActive } = options ?? { setActive: false };
@@ -225,11 +214,13 @@ const _routerReplace: RouterReplace = function (this: RouterStore, to) {
 
 /**
  * remove tab
- * @param {TabId|RouteLocationNormalizedLoaded} item tabId or route
+ * @param {{ id?: TabId; fullPath?: string }} item tabId or route
  * @returns {TabWithIndex  | undefined}
  */
 const _remove: Remove = function (this: RouterStore, item) {
-  const tabId = typeof item === "string" ? item : this._getTabIdByRouteMeta(item);
+  let tabId: TabId | undefined;
+  if ('id' in item) tabId = item.id;
+  if ('fullPath' in item) tabId = item.fullPath ? this._getTabByFullpath(item.fullPath)?.id : void 0;
 
   if (!tabId) return throwError(`Tab not found, please check the param: ${item}`);
   return this._removeTabById(tabId);
@@ -268,26 +259,32 @@ const open: Open = async function (this: RouterStore, to, options = { replace: f
 
 /**
  * close tab and after tab
- * @param {TabId|RouteLocationNormalizedLoaded} item tabId or route
+ * @param {{id:TabId}|{fullPath:string}|string} item tabId or fullpath
  * @param {ToOptions} toOptions
- * @returns {Tab & {index:number} | undefined}
+ * @returns {TabWithIndex | undefined}
  * //TODO:if only one tab and item is current tab, do nothing
  */
 const close: Close = async function (this: RouterStore, item, toOptions) {
   if (!item && !this.activeTab) return void 0;
 
-  const removedTab = this._remove(item ?? this.activeTab!.id);
+  let _item: { id: TabId } | { fullPath: string } | undefined;
+
+  if (typeof item === 'string') {
+    _item = { fullPath: item };
+  } else if (typeof item === 'object' && ('id' in item || 'fullPath' in item)) {
+    _item = item;
+  } else {
+    _item = { id: this.activeTab!.id };
+  }
+
+  const removedTab = this._remove(_item);
 
   if (toOptions) {
     const { id, fullPath } = toOptions;
-    if (id === item) {
-      return throwError('The id of the tab to be closed cannot be the same as the id of the tab to be opened,if you want to open the tab, please use the fullPath parameter.');
-    }
+    if (id === item) return throwError('The id of the tab to be closed cannot be the same as the id of the tab to be opened,if you want to open the tab, please use the fullPath parameter.');
     const _fullPath = this._getTab(id)?.fullPath ?? fullPath;
 
-    if (!_fullPath) {
-      return throwError(`The fullPath of the tab to be opened is not found, please check ${id ? id : fullPath}.`);
-    }
+    if (!_fullPath) return throwError(`The fullPath of the tab to be opened is not found, please check ${id ? id : fullPath}.`);
 
     await this._routerPush(_fullPath);
     return removedTab;
@@ -307,7 +304,6 @@ const close: Close = async function (this: RouterStore, item, toOptions) {
 /**
  * close others tabs
  */
-
 const closeOthers = function (this: RouterStore) {
   if (!this.activeTab) return;
   const currentIndex = this._indexOfTab(this.activeTab.id);
@@ -340,11 +336,11 @@ const getActiveTab = function (this: RouterStore) {
 export default {
   _createTabId,
   _createTab,
-  _getTabByRouteMeta,
   _hasTab,
   _indexOfTab,
   _addTab,
   _getTab,
+  _getTabByFullpath,
   _getTabIdByRouteMeta,
   _removeTabById,
   _removeTabByIndex,

@@ -9,7 +9,6 @@ describe("init", () => {
     await beforeEachFn();
   });
 
-
   it("router-tab is defined", ({ expect }) => {
     const routeTab = useRouterTab();
     expect(routeTab).toBeDefined();

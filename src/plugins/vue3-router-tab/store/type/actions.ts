@@ -27,6 +27,9 @@ export interface IndexOfTab {
 export interface GetTab {
   (tabId: TabId | undefined): Tab | undefined;
 }
+export interface GetTabByFullPath {
+  (fullPath: string): Tab | undefined;
+}
 export interface GetTabIdByRouteMeta {
   (router: RouteLocationNormalized): TabId | undefined;
 }
@@ -40,7 +43,7 @@ export interface RemoveTabByIndex {
   (tabId: number): Tab | undefined;
 }
 export interface Remove {
-  (item: TabId | RouteLocationNormalizedLoaded, toOptions?: ToOptions): TabWithIndex | undefined;
+  (item: { id?: TabId, fullPath?: string }): TabWithIndex | undefined;
 }
 export interface Refresh {
   (item: TabId): Tab | undefined;
@@ -55,10 +58,9 @@ export interface Open {
   (to: RouteLocationRaw, options?: OpenOptions): ReturnType<Router["push"]>;
 }
 export interface Close {
-  (
-    item?: TabId | RouteLocationNormalizedLoaded,
-    toOptions?: ToOptions
-  ): Promise<Tab | undefined>;
+  (item?: { id: TabId }, toOptions?: ToOptions): Promise<Tab | undefined>;
+  (item?: { fullPath: string }, toOptions?: ToOptions): Promise<Tab | undefined>;
+  (fullPath?: string, toOptions?: ToOptions): Promise<Tab | undefined>;
 }
 export interface CloseOthers {
   (): Tab | undefined;
@@ -84,11 +86,11 @@ export type Actions = CreateActions<
   {
     _createTabId: CreateTabId;
     _createTab: CreateTab;
-    _getTabByRouteMeta: GetTabByRouteMeta;
     _hasTab: HasTab;
     _indexOfTab: IndexOfTab;
     _getTab: GetTab;
     _getTabIdByRouteMeta: GetTabIdByRouteMeta;
+    _getTabByFullpath: GetTabByFullPath;
     _addTab: AddTab;
     _removeTabById: RemoveTabById;
     _removeTabByIndex: RemoveTabByIndex;

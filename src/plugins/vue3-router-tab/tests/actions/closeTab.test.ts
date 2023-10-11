@@ -32,7 +32,7 @@ describe('Check tab closed', async () => {
     await router.push('/initial?id=1');
     await router.push('/path?id=1');
     expect(routerTab.getTabs().length).toEqual(2);
-    await routerTab.close(router.currentRoute.value);
+    await routerTab.close(router.currentRoute.value.fullPath);
 
     expect(routerTab.getTabs().length).toEqual(1);
     expect(routerTab.getActiveTab()?.id).toEqual('/initial?id=1');
@@ -76,7 +76,7 @@ describe('Check tab closed', async () => {
     await routerTab.open('/path?id=1');
     expect(routerTab.getActiveTab()?.id).toEqual('/path');
 
-    await routerTab.close('/path');
+    await routerTab.close({ id: '/path' });
     expect(routerTab.getActiveTab()?.id).toEqual('/initial?id=1');
   });
 
@@ -88,7 +88,7 @@ describe('Check tab closed', async () => {
     expect(routerTab.getTabs().length).toEqual(4);
     expect(routerTab.getActiveTab()?.id).toEqual('/path');
 
-    await routerTab.close('/path', { id: '/initial?id=2' });
+    await routerTab.close({ fullPath: '/path?id=1' }, { id: '/initial?id=2' });
     expect(routerTab.getTabs().length).toEqual(3);
 
     expect(routerTab.getActiveTab()?.id).toEqual('/initial?id=2');
