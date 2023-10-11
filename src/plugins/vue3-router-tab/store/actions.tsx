@@ -259,9 +259,10 @@ const _clear: Clear = function (this: RouterStore) {
  * //TODO:refresh
  */
 const open: Open = async function (this: RouterStore, to, options = { replace: false, refresh: false }) {
-  const { replace, refresh } = options;
+  const { replace } = options;
   if (replace) return this._routerReplace(to);
   const router = await this._routerPush(to);
+  return router;
   // if (refresh) this._refresh(router.name);
 };
 
