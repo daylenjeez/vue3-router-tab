@@ -1,6 +1,6 @@
 import { INITIAL_TAB_CONFIG } from "../constants";
 import { Tab, TabConfig, TabId } from "../types";
-import { isFunction, isNonEmptyString, throwError } from "../utils";
+import { isFunction, isNonEmptyString, isObject, isString, throwError } from "../utils";
 import {
   AddTab,
   Clear,
@@ -269,9 +269,9 @@ const close: Close = async function (this: RouterStore, item, toOptions) {
 
   let _item: { id: TabId } | { fullPath: string } | undefined;
 
-  if (typeof item === 'string') {
+  if (isString(item)) {
     _item = { fullPath: item };
-  } else if (typeof item === 'object' && ('id' in item || 'fullPath' in item)) {
+  } else if (isObject(item)) {
     _item = item;
   } else {
     _item = { id: this.activeTab!.id };
