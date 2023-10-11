@@ -102,9 +102,11 @@ describe('Check tab closed', async () => {
     expect(routerTab.getTabs().length).toEqual(4);
     expect(routerTab.getActiveTab()?.id).toEqual('/path');
 
-    await routerTab.close('/initial?id=3', { fullPath: '/initial?id=3' });
+    routerTab.open('/initial?id=2');
 
-    expect(routerTab.getActiveTab()?.id).toEqual('/initial?id=3');
+    await routerTab.close('/path?id=1', { fullPath: '/path?id=1' });
+
+    expect(routerTab.getActiveTab()?.id).toEqual('/path');
   });
 
 });
