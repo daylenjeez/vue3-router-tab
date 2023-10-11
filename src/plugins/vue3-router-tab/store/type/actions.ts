@@ -1,6 +1,5 @@
 import {
   RouteLocationNormalized,
-  RouteLocationNormalizedLoaded,
   RouteLocationRaw,
   Router,
 } from "vue-router";

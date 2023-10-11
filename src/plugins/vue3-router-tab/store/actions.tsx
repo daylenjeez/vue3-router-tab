@@ -1,5 +1,5 @@
 import { INITIAL_TAB_CONFIG } from "../constants";
-import { Tab, TabConfig, TabId, TabWithIndex } from "../types";
+import { Tab, TabConfig, TabId } from "../types";
 import { isFunction, isNonEmptyString, throwError } from "../utils";
 import {
   AddTab,
@@ -245,7 +245,7 @@ const _clear: Clear = function (this: RouterStore) {
 
 /**
  * @param {RouteLocationRaw} to
- * @param {options} 
+ * @param {Options} options
  * @returns {Promise<RouteLocationNormalized>} route
  * //TODO:refresh
  */
