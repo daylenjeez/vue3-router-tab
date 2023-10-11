@@ -50,6 +50,9 @@ export interface Refresh {
 export interface OpenTabById {
   (tabId: TabId): ReturnType<RouterPush> | undefined;
 }
+export interface OpenNearTab {
+  (removeTab: TabWithIndex): Promise<void>;
+}
 export interface SetActiveTab {
   (tab: Tab | undefined): Tab | undefined;
 }
@@ -95,6 +98,7 @@ export type Actions = CreateActions<
     _removeTabByIndex: RemoveTabByIndex;
     _setActiveTab: SetActiveTab;
     _openTabById: OpenTabById;
+    _openNearTab: OpenNearTab;
     _clear: Clear;
     _remove: Remove;
     _refresh: Refresh;

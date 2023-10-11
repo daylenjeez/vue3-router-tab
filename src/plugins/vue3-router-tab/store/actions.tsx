@@ -1,6 +1,6 @@
 import { INITIAL_TAB_CONFIG } from "../constants";
 import { Tab, TabConfig, TabId } from "../types";
-import { isFunction, isNonEmptyString, isObject, isString, throwError } from "../utils";
+import { isFunction, isNonEmptyString, isString, throwError } from "../utils";
 import {
   AddTab,
   Clear,
@@ -21,7 +21,12 @@ import {
   Remove,
   RouterReplace,
   Refresh,
+  OpenNearTab,
 } from "./type/actions";
+
+const _getRemoveItem = (item: { id: TabId } | { fullPath: string } | string) => {
+  return isString(item) ? { fullPath: item } : item;
+};
 
 /**
  * create tabId
@@ -195,6 +200,19 @@ const _openTabById: OpenTabById = function (this: RouterStore, tabId) {
 };
 
 /**
+ * open near tab
+ * @param {TabId} removedTab
+ * @returns {ReturnType<RouterPush>| undefined}
+ */
+const _openNearTab: OpenNearTab = async function (this: RouterStore, removedTab) {
+  const { index: afterIndex } = removedTab;
+
+  const afterTab = this.tabs[afterIndex] ?? this.tabs[afterIndex - 1] ?? void 0;
+
+  if (afterTab) await this.open(afterTab.fullPath);
+};
+
+/**
  * router push
  * @param {RouteLocationRaw} to
  * @returns {Promise<RouteLocationNormalized>}
@@ -259,24 +277,14 @@ const open: Open = async function (this: RouterStore, to, options = { replace: f
 
 /**
  * close tab and after tab
- * @param {{id:TabId}|{fullPath:string}|string} item tabId or fullpath
+ * @param {{id:TabId}|{fullPath:string}|string|undefined} item tabId or fullpath
  * @param {ToOptions} toOptions
  * @returns {TabWithIndex | undefined}
  * //TODO:if only one tab and item is current tab, do nothing
  */
 const close: Close = async function (this: RouterStore, item, toOptions) {
   if (!item && !this.activeTab) return void 0;
-
-  let _item: { id: TabId } | { fullPath: string } | undefined;
-
-  if (isString(item)) {
-    _item = { fullPath: item };
-  } else if (isObject(item)) {
-    _item = item;
-  } else {
-    _item = { id: this.activeTab!.id };
-  }
-
+  const _item = item ? _getRemoveItem(item) : { id: this.activeTab?.id };
   const removedTab = this._remove(_item);
 
   if (toOptions) {
@@ -290,13 +298,7 @@ const close: Close = async function (this: RouterStore, item, toOptions) {
     return removedTab;
   }
 
-  if (removedTab && (removedTab.id === this.activeTab?.id)) {
-    const { index: afterIndex } = removedTab;
-
-    const afterTab = this.tabs[afterIndex] ?? this.tabs[afterIndex - 1] ?? void 0;
-
-    if (afterTab) await this.open(afterTab.fullPath);
-  }
+  if (removedTab && (removedTab.id === this.activeTab?.id)) await this._openNearTab(removedTab);
 
   return removedTab;
 };
@@ -348,6 +350,7 @@ export default {
   _refresh,
   _setActiveTab,
   _openTabById,
+  _openNearTab,
   _clear,
   _routerPush,
   _routerReplace,
