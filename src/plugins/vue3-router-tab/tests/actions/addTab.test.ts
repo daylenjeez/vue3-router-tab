@@ -28,9 +28,6 @@ describe('Should add tab when router pushed', async () => {
       "name": "initial",
     });
 
-    console.log(routerTab.getTabs().at(-1), router.currentRoute.value);
-
-
     expectActiveTab(expect, routerTab);
   });
 
@@ -43,7 +40,6 @@ describe('Should add tab when router pushed', async () => {
       "keepAlive": true,
       "name": "path",
     });
-    console.log(routerTab.getTabs().at(-1), router.currentRoute.value);
 
     expectActiveTab(expect, routerTab);
   });

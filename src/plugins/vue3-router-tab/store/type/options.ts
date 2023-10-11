@@ -12,3 +12,13 @@ export type ToOptions = {
   fullPath?: string;
   refresh?: boolean;
 };
+
+/**
+ * @description: open tab
+ * @param {boolean} replace whether to open with $router.replace
+ * @param {boolean} refresh whether to refresh
+ */
+export type OpenOptions = {
+  replace?: boolean;
+  refresh?: boolean;
+}

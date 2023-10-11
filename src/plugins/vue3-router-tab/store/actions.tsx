@@ -20,6 +20,8 @@ import {
   RouterStore,
   SetActiveTab,
   Remove,
+  RouterReplace,
+  Refresh,
 } from "./type/actions";
 
 /**
@@ -206,10 +208,19 @@ const _openTabById: OpenTabById = function (this: RouterStore, tabId) {
 /**
  * router push
  * @param {RouteLocationRaw} to
+ * @returns {Promise<RouteLocationNormalized>}
+ */
+const _routerPush: RouterPush = async function (this: RouterStore, to) {
+  return this.$router.push(to);
+};
+
+/**
+ * router replace
+ * @param {RouteLocationRaw} to
  * @returns {Promise<RouteLocationNormalized>} route
  */
-const _routerPush: RouterPush = function (this: RouterStore, to) {
-  return this.$router.push(to);
+const _routerReplace: RouterReplace = function (this: RouterStore, to) {
+  return this.$router.replace(to);
 };
 
 /**
@@ -220,9 +231,18 @@ const _routerPush: RouterPush = function (this: RouterStore, to) {
 const _remove: Remove = function (this: RouterStore, item) {
   const tabId = typeof item === "string" ? item : this._getTabIdByRouteMeta(item);
 
-
   if (!tabId) return throwError(`Tab not found, please check the param: ${item}`);
   return this._removeTabById(tabId);
+};
+
+/**
+ * refresh tab
+ * @param tabId
+ */
+const _refresh: Refresh = function (this: RouterStore, tabId) {
+  const tab = this._getTab(tabId);
+  if (!tab) return throwError(`Tab not found, please check the tab id: ${tabId}`);
+  //TODO:refresh
 };
 
 /**
@@ -234,10 +254,15 @@ const _clear: Clear = function (this: RouterStore) {
 
 /**
  * @param {RouteLocationRaw} to
+ * @param {options} 
  * @returns {Promise<RouteLocationNormalized>} route
+ * //TODO:refresh
  */
-const open: Open = function (this: RouterStore, to) {
-  return this._routerPush(to);
+const open: Open = async function (this: RouterStore, to, options = { replace: false, refresh: false }) {
+  const { replace, refresh } = options;
+  if (replace) return this._routerReplace(to);
+  const router = await this._routerPush(to);
+  // if (refresh) this._refresh(router.name);
 };
 
 /**
@@ -323,10 +348,12 @@ export default {
   _removeTabById,
   _removeTabByIndex,
   _remove,
+  _refresh,
   _setActiveTab,
   _openTabById,
   _clear,
   _routerPush,
+  _routerReplace,
 
   open,
   close,
