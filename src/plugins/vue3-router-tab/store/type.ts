@@ -11,10 +11,10 @@ import { Router } from "vue-router";
 export type CreateActions<Id extends string, S extends StateTree, A> = A &
   ThisType<
     A &
-      UnwrapRef<S> &
-      _StoreWithState<Id, S, _GettersTree<S>, A> &
-      _StoreWithGetters<_GettersTree<S>> &
-      PiniaCustomProperties
+    UnwrapRef<S> &
+    _StoreWithState<Id, S, _GettersTree<S>, A> &
+    _StoreWithGetters<_GettersTree<S>> &
+    PiniaCustomProperties
   >;
 
 export type CreateGetters<S extends StateTree, G extends _GettersTree<S>> = G &

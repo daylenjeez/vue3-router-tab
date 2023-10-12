@@ -1,8 +1,8 @@
 <template>
-  page1
+  initial
   <input>
 </template>
 
 <script lang="ts">
-export default { name: "Page1" };
+export default { name: "InitialPage" };
 </script>

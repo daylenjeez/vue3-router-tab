@@ -1,4 +1,4 @@
-import { RouteLocationNormalized, Router, RouteRecordRaw } from "vue-router";
+import { RouteLocationNormalized, RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -12,27 +12,28 @@ const routes: Array<RouteRecordRaw> = [
       {
         name: "path",
         path: "/path",
-        component: () => import("../views/home.vue"),
+        component: () => import("../views/path.vue"),
         meta: { tabConfig: { key: 'path' } }
       },
       {
         name: "fullpath",
         path: "/fullpath",
-        component: () => import("../views/home.vue"),
+        component: () => import("../views/fullPath.vue"),
         meta: { tabConfig: { key: 'fullPath' } }
-      }, {
-        name: "custom",
-        path: "/custom",
-        component: () => import("../views/home.vue"),
-        meta: {
-          tabConfig: {
-            key: (router: RouteLocationNormalized) => {
-              const { path, query } = router;
-              return `${path}?id=${query.id}`;
-            } 
-          } 
-        }
-      }
+      },
+      // {
+      //   name: "custom",
+      //   path: "/custom",
+      //   component: () => import("../views/custom.vue"),
+      //   meta: {
+      //     tabConfig: {
+      //       key: (router: RouteLocationNormalized) => {
+      //         const { path, query } = router;
+      //         return `${path}?id=${query.id}`;
+      //       }
+      //     }
+      //   }
+      // }
       // {
       //   name: "主页",
       //   path: "/home",

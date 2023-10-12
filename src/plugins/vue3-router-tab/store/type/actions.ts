@@ -3,7 +3,7 @@ import {
   RouteLocationRaw,
   Router,
 } from "vue-router";
-import { State } from "./../state";
+import { State } from "./state";
 import { Tab, TabId, TabKey, TabWithIndex } from "../../types";
 import { CreateActions } from "../type";
 import { OpenOptions, ToOptions } from "./options";

@@ -19,14 +19,12 @@
 <script lang="ts">
 import { defineComponent, computed } from "vue";
 import { useRouterTab } from "../../store";
-import RtIframe from "./iframe";
 
 export default defineComponent({
   name: "RtPages",
-  components: { "rt-iframe": RtIframe },
   setup() {
     const tabStore = useRouterTab();
-    const tab = computed(tabStore.getActiveTab);
+    const tab = computed(()=>tabStore.currentTab);
 
     return {
       key: tab.value?.id,

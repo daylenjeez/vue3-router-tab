@@ -1,7 +1,5 @@
-<template>Home <input /></template>
+<template>Home <input></template>
 
 <script lang="ts">
-export default {
-  name: "home",
-};
+export default {name: "HomePage",};
 </script>

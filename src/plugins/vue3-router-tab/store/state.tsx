@@ -1,8 +1,3 @@
-import { Tab } from "../types";
-
-export interface State {
-  tabs: Tab[];
-  activeTab: Tab | undefined;
-}
+import { State } from "./type/state";
 
 export default (): State => ({ tabs: [], activeTab: void 0 });

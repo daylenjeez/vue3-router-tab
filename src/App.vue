@@ -1,6 +1,5 @@
 <script lang="ts">
-// import { useRouter } from "vue-router";
-import { useRouterTab } from "./plugins/vue3-router-tab";
+import { useRouter } from "vue-router";
 import "./style/index.less";
 
 
@@ -8,15 +7,12 @@ import "./style/index.less";
 export default {
   setup() {
     // const router = useRouter();
-    const routerTab = useRouterTab();
-
-    setTimeout(() => {
-      console.log(routerTab);
-    }, 2000);
+    // const routerTab = useRouterTab();
+    const router  = useRouter();
 
     return {
       handlePush(value: string) {
-        // router.push(value);
+        router.push(value);
       },
     };
   },
@@ -28,20 +24,20 @@ export default {
     class
     style="margin-bottom: 30px"
   >
-    <button @click="() => handlePush('/home')">
+    <button @click="() => handlePush('/')">
       首页
     </button>
-    <button @click="() => handlePush('/list?id=1')">
-      用户列表+query
+    <button @click="() => handlePush('/path?id=1')">
+      /path?id=1
     </button>
-    <button @click="() => handlePush('/list?id=2')">
-      用户列表+query
+    <button @click="() => handlePush('/path?id=2')">
+      /path?id=2
     </button>
-    <button @click="() => handlePush('/detail/2')">
-      用户详情+params2
+    <button @click="() => handlePush('/fullpath?id=1')">
+      /fullpath?id=1
     </button>
-    <button @click="() => handlePush('/detail/3')">
-      用户详情+params3
+    <button @click="() => handlePush('/fullpath?id=2')">
+      /fullpath?id=2
     </button>
     <router-tab />
   </div>
