@@ -24,7 +24,8 @@ export default defineComponent({
   name: "RtPages",
   setup() {
     const tabStore = useRouterTab();
-    const tab = computed(()=>tabStore.currentTab);
+    
+    const tab = computed(tabStore.getActiveTab);
 
     return {
       key: tab.value?.id,

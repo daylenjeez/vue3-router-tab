@@ -18,6 +18,8 @@ describe('VueRouterTab Plugin', async () => {
 
   it('Page content should be changed when route changed', async ({ expect }) => {
     await router.push('/initial');
+    console.log(pageComponent.html());
+
     expect(pageComponent.findComponent({ name: 'InitialRouter' }).exists()).toBeTruthy();
     expect(pageComponent.html()).toContain('/initial');
 

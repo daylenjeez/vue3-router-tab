@@ -18,9 +18,9 @@ export const useRouterTabStore: UseRouterTabStore = defineStore("routerTab", {
 export type RouterTabStore = ReturnType<UseRouterTabStore>;
 
 export const useRouterTab = () => {
-  const routerTab = useRouterTabStore();
+  return useRouterTabStore();
 
-  return pick(routerTab, "currentTab", "currentTabId", "open", "getTabs", "getActiveTab", "close", "closeOthers");
+  // return pick(routerTab, "currentTab", "currentTabId", "open", "getTabs", "getActiveTab", "close", "closeOthers");
 };
 
 export type RouterTabType = ReturnType<typeof useRouterTab>;
