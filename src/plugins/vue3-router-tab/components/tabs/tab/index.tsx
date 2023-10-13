@@ -34,7 +34,7 @@ export default defineComponent({
     };
 
     const close = (e: MouseEvent) => {
-      store.close(props.id);
+      store.close({ id: props.id });
       e.stopPropagation();
     };
 

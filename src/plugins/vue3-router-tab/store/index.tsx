@@ -4,7 +4,6 @@ import { State } from "./type/state";
 import actions from "./actions";
 import { Actions } from "./type/actions";
 import { Getters } from "./type/getters";
-import { pick } from "../utils";
 import state from "./state";
 import getters from "./getters";
 
