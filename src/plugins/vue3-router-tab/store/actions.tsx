@@ -23,6 +23,7 @@ import {
   RouterReplace,
   Refresh,
   OpenNearTab,
+  GetTabByFullPath,
 } from "./type/actions";
 
 const _getRemoveItem = (item: { id: TabId } | { fullPath: string } | string) => {
@@ -101,9 +102,7 @@ const _getTabIdByRouteMeta: GetTabIdByRouteMeta = function (
  */
 const _indexOfTab: IndexOfTab = function (this: RouterStore, tabId) {
   const index = this.tabs.findIndex(({ id }) => id === tabId);
-  if (index < 0) {
-    throwError(`Tab not found, please check the tab id: ${tabId}`);
-  }
+  if (index < 0) throwError(`Tab not found, please check the tab id: ${tabId}`);
   return index;
 };
 
@@ -121,16 +120,17 @@ const _hasTab: HasTab = function (this: RouterStore, tabId) {
  * @param {TabId} [tabId] - The ID of the tab to retrieve.
  * @returns {Tab | undefined} The found tab or undefined.
  */
-const _getTab: GetTab = function (this: RouterStore, tabId: TabId | undefined) {
+const _getTab: GetTab = function (this: RouterStore, tabId) {
   return this.tabs.find(({ id }) => id === tabId);
 };
 
 /**
  * get tabId by fullpath
+ * @param {string} fullPath
+ * @returns {Tab | undefined} tab
  */
-const _getTabByFullpath = function (this: RouterStore, fullPath: string) {
-  const tab = this.tabs.find((tab) => tab.fullPath === fullPath);
-  return tab;
+const _getTabByFullpath: GetTabByFullPath = function (this: RouterStore, fullPath: string) {
+  return this.tabs.find((tab) => tab.fullPath === fullPath);
 };
 
 /**
