@@ -6,6 +6,7 @@ import {
   Clear,
   Open,
   Close,
+  CloseOthers,
   CreateTab,
   CreateTabId,
   GetTab,
@@ -305,13 +306,16 @@ const close: Close = async function (this: RouterStore, item, toOptions) {
 
 /**
  * close others tabs
+ * @param {TabId} currentTabId
  */
-const closeOthers = function (this: RouterStore) {
-  if (!this.activeTab) return;
-  const currentIndex = this._indexOfTab(this.activeTab.id);
+const closeOthers: CloseOthers = function (this: RouterStore, tabId) {
+  if (!tabId && !this.activeTabId) return;
+  const _tabId = tabId ?? this.activeTabId;
 
-  this.tabs = this.tabs.filter((_, index) => index === currentIndex);
-  return this.tabs[0];
+  this.tabs.forEach(item => {
+    if (item.id !== _tabId) this._removeTabByIndex(this._indexOfTab(item.id));
+  });
+  // this.tabs = this.tabs.filter((_, index) => index === currentIndex);
 };
 
 /**
