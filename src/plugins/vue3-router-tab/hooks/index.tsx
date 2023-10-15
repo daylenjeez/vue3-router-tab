@@ -4,17 +4,21 @@ const useCache = (currentKey: string) => {
   const keys: Ref<Set<string>> = ref(new Set<string>());
 
   return reactive({
-    keys,
+    keys: [...keys.value],
     add(key: string = currentKey) {
-      if (!keys.value.has(key)) keys.value.add(key);
-      return keys;
+      keys.value.add(key);
     },
     delete(key: string = currentKey) {
       keys.value.delete(key);
+    },
+    reset() {
+      keys.value.clear();
     }
   });
 };
 
-const useComponent = (cache: ReturnType<typeof useCache>, component: Map<string, VNode>) => { };
+const useComponent = (cache: ReturnType<typeof useCache>, component: Map<string, VNode>) => {
+
+};
 
 export default useCache;
