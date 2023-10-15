@@ -1,24 +1,26 @@
-import { Ref, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 
-const useCache = (currentKey: string) => {
-  const keys: Ref<Set<string>> = ref(new Set<string>());
+export const useCache = (currentKey?: string) => {
+  // const keys: Ref<Set<string>> = ref(new Set<string>());
+  const keys = ref<string[]>([]);
 
   return reactive({
-    keys: [...keys.value],
-    add(key: string = currentKey) {
-      keys.value.add(key);
+    keys,
+    add(key: string | undefined = currentKey) {
+      if (!key) return;
+      !keys.value.includes(key) && keys.value.push(key);
+      return keys;
     },
-    delete(key: string = currentKey) {
-      keys.value.delete(key);
+    delete(key: string | undefined = currentKey) {
+      if (!key) return;
+      keys.value = keys.value.filter(item => item !== key);
     },
     reset() {
-      keys.value.clear();
+      keys.value = [];
     }
   });
 };
 
-const useComponent = (cache: ReturnType<typeof useCache>, component: Map<string, VNode>) => {
+export const useComponent = (cache: ReturnType<typeof useCache>, component: Map<string, VNode>) => {
 
 };
-
-export default useCache;
