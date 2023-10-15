@@ -13,14 +13,15 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, computed, watch, ComponentInternalInstance } from "vue";
+import { defineComponent, computed, watch,VNode, } from "vue";
 import { useRouterTab } from "../../store";
 import {useCache} from  "../../hooks";
+import {  renameComponentType } from "../renameComponent";
 
 export default defineComponent({
   name: "RtPages",
   setup() {
-    const componentMap: Map<string,ComponentInternalInstance> = new Map();
+    const componentMap: Map<string,VNode> = new Map();
     const tabStore = useRouterTab();
     const tab = computed(tabStore.getActiveTab);
     const key = computed(() => tab.value?.id);
@@ -39,13 +40,15 @@ export default defineComponent({
       key,
       keys:cache.keys,
       tab,
-      handleComponent: (Component: any) => {
-        
-        if (!Component || !key.value) return void 0;
-        
+      handleComponent: (Component: VNode) =>  {
+        if (!Component || !key.value) return Component;
+
         if (componentMap.has(key.value)) return componentMap.get(key.value);
-        componentMap.set(key.value, {...Component, type: { ...Component.type, name: key.value }});
-        return Component;
+
+        const renamedComponent = renameComponentType(Component, key.value);
+        componentMap.set(key.value, renamedComponent);
+
+        return renamedComponent;
       },
     };
   },
