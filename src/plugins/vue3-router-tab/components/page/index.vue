@@ -1,8 +1,7 @@
 <template>
   <div v-if="tab">
-    {{ keys }}|{{ key }}
     <router-view v-slot="{ Component }">
-      <keep-alive :include="keys">
+      <keep-alive>
         <component
           :is="handleComponent(Component)"
           v-if="tab.keepAlive"
@@ -44,7 +43,6 @@ export default defineComponent({
         if (!Component || !key.value) return Component;
 
         if (componentMap.has(key.value)) return componentMap.get(key.value);
-
         const renamedComponent = renameComponentType(Component, key.value);
         componentMap.set(key.value, renamedComponent);
 

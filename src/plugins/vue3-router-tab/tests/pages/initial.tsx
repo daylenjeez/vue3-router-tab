@@ -20,6 +20,8 @@ export default defineComponent({
   },
   render() {
     const router = useRouter();
+    console.log(router.currentRoute.value.fullPath);
+
     return router.currentRoute.value.fullPath;
   }
 });
