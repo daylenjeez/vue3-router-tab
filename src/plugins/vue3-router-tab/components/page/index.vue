@@ -18,7 +18,7 @@ import { useRouterTab } from "../../store";
 import {useCache} from  "../../hooks";
 import {renameComponentType} from "../renameComponent";
 import { useRouter } from "vue-router";
-import { handleBeforeEachRoute } from "@/plugins/vue3-router-tab";
+import { handleBeforeEachRoute } from "../..";
 
 export default defineComponent({
   name: "RtPages",
