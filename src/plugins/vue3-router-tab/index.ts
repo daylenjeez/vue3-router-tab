@@ -4,7 +4,7 @@ import { RouteLocationNormalized, Router } from "vue-router";
 import { createPinia } from "pinia";
 
 import RouterTab from "./router-tab";
-import { RouterTabStore, useRouterTabStore, useRouterTab } from "./store";
+import { RouterTabStore, useRouterTab } from "./store";
 
 /**
  * Add configuration during initialization
@@ -41,16 +41,6 @@ export const handleBeforeEachRoute = (
 const init = (app: App, options: Options) => {
   const { router } = options;
   piniaInit(app, router);
-  routerInit(router);
-};
-
-/**
- * Router init, add router hook
- * @param {Router} router
- */
-const routerInit = (router: Router) => {
-  // const store = useRouterTabStore();
-  // router.beforeEach((guard) => handleBeforeEachRoute(guard, store));
 };
 
 /**
