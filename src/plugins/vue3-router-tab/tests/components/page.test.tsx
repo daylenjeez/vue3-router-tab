@@ -8,14 +8,12 @@ describe('VueRouterTab Plugin', async () => {
   let router: Router;
   let wrapper: any;
   let pageComponent: any;
-  let routerTab: any;
 
   beforeEach(async () => {
     const item = await beforeEachFn();
     router = item.router;
     wrapper = item.wrapper;
     pageComponent = wrapper.getComponent(Page);
-    routerTab = item.routerTab;
   });
 
   it('Page content should be changed when route changed', async ({ expect }) => {

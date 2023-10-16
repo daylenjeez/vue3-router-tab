@@ -71,7 +71,7 @@ describe('Should add tab when router pushed', async () => {
   });
 });
 
-describe.skip('Check add Tab when the same route', async () => {
+describe('Check add Tab when the same route', async () => {
   let router: Router;
   let routerTab: RouterTabType;
 
