@@ -14,7 +14,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, computed, watch,VNode, } from "vue";
-import { useRouterTab, useRouterTabStore } from "../../store";
+import { useRouterTab } from "../../store";
 import {useCache} from  "../../hooks";
 import {renameComponentType} from "../renameComponent";
 import { useRouter } from "vue-router";
@@ -24,9 +24,9 @@ export default defineComponent({
   name: "RtPages",
   setup() {
     const componentMap: Map<string,VNode> = new Map();
-    const tabStore = useRouterTab();
+    const routerTab = useRouterTab();
     const router = useRouter();
-    const tab = computed(tabStore.getActiveTab);
+    const tab = computed(()=>routerTab.activeTab);
     const key = computed(() => tab.value?.id);
     const cache = useCache(key.value);
     const keys = computed(() => {
@@ -37,8 +37,7 @@ export default defineComponent({
     watch(
       router.currentRoute,
       async val => {
-        const store = useRouterTabStore();
-        handleBeforeEachRoute(val, store);
+        handleBeforeEachRoute(val, routerTab);
         key.value && cache.add(key.value);
       },
       { immediate: true }
