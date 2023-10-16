@@ -3,7 +3,6 @@
     <router-view v-slot="{ Component }">
       <keep-alive
         :include="keys"
-        :exclude="tab?.keepAlive ? [] : tab?.id"
       >
         <component
           :is="handleComponent(Component)"
@@ -26,10 +25,15 @@ export default defineComponent({
   setup() {
     const componentMap: Map<string,VNode> = new Map();
     const tabStore = useRouterTab();
+    const router = useRouter();
     const tab = computed(tabStore.getActiveTab);
     const key = computed(() => tab.value?.id);
     const cache = useCache(key.value);
-    const router = useRouter();
+    const keys = computed(() => {
+      const keys = cache.keys;
+      const exclude = tab.value?.keepAlive ? [] : [key.value];
+      return keys.filter(key => !exclude.includes(key));
+    });
 
     watch(
       router.currentRoute,
@@ -43,7 +47,7 @@ export default defineComponent({
 
     return {
       key,
-      keys:cache.keys,
+      keys,
       tab,
       handleComponent: (Component: VNode) =>  {
         if (!Component || !key.value) return Component;
