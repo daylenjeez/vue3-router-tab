@@ -52,9 +52,7 @@ export default defineComponent({
 
         if (componentMap.has(key.value)) return componentMap.get(key.value);
         const renamedComponent = renameComponentType(Component, key.value);
-        componentMap.set(key.value, renamedComponent);
-
-        return renamedComponent;
+        return componentMap.set(key.value, renamedComponent).get(key.value);
       },
     };
   },
