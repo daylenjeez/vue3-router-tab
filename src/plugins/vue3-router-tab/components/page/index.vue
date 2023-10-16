@@ -31,8 +31,7 @@ export default defineComponent({
     const cache = useCache(key.value);
     const keys = computed(() => {
       const keys = cache.keys;
-      const exclude = tab.value?.keepAlive ? [] : [key.value];
-      return keys.filter(key => !exclude.includes(key));
+      return tab.value?.keepAlive ? keys : keys.filter(k => k !== key.value);
     });
 
     watch(
