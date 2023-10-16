@@ -5,4 +5,5 @@ export function renameComponentType(component: VNode, newName: string): VNode {
     (component.type as any).name = newName;
   }
   return component;
+  // return { ...component, type: { ...(component.type as any), name: newName } };
 }

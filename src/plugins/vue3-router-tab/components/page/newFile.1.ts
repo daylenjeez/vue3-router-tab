@@ -1,30 +1,14 @@
-<template>
-  <div>
-    <router-view v-slot="{ Component }">
-      <keep-alive
-        :include="keys"
-        :exclude="tab?.keepAlive ? [] : tab?.id"
-      >
-        <component
-          :is="handleComponent(Component)"
-          :key="key"
-        />
-      </keep-alive>
-    </router-view>
-  </div>
-</template>
-<script lang="ts">
-import { defineComponent, computed, watch,VNode, } from "vue";
+import { defineComponent, computed, watch, VNode } from "vue";
 import { useRouterTab, useRouterTabStore } from "../../store";
-import {useCache} from  "../../hooks";
-import {renameComponentType} from "../renameComponent";
+import { useCache } from "../../hooks";
+import { renameComponentType } from "../renameComponent";
 import { useRouter } from "vue-router";
-import { handleBeforeEachRoute } from "../..";
+import { before } from "./index.vue";
 
 export default defineComponent({
   name: "RtPages",
   setup() {
-    const componentMap: Map<string,VNode> = new Map();
+    const componentMap: Map<string, VNode> = new Map();
     const tabStore = useRouterTab();
     const tab = computed(tabStore.getActiveTab);
     const key = computed(() => tab.value?.id);
@@ -33,7 +17,7 @@ export default defineComponent({
 
     watch(
       router.currentRoute,
-      async val => {
+      async (val) => {
         const store = useRouterTabStore();
         handleBeforeEachRoute(val, store);
         key.value && cache.add(key.value);
@@ -43,19 +27,26 @@ export default defineComponent({
 
     return {
       key,
-      keys:cache.keys,
+      keys: cache.keys,
       tab,
-      handleComponent: (Component: VNode) =>  {
+      handleComponent: (Component: VNode) => {
+        console.log(43, key.value, Component?.type?.name);
+
         if (!Component || !key.value) return Component;
+        if (before == Component) {
+          console.log('xiangdeng');
+
+          return Component;
+        } else {
+          before = Component;
+        }
 
         if (componentMap.has(key.value)) return componentMap.get(key.value);
         const renamedComponent = renameComponentType(Component, key.value);
         componentMap.set(key.value, renamedComponent);
 
-        return renamedComponent;
+        return Component;
       },
     };
   },
-
 });
-</script>

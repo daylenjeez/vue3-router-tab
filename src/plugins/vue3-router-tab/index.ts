@@ -19,7 +19,7 @@ interface Options {
  * @param {RouteLocationNormalized} guard
  * @param {RouterTabStore} store
  */
-const handleBeforeEachRoute = (
+export const handleBeforeEachRoute = (
   guard: RouteLocationNormalized,
   store: RouterTabStore
 ) => {
@@ -49,8 +49,8 @@ const init = (app: App, options: Options) => {
  * @param {Router} router
  */
 const routerInit = (router: Router) => {
-  const store = useRouterTabStore();
-  router.beforeEach((guard) => handleBeforeEachRoute(guard, store));
+  // const store = useRouterTabStore();
+  // router.beforeEach((guard) => handleBeforeEachRoute(guard, store));
 };
 
 /**

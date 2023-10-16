@@ -20,10 +20,9 @@ describe('VueRouterTab Plugin', async () => {
 
   it('Page content should be changed when route changed', async ({ expect }) => {
     await router.push('/initial');
+    expect(pageComponent.findComponent({ name: '/initial' }).exists()).toBeTruthy();
 
-    // expect(pageComponent.findComponent({ name: '/initial' }).exists()).toBeTruthy();
-
-    // expect(pageComponent.html()).toContain('/initial');
+    expect(pageComponent.html()).toContain('/initial');
 
     await router.push('/initial?id=1');
     expect(pageComponent.findComponent({ name: '/initial?id=1' }).exists()).toBeTruthy();
@@ -53,14 +52,14 @@ describe('VueRouterTab Plugin', async () => {
     expect(keepAliveRouter.vm.deactivatedCalled).toBeFalsy();
     expect(keepAliveRouter.vm.unmountedCalled).toBeFalsy();
 
-    // await router.push('/noKeepAlivePath');
-    // const noKeepAliveRouter = pageComponent.getComponent({ name: '/noKeepAlivePath' });
-    // expect(pageComponent.findComponent({ name: '/noKeepAlivePath' }).exists()).toBeTruthy();
-    // expect(keepAliveRouter.vm.deactivatedCalled).toBeTruthy();
-    // expect(keepAliveRouter.vm.unmountedCalled).toBeFalsy();
+    await router.push('/noKeepAlivePath');
+    const noKeepAliveRouter = pageComponent.getComponent({ name: '/noKeepAlivePath' });
+    expect(pageComponent.findComponent({ name: '/noKeepAlivePath' }).exists()).toBeTruthy();
+    expect(keepAliveRouter.vm.deactivatedCalled).toBeTruthy();
+    expect(keepAliveRouter.vm.unmountedCalled).toBeFalsy();
 
-    // await router.push('/keepAlivePath');
-    // expect(noKeepAliveRouter.vm.deactivatedCalled).toBeFalsy();
-    // expect(noKeepAliveRouter.vm.unmountedCalled).toBeTruthy();
+    await router.push('/keepAlivePath');
+    expect(noKeepAliveRouter.vm.deactivatedCalled).toBeFalsy();
+    expect(noKeepAliveRouter.vm.unmountedCalled).toBeTruthy();
   });
 });
