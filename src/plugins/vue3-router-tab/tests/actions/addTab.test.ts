@@ -1,5 +1,5 @@
 import { ExpectStatic, describe, it, beforeEach } from 'vitest';
-import { RouterTabType } from '../../store';
+import { RouterTabType } from '../../store/routerTab';
 import { beforeEachFn } from '../unit';
 import { Router } from 'vue-router';
 

@@ -1,4 +1,4 @@
-import { TabId } from "../../types";
+import { TabId } from "../../../types";
 
 /**
  * @description: navigate to tab

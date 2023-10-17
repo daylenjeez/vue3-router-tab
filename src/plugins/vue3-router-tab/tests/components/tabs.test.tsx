@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { beforeEachFn, } from '../unit';
 import Tabs from '@/plugins/vue3-router-tab/components/tabs';
-import { RouterTabType } from '../../store';
+import { RouterTabType } from '../../store/routerTab';
 import { Router } from 'vue-router';
 
 describe('check tabs', async () => {

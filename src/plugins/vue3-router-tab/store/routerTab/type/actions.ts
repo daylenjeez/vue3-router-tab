@@ -4,8 +4,8 @@ import {
   Router,
 } from "vue-router";
 import { State } from "./state";
-import { Tab, TabId, TabKey, TabWithIndex } from "../../types";
-import { CreateActions } from "../type";
+import { Tab, TabId, TabKey, TabWithIndex } from "../../../types";
+import { CreateActions } from "../../type";
 import { OpenOptions, ToOptions } from "./options";
 
 export interface CreateTabId {
@@ -113,5 +113,5 @@ export type Actions = CreateActions<
   }
 >;
 export type RouterStore = ReturnType<
-  typeof import("../../store")["useRouterTabStore"]
+  typeof import("..")["useRouterTabStore"]
 >;

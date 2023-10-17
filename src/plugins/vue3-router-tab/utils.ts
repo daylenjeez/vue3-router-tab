@@ -31,3 +31,27 @@ export const pick = <T extends object, K extends keyof T>(base: T, ...keys: K[])
   const entries = keys.map(key => ([key, base[key]]));
   return Object.fromEntries(entries);
 };
+
+type Fn<Args extends any[], ReturnType extends any, ThisType = any> =
+  (this: ThisType, ...args: Args) => ReturnType;
+
+export function withPreAction<Args extends any[], ReturnType extends any, ThisType = any>(
+  originalFn: Fn<Args, ReturnType, ThisType>,
+  preActionFn: Fn<Args, void, ThisType>
+): Fn<Args, ReturnType, ThisType> {
+  return function (this: ThisType, ...args: Args): ReturnType {
+    preActionFn.apply(this, args);
+    return originalFn.apply(this, args);
+  };
+}
+
+export function withPostAction<Args extends any[], ThisType = any>(
+  originalFn: Fn<Args, ThisType>,
+  postActionFn: Fn<Args, void, ThisType>
+) {
+  return function (this: ThisType, ...args: Args): void {
+    originalFn.apply(this, args);
+    postActionFn.apply(this, args);
+  };
+}
+

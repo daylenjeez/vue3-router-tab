@@ -1,6 +1,6 @@
 import { describe, beforeEach, it } from 'vitest';
 import { Router } from 'vue-router';
-import { RouterTabType } from '../../store';
+import { RouterTabType } from '../../store/routerTab';
 import { beforeEachFn } from '../unit';
 
 describe('Check tab closed', async () => {

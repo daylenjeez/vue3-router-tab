@@ -14,8 +14,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, computed, watch,VNode, } from "vue";
-import { useRouterTab } from "../../store";
-import {useCache} from  "../../hooks";
+import { useRouterTab,useCache } from "../../store";
 import {renameComponentType} from "../renameComponent";
 import { useRouter } from "vue-router";
 import { updateTabOnRouteChange } from "../..";
@@ -23,12 +22,12 @@ import { updateTabOnRouteChange } from "../..";
 export default defineComponent({
   name: "RtPages",
   setup() {
-    const componentMap: Map<string,VNode> = new Map();
     const routerTab = useRouterTab();
     const router = useRouter();
+    const cache = useCache();
     const activeTab = computed(()=>routerTab.activeTab);
     const activeTabKey = computed(() => activeTab.value?.id);
-    const cache = useCache(activeTabKey.value);
+
     const cachedKeys = computed(() => {
       const keys = cache.keys;
       return activeTab.value?.keepAlive ? keys : keys.filter(k => k !== activeTabKey.value);
@@ -38,7 +37,6 @@ export default defineComponent({
       router.currentRoute,
       async val => {
         updateTabOnRouteChange(val, routerTab);
-        activeTabKey.value && cache.add(activeTabKey.value);
       },
       { immediate: true }
     );
@@ -50,9 +48,10 @@ export default defineComponent({
         const _key = activeTabKey.value;
         if (!Component || !_key) return Component;
 
-        if (componentMap.has(_key)) return componentMap.get(_key);
+        if (cache.has(_key)) return cache.get(_key);
         const renamedComponent = renameComponentType(Component, _key);
-        return componentMap.set(_key, renamedComponent).get(_key);
+        cache.add(_key, renamedComponent);
+        return cache.get(_key);
       },
     };
   },

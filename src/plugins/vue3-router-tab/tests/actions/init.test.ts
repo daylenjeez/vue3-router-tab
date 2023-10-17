@@ -1,8 +1,8 @@
 import { beforeEach, describe, expectTypeOf, it } from "vitest";
 import { Tab } from "../../types";
-import { Close, CloseOthers, GetTabs, Open } from "../../store/type/actions";
+import { Close, CloseOthers, GetTabs, Open } from "../../store/routerTab/type/actions";
 import { beforeEachFn } from "../unit";
-import { useRouterTab } from "../../store";
+import { useRouterTab } from "../../store/routerTab";
 
 describe("init", () => {
   beforeEach(async () => {

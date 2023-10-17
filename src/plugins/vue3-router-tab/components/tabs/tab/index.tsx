@@ -3,7 +3,7 @@ import { Tab } from "../../../types"; //TODO: use relative path
 import Tablabel from "./label";
 
 import styles from "./style.module.less";
-import { useRouterTabStore } from "../../../store";
+import { useRouterTabStore } from "../../../store/routerTab";
 
 export default defineComponent({
   name: "RtTab",

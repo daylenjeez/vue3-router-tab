@@ -1,6 +1,6 @@
-import { INITIAL_TAB_CONFIG } from "../constants";
-import { Tab, TabConfig, TabId } from "../types";
-import { isFunction, isNonEmptyString, isString, throwError } from "../utils";
+import { INITIAL_TAB_CONFIG } from "../../constants";
+import { Tab, TabConfig, TabId } from "../../types";
+import { isFunction, isNonEmptyString, isString, throwError } from "../../utils";
 import {
   AddTab,
   Clear,
