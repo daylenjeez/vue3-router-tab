@@ -4,6 +4,7 @@ import Tablabel from "./label";
 
 import styles from "./style.module.less";
 import { useRouterTabStore } from "../../../store/routerTab";
+import { useCache } from "../../../store";
 
 export default defineComponent({
   name: "RtTab",
@@ -34,7 +35,9 @@ export default defineComponent({
     };
 
     const close = (e: MouseEvent) => {
-      store.close({ id: props.id });
+      const cache = useCache();
+      cache.refresh(props.id);
+      // store.close({ id: props.id });
       e.stopPropagation();
     };
 

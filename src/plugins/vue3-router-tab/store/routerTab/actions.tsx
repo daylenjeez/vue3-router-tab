@@ -266,9 +266,12 @@ const _refresh: Refresh = function (this: RouterStore, tabId) {
 /**
  * clear tabs
  **/
-const _clear: Clear = function (this: RouterStore) {
+const _clear: Clear = withPostAction(function (this: RouterStore) {
   this.tabs = [];
-};
+}, () => {
+  const cache = useCache();
+  cache.reset();
+});
 
 /**
  * @param {RouteLocationRaw} to

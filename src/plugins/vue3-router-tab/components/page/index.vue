@@ -6,6 +6,7 @@
       >
         <component
           :is="retrieveOrCacheComponent(Component)"
+          v-if="!refreshing"
           :key="activeTabKey"
         />
       </keep-alive>
@@ -27,6 +28,7 @@ export default defineComponent({
     const cache = useCache();
     const activeTab = computed(()=>routerTab.activeTab);
     const activeTabKey = computed(() => activeTab.value?.id);
+    const refreshing = computed(() => cache.refreshing);
 
     const cachedKeys = computed(() => {
       const keys = cache.keys;
@@ -44,6 +46,7 @@ export default defineComponent({
     return {
       activeTabKey,
       cachedKeys,
+      refreshing,
       retrieveOrCacheComponent: (Component: VNode) =>  {
         const key = activeTabKey.value;
         if (!Component || !key) return Component;
