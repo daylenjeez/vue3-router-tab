@@ -15,11 +15,11 @@ interface Options {
 }
 
 /**
- * * Handler executed before each route change in the router's `beforeEach` hook
+ * Update tab on route change
  * @param {RouteLocationNormalized} guard
  * @param {RouterTabStore} store
  */
-export const handleBeforeEachRoute = (
+export const updateTabOnRouteChange = (
   guard: RouteLocationNormalized,
   store: RouterTabStore
 ) => {

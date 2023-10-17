@@ -1,7 +1,6 @@
 import { reactive, ref } from "vue";
 
 export const useCache = (currentKey?: string) => {
-  // const keys: Ref<Set<string>> = ref(new Set<string>());
   const keys = ref<string[]>([]);
 
   return reactive({
@@ -19,8 +18,4 @@ export const useCache = (currentKey?: string) => {
       keys.value = [];
     }
   });
-};
-
-export const useComponent = (cache: ReturnType<typeof useCache>, component: Map<string, VNode>) => {
-
 };

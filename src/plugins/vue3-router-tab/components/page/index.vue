@@ -2,11 +2,11 @@
   <div>
     <router-view v-slot="{ Component }">
       <keep-alive
-        :include="keys"
+        :include="cachedKeys"
       >
         <component
-          :is="handleComponent(Component)"
-          :key="key"
+          :is="getOrRenameComponent(Component)"
+          :key="activeTabKey"
         />
       </keep-alive>
     </router-view>
@@ -18,7 +18,7 @@ import { useRouterTab } from "../../store";
 import {useCache} from  "../../hooks";
 import {renameComponentType} from "../renameComponent";
 import { useRouter } from "vue-router";
-import { handleBeforeEachRoute } from "../..";
+import { updateTabOnRouteChange } from "../..";
 
 export default defineComponent({
   name: "RtPages",
@@ -26,33 +26,33 @@ export default defineComponent({
     const componentMap: Map<string,VNode> = new Map();
     const routerTab = useRouterTab();
     const router = useRouter();
-    const tab = computed(()=>routerTab.activeTab);
-    const key = computed(() => tab.value?.id);
-    const cache = useCache(key.value);
-    const keys = computed(() => {
+    const activeTab = computed(()=>routerTab.activeTab);
+    const activeTabKey = computed(() => activeTab.value?.id);
+    const cache = useCache(activeTabKey.value);
+    const cachedKeys = computed(() => {
       const keys = cache.keys;
-      return tab.value?.keepAlive ? keys : keys.filter(k => k !== key.value);
+      return activeTab.value?.keepAlive ? keys : keys.filter(k => k !== activeTabKey.value);
     });
 
     watch(
       router.currentRoute,
       async val => {
-        handleBeforeEachRoute(val, routerTab);
-        key.value && cache.add(key.value);
+        updateTabOnRouteChange(val, routerTab);
+        activeTabKey.value && cache.add(activeTabKey.value);
       },
       { immediate: true }
     );
 
     return {
-      key,
-      keys,
-      tab,
-      handleComponent: (Component: VNode) =>  {
-        if (!Component || !key.value) return Component;
+      activeTabKey,
+      cachedKeys,
+      getOrRenameComponent: (Component: VNode) =>  {
+        const _key = activeTabKey.value;
+        if (!Component || !_key) return Component;
 
-        if (componentMap.has(key.value)) return componentMap.get(key.value);
-        const renamedComponent = renameComponentType(Component, key.value);
-        return componentMap.set(key.value, renamedComponent).get(key.value);
+        if (componentMap.has(_key)) return componentMap.get(_key);
+        const renamedComponent = renameComponentType(Component, _key);
+        return componentMap.set(_key, renamedComponent).get(_key);
       },
     };
   },
