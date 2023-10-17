@@ -5,7 +5,7 @@
         :include="cachedKeys"
       >
         <component
-          :is="getOrRenameComponent(Component)"
+          :is="retrieveOrCacheComponent(Component)"
           :key="activeTabKey"
         />
       </keep-alive>
@@ -35,7 +35,7 @@ export default defineComponent({
 
     watch(
       router.currentRoute,
-      async val => {
+      val => {
         updateTabOnRouteChange(val, routerTab);
       },
       { immediate: true }
@@ -44,14 +44,13 @@ export default defineComponent({
     return {
       activeTabKey,
       cachedKeys,
-      getOrRenameComponent: (Component: VNode) =>  {
-        const _key = activeTabKey.value;
-        if (!Component || !_key) return Component;
-
-        if (cache.has(_key)) return cache.get(_key);
-        const renamedComponent = renameComponentType(Component, _key);
-        cache.add(_key, renamedComponent);
-        return cache.get(_key);
+      retrieveOrCacheComponent: (Component: VNode) =>  {
+        const key = activeTabKey.value;
+        if (!Component || !key) return Component;
+        if (cache.has(key)) return cache.get(key);
+        const renamedComponent = renameComponentType(Component, key);
+        cache.add(key, renamedComponent);
+        return cache.get(key);
       },
     };
   },

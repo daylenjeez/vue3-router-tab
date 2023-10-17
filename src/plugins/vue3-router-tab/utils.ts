@@ -45,13 +45,14 @@ export function withPreAction<Args extends any[], ReturnType extends any, ThisTy
   };
 }
 
-export function withPostAction<Args extends any[], ThisType = any>(
-  originalFn: Fn<Args, ThisType>,
+export function withPostAction<Args extends any[], ReturnType extends any, ThisType = any>(
+  originalFn: Fn<Args, ReturnType, ThisType>,
   postActionFn: Fn<Args, void, ThisType>
-) {
-  return function (this: ThisType, ...args: Args): void {
-    originalFn.apply(this, args);
+): Fn<Args, ReturnType, ThisType> {
+  return function (this: ThisType, ...args: Args): ReturnType {
+    const res = originalFn.apply(this, args);
     postActionFn.apply(this, args);
+    return res;
   };
 }
 

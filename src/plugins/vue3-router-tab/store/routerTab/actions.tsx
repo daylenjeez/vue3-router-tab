@@ -1,6 +1,7 @@
 import { INITIAL_TAB_CONFIG } from "../../constants";
 import { Tab, TabConfig, TabId } from "../../types";
-import { isFunction, isNonEmptyString, isString, throwError } from "../../utils";
+import { isFunction, isNonEmptyString, isString, throwError, withPostAction } from "../../utils";
+import { useCache } from "../cache";
 import {
   AddTab,
   Clear,
@@ -155,13 +156,20 @@ const _addTab: AddTab = function (this: RouterStore, tab, options) {
  * @param {TabId} tabId
  * @returns {TabWithIndex | undefined} tab
  */
-const _removeTabById: RemoveTabById = function (this: RouterStore, tabId) {
+const __removeTabById: RemoveTabById = function (this: RouterStore, tabId) {
   const index = this._indexOfTab(tabId);
   if (index < 0) return void 0;
-
   const removedTab = this._removeTabByIndex(index);
   return removedTab ? { ...removedTab, index } : void 0;
 };
+
+/**
+ * remove tab and delete cache
+ */
+const _removeTabwithPostAction = withPostAction(__removeTabById, (tabId: TabId) => {
+  const cache = useCache();
+  cache.delete(tabId);
+});
 
 /**
  * remove tab
@@ -242,7 +250,7 @@ const _remove: Remove = function (this: RouterStore, item) {
   if ('fullPath' in item) tabId = item.fullPath ? this._getTabByFullpath(item.fullPath)?.id : void 0;
 
   if (!tabId) return throwError(`Tab not found, please check the param: ${item}`);
-  return this._removeTabById(tabId);
+  return this._removeTabwithPostAction(tabId);
 };
 
 /**
@@ -348,7 +356,8 @@ export default {
   _getTab,
   _getTabByFullpath,
   _getTabIdByRouteMeta,
-  _removeTabById,
+  __removeTabById,
+  _removeTabwithPostAction,
   _removeTabByIndex,
   _remove,
   _refresh,
