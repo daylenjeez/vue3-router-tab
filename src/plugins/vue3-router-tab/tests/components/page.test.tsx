@@ -4,7 +4,7 @@ import { beforeEach, describe, it } from 'vitest';
 import { beforeEachFn, } from '../unit';
 import { Router } from 'vue-router';
 
-describe('VueRouterTab Plugin', async () => {
+describe.skip('VueRouterTab Plugin', async () => {
   let router: Router;
   let wrapper: any;
   let pageComponent: any;

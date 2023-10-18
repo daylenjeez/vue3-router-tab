@@ -5,6 +5,7 @@ import { VNode, nextTick } from "vue";
 interface State {
   componentMap: Map<string, VNode>;
   refreshing: boolean;
+  activeKey: string | undefined;
 }
 
 type Getters = CreateGetters<State, {
@@ -21,14 +22,18 @@ type Actions = CreateActions<
     delete(key: string): void;
     reset(): void;
     refresh(key: string): void;
+    setActiveKey(key: string|undefined):void;
   }>
 
 export type UseCache = StoreDefinition<string, State, Getters, Actions>;
 
 export const useCache: UseCache = defineStore("cache", {
-  state: (): State => ({ componentMap: new Map<string, VNode>(), refreshing: false }),
+  state: (): State => ({ componentMap: new Map<string, VNode>(), refreshing: false,activeKey:undefined, }),
   getters: { keys: (state: State) => Array.from(state.componentMap.keys()) },
   actions: {
+    setActiveKey(key: string|undefined) {
+      this.activeKey = key;
+    },
     has(key: string) {
       return this.componentMap.has(key);
     },
@@ -43,15 +48,19 @@ export const useCache: UseCache = defineStore("cache", {
     },
     reset() {
       this.componentMap.clear();
+      console.log(this.keys);
     },
     refresh(key: string) {
       const component = this.componentMap.get(key);
       this.componentMap.delete(key);
-      this.refreshing = true;
+      if(this.activeKey === key)this.refreshing = true;
       nextTick(() => {
         this.componentMap.set(key, component!);
-        this.refreshing = false;
+        if(this.activeKey === key)this.refreshing = false;
       });
     }
   },
 });
+
+
+export type CacheType = ReturnType<typeof useCache>;

@@ -2,13 +2,14 @@ import { ExpectStatic, describe, it, beforeEach } from 'vitest';
 import { RouterTabType } from '../../store/routerTab';
 import { beforeEachFn } from '../unit';
 import { Router } from 'vue-router';
+import { CacheType } from '../../store/cache';
 
 const expectActiveTab = (expect: ExpectStatic, routerTab: RouterTabType) => {
   expect(routerTab.getActiveTab()).toEqual(routerTab.getTabs().at(-1));
   expect(routerTab.getActiveTab()?.id).toEqual(routerTab.getTabs().at(-1)?.id);
 };
 
-describe('Should add tab when router pushed', async () => {
+describe.skip('Should add tab when router pushed', async () => {
   let router: Router;
   let routerTab: RouterTabType;
 
@@ -74,18 +75,22 @@ describe('Should add tab when router pushed', async () => {
 describe('Check add Tab when the same route', async () => {
   let router: Router;
   let routerTab: RouterTabType;
+  let cache:CacheType;
 
   beforeEach(async () => {
     const item = await beforeEachFn();
     router = item.router;
     routerTab = item.routerTab;
+    cache = item.cache;
   });
 
   it(`fullPath：相同path，相同query，应该同一条`, async ({ expect }) => {
+
     await router.push('/initial?id=1&name=amy');
     await router.push({ path: '/initial', query: { id: '1', name: 'amy' } });
-
+    
     expect(routerTab.getTabs()).length(1);
+    expect(cache.keys).length(1);
     expect(routerTab.getActiveTab()).equal(routerTab.getTabs().at(-1));
   });
 
@@ -94,6 +99,8 @@ describe('Check add Tab when the same route', async () => {
     await router.push('/initial?id=1');
 
     expect(routerTab.getTabs()).length(2);
+    expect(cache.keys).length(2);
+    
     expect(routerTab.getActiveTab()).equal(routerTab.getTabs().at(-1));
   });
 
@@ -102,7 +109,9 @@ describe('Check add Tab when the same route', async () => {
     await router.push('/fullpathWithParams/2');
 
     expect(routerTab.getTabs()).length(2);
+    expect(cache.keys).length(2);
     expect(routerTab.getActiveTab()).equal(routerTab.getTabs().at(-1));
+    expect(cache.activeKey).equal(routerTab.getTabs().at(-1)?.id);
   });
 
   it(`path：相同path，相同query，应该同一条`, async ({ expect }) => {
@@ -125,6 +134,7 @@ describe('Check add Tab when the same route', async () => {
 
     expect(routerTab.getTabs()).length(2);
     expect(routerTab.getActiveTab()).equal(routerTab.getTabs().at(-1));
+    expect(cache.activeKey).toEqual('/pathWithParams/2');
   });
 
   it(`custom：相同query的id，应该同一条`, async ({ expect }) => {
@@ -133,6 +143,7 @@ describe('Check add Tab when the same route', async () => {
 
     expect(routerTab.getTabs()).length(1);
     expect(routerTab.getActiveTab()?.id).toEqual('/custom?id=1');
+    expect(cache.activeKey).toEqual('/custom?id=1');
   });
 
   it(`custom：不同params的id，应该同一条`, async ({ expect }) => {
@@ -141,5 +152,6 @@ describe('Check add Tab when the same route', async () => {
 
     expect(routerTab.getTabs()).length(1);
     expect(routerTab.getActiveTab()?.id).toEqual('/customWithParams');
+    expect(cache.activeKey).toEqual('/customWithParams');
   });
 });

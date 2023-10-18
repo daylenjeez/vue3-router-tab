@@ -194,6 +194,8 @@ const _setActiveTab: SetActiveTab = function (
 ) {
   if (!tab) return throwError(`Tab not found, please check the tab: ${tab}`);
   this.activeTab = tab;
+  const cache = useCache();
+  cache.setActiveKey(tab.id);
   return tab;
 };
 

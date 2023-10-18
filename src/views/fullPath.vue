@@ -19,5 +19,14 @@ export default {
     };
     return { name: "page3", num, click };
   },
+  deactivated(){
+    console.log('FullPathPage deactivated');
+  },
+  activated(){
+    console.log('FullPathPage activated');
+  },
+  unmounted(){
+    console.log('FullPathPage unmouted');
+  }
 };
 </script>

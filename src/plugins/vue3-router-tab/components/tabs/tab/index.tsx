@@ -4,7 +4,6 @@ import Tablabel from "./label";
 
 import styles from "./style.module.less";
 import { useRouterTabStore } from "../../../store/routerTab";
-import { useCache } from "../../../store";
 
 export default defineComponent({
   name: "RtTab",
@@ -35,9 +34,7 @@ export default defineComponent({
     };
 
     const close = (e: MouseEvent) => {
-      const cache = useCache();
-      cache.refresh(props.id);
-      // store.close({ id: props.id });
+      store.close({ id: props.id });
       e.stopPropagation();
     };
 
@@ -45,7 +42,7 @@ export default defineComponent({
       <div class={classNames.value} onClick={click}>
         <div></div>
         <Tablabel name={props.name} />
-        {tabsLength.value > 1 && <div onClick={close}>x</div>}
+        {tabsLength.value > 1 && <div style={{marginLeft:'8px'}} onClick={close}>x</div>}
       </div>
     );
   },
