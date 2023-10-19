@@ -41,9 +41,12 @@ export const useCache: UseCache = defineStore("cache", {
       return this.componentMap.get(key);
     },
     add(key: string, vNode: VNode) {
+      console.log('add',key);
+      
       this.componentMap.set(key, vNode);
     },
     delete(key: string) {
+      console.log('delete',key);
       this.componentMap.delete(key);
     },
     reset() {
