@@ -2,7 +2,7 @@ import { describe, it, beforeEach } from 'vitest';
 import { RouterTabType } from '../../store/routerTab';
 import { beforeEachFn } from '../unit';
 
-describe.skip('test open api', async () => {
+describe('test open api', async () => {
   let routerTab: RouterTabType;
 
   beforeEach(async () => {

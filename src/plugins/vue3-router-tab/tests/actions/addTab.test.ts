@@ -9,7 +9,7 @@ const expectActiveTab = (expect: ExpectStatic, routerTab: RouterTabType) => {
   expect(routerTab.getActiveTab()?.id).toEqual(routerTab.getTabs().at(-1)?.id);
 };
 
-describe.skip('Should add tab when router pushed', async () => {
+describe('Should add tab when router pushed', async () => {
   let router: Router;
   let routerTab: RouterTabType;
 
@@ -85,7 +85,6 @@ describe('Check add Tab when the same route', async () => {
   });
 
   it(`fullPath：相同path，相同query，应该同一条`, async ({ expect }) => {
-
     await router.push('/initial?id=1&name=amy');
     await router.push({ path: '/initial', query: { id: '1', name: 'amy' } });
     

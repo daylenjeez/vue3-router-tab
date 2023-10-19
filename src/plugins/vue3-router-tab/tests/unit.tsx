@@ -49,7 +49,6 @@ export const beforeEachFn = async () => {
   const wrapper = await getWrapper(router);
   const routerTab = useRouterTab();
   const cache = useCache();
-  await router.push('/');
   useRouterTabStore()._clear();
 
   return {

@@ -4,7 +4,7 @@ import { Close, CloseOthers, GetTabs, Open } from "../../store/routerTab/type/ac
 import { beforeEachFn } from "../unit";
 import { useRouterTab } from "../../store/routerTab";
 
-describe.skip("init", () => {
+describe("init", () => {
   beforeEach(async () => {
     await beforeEachFn();
   });

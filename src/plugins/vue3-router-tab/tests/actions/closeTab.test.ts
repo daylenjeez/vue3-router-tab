@@ -3,7 +3,7 @@ import { Router } from 'vue-router';
 import { RouterTabType } from '../../store/routerTab';
 import { beforeEachFn } from '../unit';
 
-describe.skip('Check tab closed', async () => {
+describe('Check tab closed', async () => {
   let router: Router;
   let routerTab: RouterTabType;
 

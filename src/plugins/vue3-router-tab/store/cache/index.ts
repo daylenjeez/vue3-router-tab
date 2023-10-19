@@ -48,7 +48,6 @@ export const useCache: UseCache = defineStore("cache", {
     },
     reset() {
       this.componentMap.clear();
-      console.log(this.keys);
     },
     refresh(key: string) {
       const component = this.componentMap.get(key);

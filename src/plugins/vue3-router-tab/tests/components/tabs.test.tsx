@@ -5,7 +5,7 @@ import { beforeEachFn, } from '../unit';
 import { RouterTabType } from '../../store/routerTab';
 import { Router } from 'vue-router';
 
-describe.skip('check tabs', async () => {
+describe('check tabs', async () => {
 
   let router: Router;
   let routerTab: RouterTabType;
