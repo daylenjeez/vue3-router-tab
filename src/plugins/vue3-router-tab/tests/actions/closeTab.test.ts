@@ -2,30 +2,36 @@ import { describe, beforeEach, it } from 'vitest';
 import { Router } from 'vue-router';
 import { RouterTabType } from '../../store/routerTab';
 import { beforeEachFn } from '../unit';
+import { CacheType } from '../../store/cache';
 
 describe('Check tab closed', async () => {
   let router: Router;
   let routerTab: RouterTabType;
+  let cache: CacheType;
 
   beforeEach(async () => {
     const item = await beforeEachFn();
     router = item.router;
     routerTab = item.routerTab;
+    cache = item.cache;
   });
 
   it(`close current tab`, async ({ expect }) => {
     await router.push('/initial?id=1&name=amy');
     expect(routerTab.getTabs().length).toEqual(1);
-    await routerTab.close();
-    expect(routerTab.getTabs().length).toEqual(0);
+    routerTab.close();
+    expect(cache.keys).length(0);
+    expect(routerTab.getTabs()).length(0);
   });
 
   it(`close tab by id`, async ({ expect }) => {
     await router.push('/initial?id=1');
     await router.push('/path?id=1');
-    expect(routerTab.getTabs().length).toEqual(2);
+    expect(routerTab.getTabs()).length(2);
+    expect(cache.keys).length(2);
     await routerTab.close('/initial?id=1');
-    expect(routerTab.getTabs().length).toEqual(1);
+    expect(routerTab.getTabs()).length(1);
+    expect(cache.keys).length(1);
   });
 
   it(`close tab by route`, async ({ expect }) => {
