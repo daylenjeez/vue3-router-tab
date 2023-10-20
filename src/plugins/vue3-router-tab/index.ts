@@ -23,9 +23,9 @@ export const updateTabOnRouteChange = (
   guard: RouteLocationNormalized,
   store: RouterTabStore
 ) => {
-  const tabId = store._getTabIdByRouteMeta(guard);
+  const tabId = store._getTabIdByRoute(guard);
 
-  if (tabId && store._hasTab(tabId)) {
+  if (tabId && store.hasTab(tabId)) {
     store._setActiveTab(store._getTab(tabId));
   } else {
     const tab = store._createTab(guard);

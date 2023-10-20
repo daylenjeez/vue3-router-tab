@@ -27,7 +27,7 @@ describe('check tabs', async () => {
     await router.push('/path?id=1&name=1');
     await router.push('/fullpath?id=1');
     await router.push('/fullpath?id=3');
-    const tabs = routerTab.getTabs();
+    const tabs = routerTab.tabs;
 
     const tabComponents = wrapper.findAllComponents({ name: 'RtTab' });
 
@@ -44,7 +44,7 @@ describe('check tabs', async () => {
 
       if (classes.some(item => item.toString().startsWith('_rt-tab-active'))) {
         const tabLabel = tab.getComponent({ name: 'RtTabLabel' });
-        return tabLabel.text() === routerTab.getActiveTab()?.name;
+        return tabLabel.text() === routerTab.activeTab?.name;
       }
     });
 

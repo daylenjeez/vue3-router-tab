@@ -1,6 +1,6 @@
 import { beforeEach, describe, expectTypeOf, it } from "vitest";
 import { Tab } from "../../types";
-import { Close, CloseOthers, GetTabs, Open } from "../../store/routerTab/type/actions";
+import { Close, CloseOthers, Open } from "../../store/routerTab/type/actions";
 import { beforeEachFn } from "../unit";
 import { useRouterTab } from "../../store/routerTab";
 
@@ -16,12 +16,7 @@ describe("init", () => {
 
   it("should have 'tabs' property of type Tab[] in useRouterTab", () => {
     const routeTab = useRouterTab();
-    expectTypeOf(routeTab.getTabs()).toEqualTypeOf<Tab[]>();
-  });
-
-  it("should have 'getTabs' property of type GetTabs in useRouterTab", () => {
-    const routeTab = useRouterTab();
-    expectTypeOf(routeTab.getTabs).toEqualTypeOf<GetTabs>();
+    expectTypeOf(routeTab.tabs).toEqualTypeOf<Tab[]>();
   });
 
   it("should have 'close' property of type Close in useRouterTab", () => {

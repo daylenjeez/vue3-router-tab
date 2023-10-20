@@ -69,6 +69,6 @@ export const afterEachFn = async ({ wrapper }: { routerTab: RouterTabType, wrapp
 export const sameLength = (cache: CacheType, routerTab: RouterTabType) => {
   return (expect: ExpectStatic, length: number) => {
     expect(cache.keys).length(length);
-    expect(routerTab.getTabs()).length(length);
+    expect(routerTab.tabs).length(length);
   };
 };

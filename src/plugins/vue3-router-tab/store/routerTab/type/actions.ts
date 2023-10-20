@@ -88,10 +88,10 @@ export type Actions = CreateActions<
   {
     _createTabId: CreateTabId;
     _createTab: CreateTab;
-    _hasTab: HasTab;
+    hasTab: HasTab;
     _indexOfTab: IndexOfTab;
     _getTab: GetTab;
-    _getTabIdByRouteMeta: GetTabIdByRouteMeta;
+    _getTabIdByRoute: GetTabIdByRouteMeta;
     _getTabByFullpath: GetTabByFullPath;
     _addTab: AddTab;
     _removeTabById: RemoveTabById;
@@ -108,8 +108,6 @@ export type Actions = CreateActions<
     open: Open;
     close: Close;
     closeOthers: CloseOthers;
-    getTabs: GetTabs;
-    getActiveTab: GetActiveTab;
   }
 >;
 export type RouterStore = ReturnType<

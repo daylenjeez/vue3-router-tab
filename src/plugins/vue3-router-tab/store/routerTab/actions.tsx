@@ -86,7 +86,7 @@ const _createTab: CreateTab = function (this: RouterStore,
  * @param {RouteLocationNormalizedLoaded} route
  * @returns {TabId} tabId
  */
-const _getTabIdByRouteMeta: GetTabIdByRouteMeta = function (
+const _getTabIdByRoute: GetTabIdByRouteMeta = function (
   this: RouterStore,
   route
 ) {
@@ -112,7 +112,7 @@ const _indexOfTab: IndexOfTab = function (this: RouterStore, tabId) {
  * @param {TabId} tabId
  * @returns {boolean} hasTab
  */
-const _hasTab: HasTab = function (this: RouterStore, tabId) {
+const hasTab: HasTab = function (this: RouterStore, tabId) {
   return this.tabs.some(({ id }) => id === tabId);
 };
 
@@ -263,7 +263,8 @@ const _remove: Remove = function (this: RouterStore, item) {
 const _refresh: Refresh = function (this: RouterStore, tabId) {
   const tab = this._getTab(tabId);
   if (!tab) return throwError(`Tab not found, please check the tab id: ${tabId}`);
-  //TODO:refresh
+  const cache = useCache();
+  cache.refresh(tabId);
 };
 
 /**
@@ -280,14 +281,18 @@ const _clear: Clear = withPostAction(function (this: RouterStore) {
  * @param {RouteLocationRaw} to
  * @param {Options} options
  * @returns {Promise<RouteLocationNormalized>} route
- * //TODO:refresh
+ * //TODO:refresh need test
  */
 const open: Open = async function (this: RouterStore, to, options = { replace: false, refresh: false }) {
-  const { replace } = options;
+  const { replace,refresh } = options;
   if (replace) return this._routerReplace(to);
-  const router = await this._routerPush(to);
-  return router;
-  // if (refresh) this._refresh(router.name);
+  const route = await this._routerPush(to);
+
+  if (refresh && route) {
+    const tabId = this._getTabIdByRoute(route.to);
+    if(tabId) this._refresh(tabId);
+  }
+  return route;
 };
 
 /**
@@ -332,20 +337,6 @@ const closeOthers: CloseOthers = function (this: RouterStore, tabId) {
 };
 
 /**
- * get all tabs
- */
-const getTabs = function (this: RouterStore) {
-  return this.tabs;
-};
-
-/**
- * get active tab
- */
-const getActiveTab = function (this: RouterStore) {
-  return this.activeTab;
-};
-
-/**
  * @param {string} path //TODO:add other type,RouteLocationRaw
  */
 // const openIframe = function (this: RouterStore, path: string) {
@@ -355,12 +346,11 @@ const getActiveTab = function (this: RouterStore) {
 export default {
   _createTabId,
   _createTab,
-  _hasTab,
   _indexOfTab,
   _addTab,
   _getTab,
   _getTabByFullpath,
-  _getTabIdByRouteMeta,
+  _getTabIdByRoute,
   _removeTabById,
   _removeTabByIndex,
   _remove,
@@ -375,6 +365,5 @@ export default {
   open,
   close,
   closeOthers,
-  getTabs,
-  getActiveTab,
+  hasTab,
 };
