@@ -1,3 +1,5 @@
+import { UnwrapRef } from "vue";
+import { Router } from "vue-router";
 import {
   PiniaCustomProperties,
   StateTree,
@@ -5,8 +7,6 @@ import {
   _StoreWithGetters,
   _StoreWithState,
 } from "pinia";
-import { UnwrapRef } from "vue";
-import { Router } from "vue-router";
 
 export type CreateActions<Id extends string, S extends StateTree, A> = A &
   ThisType<

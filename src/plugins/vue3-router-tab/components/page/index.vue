@@ -15,10 +15,10 @@
 </template>
 <script lang="ts">
 import { defineComponent, computed, watch,VNode, } from "vue";
-import { useRouterTab,useCache } from "../../store";
-import {renameComponentType} from "../renameComponent";
 import { useRouter } from "vue-router";
+import { useRouterTab,useCache } from "../../store";
 import { updateTabOnRouteChange } from "../..";
+import { renameComponentType } from "../../utils";
 
 export default defineComponent({
   name: "RtPages",

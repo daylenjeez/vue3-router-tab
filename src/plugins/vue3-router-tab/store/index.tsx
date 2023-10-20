@@ -1,2 +1,2 @@
-export { useRouterTab } from './routerTab';
+export { useRouterTab,type RouterTabStore } from './routerTab';
 export { useCache } from './cache';
