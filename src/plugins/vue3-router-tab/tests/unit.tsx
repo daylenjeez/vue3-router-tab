@@ -3,6 +3,8 @@ import { RouteLocationNormalized, Router, createMemoryHistory, createRouter } fr
 import { mount } from "@vue/test-utils";
 import { RouterTabType, useRouterTabStore } from "../store/routerTab";
 import { useCache } from "../store";
+import { CacheType } from "../store/cache";
+import { ExpectStatic } from "vitest";
 
 // 创建一个内存路由
 const history = createMemoryHistory();
@@ -64,3 +66,9 @@ export const afterEachFn = async ({ wrapper }: { routerTab: RouterTabType, wrapp
   wrapper.unmount();
 };
 
+export const sameLength = (cache: CacheType, routerTab: RouterTabType) => {
+  return (expect: ExpectStatic, length: number) => {
+    expect(cache.keys).length(length);
+    expect(routerTab.getTabs()).length(length);
+  };
+};

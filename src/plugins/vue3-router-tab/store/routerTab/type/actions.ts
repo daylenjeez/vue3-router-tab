@@ -94,8 +94,7 @@ export type Actions = CreateActions<
     _getTabIdByRouteMeta: GetTabIdByRouteMeta;
     _getTabByFullpath: GetTabByFullPath;
     _addTab: AddTab;
-    __removeTabById: RemoveTabById;
-    _removeTabwithPostAction: RemoveTabById;
+    _removeTabById: RemoveTabById;
     _removeTabByIndex: RemoveTabByIndex;
     _setActiveTab: SetActiveTab;
     _openTabById: OpenTabById;

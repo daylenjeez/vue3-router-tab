@@ -50,10 +50,10 @@ export default defineComponent({
       retrieveOrCacheComponent: (Component: VNode) =>  {
         const key = activeTabKey.value;
         if (!Component || !key) return Component;
-        if (cache.has(key)) return cache.get(key);
+        if (cache.hasComponent(key)) return cache.getComponent(key);
         const renamedComponent = renameComponentType(Component, key);
-        cache.add(key, renamedComponent);
-        return cache.get(key);
+        cache.addComponent(key, renamedComponent);
+        return cache.getComponent(key);
       },
     };
   },

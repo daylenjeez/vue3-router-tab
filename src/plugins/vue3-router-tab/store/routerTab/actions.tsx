@@ -144,6 +144,8 @@ const _addTab: AddTab = function (this: RouterStore, tab, options) {
   const { setActive } = options ?? { setActive: false };
 
   const index = this.tabs.push(tab);
+  const cache = useCache();
+  cache.add(tab.id);
 
   if (setActive) this._setActiveTab(tab);
   return index;
@@ -156,20 +158,16 @@ const _addTab: AddTab = function (this: RouterStore, tab, options) {
  * @param {TabId} tabId
  * @returns {TabWithIndex | undefined} tab
  */
-const __removeTabById: RemoveTabById = function (this: RouterStore, tabId) {
+const _removeTabById: RemoveTabById = function (this: RouterStore, tabId) {
   const index = this._indexOfTab(tabId);
   if (index < 0) return void 0;
   const removedTab = this._removeTabByIndex(index);
-  return removedTab ? { ...removedTab, index } : void 0;
-};
 
-/**
- * remove tab and delete cache
- */
-const _removeTabwithPostAction = withPostAction(__removeTabById, (tabId: TabId) => {
   const cache = useCache();
   cache.delete(tabId);
-});
+
+  return removedTab ? { ...removedTab, index } : void 0;
+};
 
 /**
  * remove tab
@@ -242,7 +240,7 @@ const _routerReplace: RouterReplace = function (this: RouterStore, to) {
 };
 
 /**
- * remove tab
+ * remove tab,The last tab cannot be closed
  * @param {{ id?: TabId; fullPath?: string }} item tabId or route
  * @returns {TabWithIndex  | undefined}
  */
@@ -252,7 +250,10 @@ const _remove: Remove = function (this: RouterStore, item) {
   if ('fullPath' in item) tabId = item.fullPath ? this._getTabByFullpath(item.fullPath)?.id : void 0;
 
   if (!tabId) return throwError(`Tab not found, please check the param: ${item}`);
-  return this._removeTabwithPostAction(tabId);
+  if (this.tabs.length === 1 && this.tabs[0].id === tabId) {
+    return throwError(`The last tab cannot be closed：${item}`);
+  }
+  return this._removeTabById(tabId);
 };
 
 /**
@@ -294,7 +295,6 @@ const open: Open = async function (this: RouterStore, to, options = { replace: f
  * @param {{id:TabId}|{fullPath:string}|string|undefined} item tabId or fullpath
  * @param {ToOptions} toOptions
  * @returns {TabWithIndex | undefined}
- * //TODO:if only one tab and item is current tab, do nothing
  */
 const close: Close = async function (this: RouterStore, item, toOptions) {
   if (!item && !this.activeTab) return void 0;
@@ -361,8 +361,7 @@ export default {
   _getTab,
   _getTabByFullpath,
   _getTabIdByRouteMeta,
-  __removeTabById,
-  _removeTabwithPostAction,
+  _removeTabById,
   _removeTabByIndex,
   _remove,
   _refresh,
