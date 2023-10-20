@@ -1,4 +1,4 @@
-import { RouteLocationNormalized, RouteRecordRaw } from "vue-router";
+import { RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -7,7 +7,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         name: "initial",
         path: "/",
-        component: () => import("../views/home.vue"),
+        component: () => import("../views/Home.vue"),
       },
       {
         name: "path",

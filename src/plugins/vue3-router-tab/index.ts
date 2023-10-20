@@ -4,7 +4,8 @@ import { RouteLocationNormalized, Router } from "vue-router";
 import { createPinia } from "pinia";
 
 import RouterTab from "./router-tab";
-import { useRouterTab,RouterTabStore } from "./store";
+import { useRouterTab } from "./store";
+import { RouterTabStore } from "./store/_routerTab";
 
 /**
  * Add configuration during initialization

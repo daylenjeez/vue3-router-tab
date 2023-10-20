@@ -5,17 +5,14 @@ import { useRouterTabStore } from '../_routerTab';
 import type { TabId } from '../../types';
 import { CreateActions, CreateGetters } from '../type';
 
-interface State extends privateState{
-}
-
-type Getters = CreateGetters<State, {
-  activeTab:  (state: State) =>privateState['activeTab'],
-  tabs:  (state: State)  =>privateState['tabs']
+type Getters = CreateGetters<privateState, {
+  activeTab:  (state: privateState) =>privateState['activeTab'],
+  tabs:  (state: privateState)  =>privateState['tabs']
 }>;
 
 type Actions = CreateActions<
   string,
-  State,
+  privateState,
   {
     hasTab: (tabId:TabId) => boolean,
     open: (...args:Parameters<Open>) => ReturnType<Open>,
@@ -23,7 +20,7 @@ type Actions = CreateActions<
     closeOthers:(...args: Parameters<CloseOthers>) => ReturnType<CloseOthers>
   }>
 
-export type UseRouterTab = StoreDefinition<string, State, Getters, Actions>;
+export type UseRouterTab = StoreDefinition<string, privateState, Getters, Actions>;
 
 export const useRouterTab:UseRouterTab = defineStore({
   id: 'routerTab',
