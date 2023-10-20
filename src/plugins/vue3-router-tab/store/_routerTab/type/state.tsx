@@ -1,7 +1,6 @@
-import { Tab, TabId } from "../../../types";
+import { Tab } from "../../../types";
 
 export interface State {
   tabs: Tab[];
   activeTab: Tab | undefined;
-  cacheKeys: TabId[];
 }

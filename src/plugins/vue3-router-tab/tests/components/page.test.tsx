@@ -1,8 +1,8 @@
 
-import Page from '@/plugins/vue3-router-tab/components/page/index.vue';
 import { beforeEach, describe, it } from 'vitest';
-import { beforeEachFn, } from '../unit';
 import { Router } from 'vue-router';
+import Page from '@/plugins/vue3-router-tab/components/page/index.vue';
+import { beforeEachFn, } from '../unit';
 
 describe('VueRouterTab Plugin', async () => {
   let router: Router;

@@ -1,8 +1,7 @@
 import { ExpectStatic, describe, it, beforeEach } from 'vitest';
-import { RouterTabType } from '../../store/routerTab';
+import { RouterTabType,CacheType } from '../../store';
 import { beforeEachFn, sameLength } from '../unit';
 import { Router } from 'vue-router';
-import { CacheType } from '../../store/cache';
 
 const expectActiveTab = (expect: ExpectStatic, routerTab: RouterTabType) => {
   expect(routerTab.activeTab).toEqual(routerTab.tabs.at(-1));

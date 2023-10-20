@@ -65,4 +65,4 @@ const RouterTabPlugin: Plugin = {
 };
 
 export default RouterTabPlugin;
-export { RouterTab, useRouterTab, };
+export { RouterTab, useRouterTab };

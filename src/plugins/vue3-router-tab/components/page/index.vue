@@ -16,14 +16,14 @@
 <script lang="ts">
 import { defineComponent, computed, watch,VNode, } from "vue";
 import { useRouter } from "vue-router";
-import { useRouterTab,useCache } from "../../store";
+import { useRouterTabStore,useCache } from "../../store";
 import { updateTabOnRouteChange } from "../..";
 import { renameComponentType } from "../../utils";
 
 export default defineComponent({
   name: "RtPages",
   setup() {
-    const routerTab = useRouterTab();
+    const routerTab = useRouterTabStore();
     const router = useRouter();
     const cache = useCache();
     const activeTab = computed(()=>routerTab.activeTab);

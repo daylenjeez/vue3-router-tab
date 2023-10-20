@@ -88,7 +88,6 @@ export type Actions = CreateActions<
   {
     _createTabId: CreateTabId;
     _createTab: CreateTab;
-    hasTab: HasTab;
     _indexOfTab: IndexOfTab;
     _getTab: GetTab;
     _getTabIdByRoute: GetTabIdByRouteMeta;
@@ -107,6 +106,7 @@ export type Actions = CreateActions<
 
     open: Open;
     close: Close;
+    hasTab: HasTab;
     closeOthers: CloseOthers;
   }
 >;

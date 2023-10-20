@@ -1,5 +1,5 @@
 import { describe, it, beforeEach } from 'vitest';
-import { RouterTabType } from '../../store/routerTab';
+import { RouterTabType } from '../../store';
 import { beforeEachFn, sameLength } from '../unit';
 
 describe('test open api', async () => {

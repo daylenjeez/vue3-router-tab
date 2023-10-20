@@ -1,9 +1,9 @@
+import { Router } from 'vue-router';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { mount } from '@vue/test-utils';
 import Tabs from '../../components/tabs';
 import { beforeEachFn, } from '../unit';
-import { RouterTabType } from '../../store/routerTab';
-import { Router } from 'vue-router';
+import { RouterTabType } from '../../store';
 
 describe('check tabs', async () => {
 
