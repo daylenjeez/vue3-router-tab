@@ -37,9 +37,7 @@ export default defineComponent({
 
     watch(
       router.currentRoute,
-      val => {
-        updateTabOnRouteChange(val, routerTab);
-      },
+      val => updateTabOnRouteChange(val, routerTab),
       { immediate: true }
     );
 

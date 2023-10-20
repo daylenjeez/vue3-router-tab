@@ -25,7 +25,7 @@ type Actions = CreateActions<
     addComponent(key: string, vNode: VNode): void;
     delete(key: string): void;
     reset(): void;
-    refresh(key: string): void;
+    refresh(key: string): Promise<void>;
   }>
 
 export type UseCache = StoreDefinition<string, State, Getters, Actions>;
@@ -60,14 +60,16 @@ export const useCache: UseCache = defineStore("cache", {
       this.keySet.clear();
       this.componentMap.clear();
     },
-    refresh(key: string) {
+    async refresh(key: string) {
       const component = this.componentMap.get(key);
       this.componentMap.delete(key);
       if (this.activeKey === key) this.refreshing = true;
-      nextTick(() => {
-        this.componentMap.set(key, component!);
-        if (this.activeKey === key) this.refreshing = false;
-      });
+
+      await nextTick();
+
+      this.componentMap.set(key, component!);
+      if (this.activeKey === key) this.refreshing = false;
+
     }
   },
 });
