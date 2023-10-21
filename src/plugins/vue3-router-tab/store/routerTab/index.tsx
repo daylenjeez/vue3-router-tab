@@ -16,7 +16,7 @@ type Actions = CreateActions<
   {
     hasTab: (tabId:TabId) => boolean,
     open: (...args:Parameters<Open>) => ReturnType<Open>,
-    close: (...args: Parameters<Close>) => ReturnType<Close>,
+    close: Close,
     closeOthers:(...args: Parameters<CloseOthers>) => ReturnType<CloseOthers>
   }>
 
@@ -43,10 +43,10 @@ export const useRouterTab:UseRouterTab = defineStore({
       const routerTab = useRouterTabStore();
       return routerTab.open(...args);
     },
-    close: (...args: Parameters<Close>) => {
+    close: ((...args: Parameters<Close>) => {
       const routerTab = useRouterTabStore();
       return routerTab.close(...args);
-    },
+    }) as Close,
     closeOthers:(...args: Parameters<CloseOthers>) => {
       const routerTab = useRouterTabStore();
       return routerTab.closeOthers(...args);
