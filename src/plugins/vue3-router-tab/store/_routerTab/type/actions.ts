@@ -18,7 +18,7 @@ export interface GetTabByRouteMeta {
   (router: RouteLocationNormalized): Tab | undefined;
 }
 export interface HasTab {
-  (tabId: TabId): boolean;
+  (tabId?: TabId): boolean;
 }
 export interface IndexOfTab {
   (tabId: TabId): number;

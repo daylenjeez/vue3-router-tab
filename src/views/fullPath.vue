@@ -5,10 +5,15 @@
     click
   </button>
   <input type="text">
+
+  <button @click="closeOthers">
+    close others
+  </button>
 </template>
 
 <script lang="ts">
 import { ref } from "vue";
+import { useRouterTab } from "../plugins/vue3-router-tab";
 
 export default {
   name:'FullPathPage',
@@ -17,7 +22,12 @@ export default {
     const click = () => {
       num.value++;
     };
-    return { name: "page3", num, click };
+
+    const closeOthers = () => {
+      const routerTab = useRouterTab();
+      routerTab.closeOthers(routerTab.activeTab?.id);
+    };
+    return { name: "page3", num, click,closeOthers };
   },
   deactivated(){
     console.log('FullPathPage deactivated');

@@ -15,9 +15,9 @@ type Actions = CreateActions<
   privateState,
   {
     hasTab: (tabId:TabId) => boolean,
-    open: (...args:Parameters<Open>) => ReturnType<Open>,
+    open: Open,
     close: Close,
-    closeOthers:(...args: Parameters<CloseOthers>) => ReturnType<CloseOthers>
+    closeOthers: CloseOthers
   }>
 
 export type UseRouterTab = StoreDefinition<string, privateState, Getters, Actions>;

@@ -112,7 +112,7 @@ const _indexOfTab: IndexOfTab = function (this: RouterStore, tabId) {
  * @param {TabId} tabId
  * @returns {boolean} hasTab
  */
-const hasTab: HasTab = function (this: RouterStore, tabId) {
+const hasTab: HasTab = function (this: RouterStore, tabId?) {
   return this.tabs.some(({ id }) => id === tabId);
 };
 
@@ -154,7 +154,7 @@ const _addTab: AddTab = function (this: RouterStore, tab, options) {
 //const _addIframeTab = function (this: RouterStore, tab: Tab) {};
 
 /**
- * remove tab
+ * remove tab and cache
  * @param {TabId} tabId
  * @returns {TabWithIndex | undefined} tab
  */
@@ -327,13 +327,16 @@ const close: Close = async function (this: RouterStore, item, toOptions) {
  * @param {TabId} currentTabId
  */
 const closeOthers: CloseOthers = function (this: RouterStore, tabId) {
-  if (!tabId && !this.activeTabId) return;
-  const _tabId = tabId ?? this.activeTabId;
+  if (!tabId && !this.activeTab?.id) return;
+  const _tabId = tabId ?? this.activeTab?.id;
 
-  this.tabs.forEach(item => {
-    if (item.id !== _tabId) this._removeTabByIndex(this._indexOfTab(item.id));
+  if(!this.hasTab(_tabId)) return;
+  
+  [...this.tabs].forEach(item => {
+    if (item.id !== _tabId) this._removeTabById(item.id);
   });
-  // this.tabs = this.tabs.filter((_, index) => index === currentIndex);
+
+  this._setActiveTab(this._getTab(_tabId));
 };
 
 /**

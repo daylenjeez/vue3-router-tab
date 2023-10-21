@@ -1,5 +1,5 @@
 <template>Home <input></template>
 
 <script lang="ts">
-export default {name: "HomePage",};
+export default {name: "HomePage"};
 </script>
