@@ -64,4 +64,10 @@ export interface RouterTabConfig {
   ui?: Ui;
 }
 
+/**
+ * router tab right click config
+ */
+export type RightClickConfig = {
+} | Boolean;
+
 export type Ui = 'elementPlus' | 'antd' | 'naviUi' | 'tailWind'
