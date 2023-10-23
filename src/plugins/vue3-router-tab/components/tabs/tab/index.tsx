@@ -30,7 +30,6 @@ export default defineComponent({
 
     const click = () => {
       if (active.value) return;
-
       store.open(props.id);
     };
 
