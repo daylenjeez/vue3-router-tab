@@ -1,4 +1,4 @@
-import { describe, it, beforeEach } from 'vitest';
+wimport { describe, it, beforeEach } from 'vitest';
 import { RouterTabType } from '../../store';
 import { beforeEachFn, sameLength } from '../unit';
 

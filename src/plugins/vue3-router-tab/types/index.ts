@@ -60,7 +60,7 @@ export interface TabWithIndex extends Tab {
  * @property {Ui} ui
  */
 export interface RouterTabConfig {
-  keepAliveProps: KeepAliveProps;
+  'max-alive': number;
   ui?: Ui;
 }
 
