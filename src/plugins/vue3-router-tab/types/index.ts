@@ -1,4 +1,3 @@
-import { KeepAliveProps } from "vue";
 import { RouteLocationNormalized } from "vue-router";
 
 export type TabKey =
