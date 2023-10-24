@@ -6,7 +6,7 @@ import { RouterTabConfig } from "./types";
 export default defineComponent({
   name: "RouterTab",
   props: {
-    keepAlive: {
+    maxAlive: {
       type: Number as PropType<RouterTabConfig['max-alive']>,
       required: false,
       default: 10

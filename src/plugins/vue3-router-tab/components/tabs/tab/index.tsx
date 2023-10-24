@@ -1,8 +1,8 @@
 import { computed, defineComponent, PropType } from "vue";
-import { Tab } from "../../../types"; //TODO: use relative path
+import type { Tab } from "../../../types";
 import Tablabel from "./label";
 import { useRouterTabStore } from "../../../store/_routerTab";
-import ElementClose from '../../elementUi/icon/close';
+import ElementClose from '../../elementPlus/icon/close';
 
 import styles from "./style.module.less";
 
