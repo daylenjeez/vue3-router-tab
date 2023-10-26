@@ -1,4 +1,4 @@
-import { PropType, defineComponent } from "vue";
+import { PropType, defineComponent, provide } from "vue";
 import Tabs from "./components/tabs";
 import Page from "./components/page/index.vue";
 import { RouterTabConfig, Ui } from "./types";
@@ -17,7 +17,9 @@ export default defineComponent({
       default:undefined
     }
   },
-  setup() {
+  setup(props) {
+    provide('ui', props.ui);
+    
     return () => (
       <div class="rt-container">
         <Tabs />
