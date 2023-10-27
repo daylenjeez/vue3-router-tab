@@ -1,10 +1,10 @@
 import { computed, defineComponent, PropType } from "vue";
-import type { Tab } from "../../../types";
+import type { Tab } from "@routerTab/types";
 import Tablabel from "./label";
-import { useRouterTabStore } from "../../../store/_routerTab";
+import Close from "./close";
+import { useRouterTabStore } from "@routerTab/store/_routerTab";
 
 import styles from "./style.module.less";
-import Close from "./close";
 
 export default defineComponent({
   name: "RtTab",

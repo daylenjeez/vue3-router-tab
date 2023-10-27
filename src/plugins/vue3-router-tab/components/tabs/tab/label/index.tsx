@@ -1,5 +1,5 @@
 import { PropType, defineComponent } from "vue";
-import { Tab } from "../../../../types";
+import { Tab } from "@routerTab/types";
 import styles from './style.module.less';
 
 export default defineComponent({

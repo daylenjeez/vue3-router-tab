@@ -1,11 +1,11 @@
 import {  PropType, defineComponent } from "vue";
-import { useRouterTabStore } from "../../../../store";
-import ElementClose from '../../../elementPlus/icon/close';
+import { useRouterTabStore } from "@routerTab/store";
+import ElementClose from '@routerTab/components/elementPlus/icon/close';
 import { TabId } from "@routerTab/types";
 import styles from './style.module.less';
 
 export default defineComponent({
-  name: "RtTab",
+  name: "RtTabClose",
   props: {
     id: {
       type: String as PropType<TabId>,
