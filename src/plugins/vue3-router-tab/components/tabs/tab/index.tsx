@@ -2,9 +2,9 @@ import { computed, defineComponent, PropType } from "vue";
 import type { Tab } from "../../../types";
 import Tablabel from "./label";
 import { useRouterTabStore } from "../../../store/_routerTab";
-import ElementClose from '../../elementPlus/icon/close';
 
 import styles from "./style.module.less";
+import Close from "./close";
 
 export default defineComponent({
   name: "RtTab",
@@ -42,9 +42,7 @@ export default defineComponent({
       <div class={classNames.value} onClick={click}>
         <div></div>
         <Tablabel name={props.name} />
-        {tabsLength.value > 1 && <div class={styles['remove-icon']} onClick={close}>
-          <ElementClose style={{width:'1em'}} />
-        </div>}
+        {tabsLength.value > 1 && <Close id={props.id} />}
       </div>
     );
   },

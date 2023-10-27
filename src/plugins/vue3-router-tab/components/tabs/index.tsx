@@ -12,9 +12,7 @@ export default defineComponent({
 
     return () => (
       <div class={styles["rt-tabs"]}>
-        {tabs.value.map((tab) => {
-          return <RtTab {...tab} key={tab.id} />;
-        })}
+        {tabs.value.map((tab) => <RtTab {...tab} key={tab.id} />)}
       </div>
     );
   },

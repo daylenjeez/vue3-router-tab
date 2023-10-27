@@ -6,7 +6,10 @@
     "@vue/eslint-config-typescript"
   ],
   "rules": {
-    "indent": ["warn", 2],
+    "indent": [
+      "warn",
+      2
+    ],
     "semi": "warn",
     "space-infix-ops": "warn",
     "object-curly-newline": [
