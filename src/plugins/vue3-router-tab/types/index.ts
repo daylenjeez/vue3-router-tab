@@ -61,6 +61,7 @@ export interface TabWithIndex extends Tab {
 export interface RouterTabConfig {
   'max-alive': number;
   ui?: Ui;
+  closeIcon?: boolean
 }
 
 /**
@@ -69,4 +70,4 @@ export interface RouterTabConfig {
 export type RightClickConfig = {
 } | Boolean;
 
-export type Ui = 'elementPlus' | 'antd' | 'naviUi' | 'tailWind'
+export type Ui = 'initial' |'elementPlus' | 'ant' | 'naviUi' | 'tailWind'

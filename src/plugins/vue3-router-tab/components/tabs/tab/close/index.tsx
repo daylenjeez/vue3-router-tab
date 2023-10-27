@@ -8,9 +8,10 @@ type Close = typeof ElementClose;
 
 const CLOSE_ICON:{[k in Ui]:Close} = {
   elementPlus: ElementClose,
-  antd:ElementClose,
+  initial:ElementClose,
+  ant:ElementClose,
   naviUi:ElementClose,
-  'tailWind':ElementClose
+  tailWind:ElementClose
 };
 
 export default defineComponent({

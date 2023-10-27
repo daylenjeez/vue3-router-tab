@@ -14,8 +14,8 @@ export default defineComponent({
     ui:{
       type:String as PropType<Ui>,
       required:false,
-      default:undefined
-    }
+      default:'initial'
+    },
   },
   setup(props) {
     provide('ui', props.ui);
