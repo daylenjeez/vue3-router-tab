@@ -19,5 +19,8 @@
       }
     ],
     "vue/comment-directive": "off"
-  }
+  },
+  "ignorePatterns": [
+    "*.json"
+  ]
 }
