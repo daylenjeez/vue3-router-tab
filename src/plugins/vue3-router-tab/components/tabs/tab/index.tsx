@@ -3,7 +3,6 @@ import type { Tab } from "@routerTab/types";
 import Tablabel from "./label";
 import Close from "./close";
 import { useRouterTabStore } from "@routerTab/store/_routerTab";
-
 import styles from "./style.module.less";
 
 export default defineComponent({
@@ -31,11 +30,6 @@ export default defineComponent({
     const click = () => {
       if (active.value) return;
       store.open(props.id);
-    };
-
-    const close = (e: MouseEvent) => {
-      store.close({ id: props.id });
-      e.stopPropagation();
     };
 
     return () => (

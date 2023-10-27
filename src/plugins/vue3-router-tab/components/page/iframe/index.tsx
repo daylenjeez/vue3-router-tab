@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "rt-iframe",
+  name: "RtIframe",
 
   setup() {
     return () => <div>iframe</div>;

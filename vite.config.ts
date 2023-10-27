@@ -6,6 +6,6 @@ import vueJsx from "@vitejs/plugin-vue-jsx";
 export default defineConfig({
   plugins: [vue(), vueJsx()],
   css: {preprocessorOptions: {less: { additionalData: `@import "@/plugins/vue3-router-tab/style/global.less";` },},},
-  resolve: { alias: { "@":"./src","@routerTab":"./src/plugins/vue3-router-tab" } },
+  resolve: { alias: { "@":"./src","@routerTab":"/src/plugins/vue3-router-tab" } },
   test: {environment: "happy-dom",},
 });

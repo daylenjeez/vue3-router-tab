@@ -2,8 +2,8 @@ import { StoreDefinition, defineStore } from 'pinia';
 import { Close, CloseOthers, Open } from '../_routerTab/type/actions';
 import { State as privateState } from '../_routerTab/type/state';
 import { useRouterTabStore } from '../_routerTab';
-import type { TabId } from '../../types';
-import { CreateActions, CreateGetters } from '../type';
+import type { TabId } from '@routerTab/types';
+import type { CreateActions, CreateGetters } from '../type';
 
 type Getters = CreateGetters<privateState, {
   activeTab:  (state: privateState) =>privateState['activeTab'],
