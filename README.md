@@ -30,7 +30,6 @@
     - [ ] iframe：iframe路由
     - [ ] 样式：包含``elementPlus``、``antdV``、``naviUI``、``tailwind``
     - [ ] hooks：各种before/after
-    - [ ] 通信：tab间通信
 - ### 其它
     - [ ] 滚动位置记住
     - [ ] 动画
