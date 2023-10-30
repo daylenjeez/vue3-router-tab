@@ -65,7 +65,7 @@ export interface Close {
   (fullPath?: string, toOptions?: ToOptions): Promise<Tab | undefined>;
 }
 export interface CloseOthers {
-  (tabId?: TabId): undefined;
+  (tabId?: TabId): void;
 }
 export interface Clear {
   (): void;
