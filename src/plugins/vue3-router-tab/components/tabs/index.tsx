@@ -2,7 +2,7 @@ import { computed, defineComponent } from "vue";
 import { useRouterTabStore } from "@routerTab/store/_routerTab";
 import RtTab from "./tab";
 
-import styles from "./index.module.less";
+import "./index.less";
 
 export default defineComponent({
   name: "RtTabs",
@@ -11,7 +11,7 @@ export default defineComponent({
     const tabs = computed(() => store.tabs);
 
     return () => (
-      <div class={styles["rt-tabs"]}>
+      <div class="rt-tabs">
         {tabs.value.map((tab) => <RtTab {...tab} key={tab.id} />)}
       </div>
     );

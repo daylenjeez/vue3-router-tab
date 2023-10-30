@@ -2,7 +2,7 @@ import {  PropType, defineComponent,inject } from "vue";
 import { useRouterTabStore } from "@routerTab/store";
 import { TabId, Ui } from "@routerTab/types";
 import ElementClose from "@routerTab/components/elementPlus/icon/close";
-import styles from './style.module.less';
+import './style.less';
 
 type Close = typeof ElementClose;
 
@@ -34,7 +34,7 @@ export default defineComponent({
     const CloseComponent = CLOSE_ICON[ui ?? 'elementPlus'];
     
     return () => (
-      <div class={styles['remove-icon']} onClick={close}>
+      <div class="remove-icon" onClick={close}>
         <CloseComponent />
       </div>
     );

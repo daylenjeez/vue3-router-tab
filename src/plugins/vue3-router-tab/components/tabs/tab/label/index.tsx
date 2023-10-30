@@ -1,6 +1,6 @@
 import { PropType, defineComponent } from "vue";
 import { Tab } from "@routerTab/types";
-import styles from './style.module.less';
+import './index.less';
 
 export default defineComponent({
   name: "RtTabLabel",
@@ -13,7 +13,7 @@ export default defineComponent({
   },
   setup(props) {
     return () => (
-      <div class={styles['rt-tab-labe']}>
+      <div class="rt-tab-labe">
         {props.name}
       </div>
     );
