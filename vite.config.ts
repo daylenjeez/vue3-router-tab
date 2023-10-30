@@ -1,4 +1,5 @@
 /// <reference types="vitest" />
+import { resolve } from 'path';
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
@@ -12,13 +13,11 @@ export default defineConfig({
   build:{
     emptyOutDir: false, // 避免dist被清空
     lib: {
-      entry: "./src/index.ts",
+      entry: resolve(__dirname, 'src/index.ts'),
       name: "vue3-router-tab",
       formats: ['es'],
+      fileName:()=> `index.js`,
     },
-    rollupOptions: {
-      external: ["vue","vitest"],
-      output: {globals: {vue: "Vue",},},
-    },
+    rollupOptions: {external: ["vue","vue-router","vitest"]},
   }
 });

@@ -2,7 +2,7 @@ import { computed, defineComponent } from "vue";
 import { useRouterTabStore } from "@routerTab/store/_routerTab";
 import RtTab from "./tab";
 
-import styles from "./style.module.less";
+import styles from "./index.module.less";
 
 export default defineComponent({
   name: "RtTabs",

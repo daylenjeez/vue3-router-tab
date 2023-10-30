@@ -5,6 +5,10 @@ import { RouterTabConfig, Ui } from "./types";
 
 export default defineComponent({
   name: "RouterTab",
+  components: {
+    Tabs,
+    Page,
+  },
   props: {
     maxAlive: {
       type: Number as PropType<RouterTabConfig['max-alive']>,

@@ -15,7 +15,6 @@
 </template>
 <script lang="ts">
 import { defineComponent, computed, watch,VNode, } from "vue";
-import { useRouter } from "vue-router";
 import { useRouterTabStore,useCache } from "@routerTab/store";
 import { updateTabOnRouteChange } from "../..";
 import { renameComponentType } from "@routerTab/utils";
@@ -24,7 +23,7 @@ export default defineComponent({
   name: "RtPages",
   setup() {
     const routerTab = useRouterTabStore();
-    const router = useRouter();
+    
     const cache = useCache();
     const activeTab = computed(()=>routerTab.activeTab);
     const activeTabKey = computed(() => activeTab.value?.id);
@@ -36,7 +35,7 @@ export default defineComponent({
     });
 
     watch(
-      router.currentRoute,
+      routerTab.$router.currentRoute,
       val => updateTabOnRouteChange(val, routerTab),
       { immediate: true }
     );
