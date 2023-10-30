@@ -2,7 +2,7 @@ import {  PropType, defineComponent,inject } from "vue";
 import { useRouterTabStore } from "@routerTab/store";
 import { TabId, Ui } from "@routerTab/types";
 import ElementClose from "@routerTab/components/elementPlus/icon/close";
-import './style.less';
+import './index.less';
 
 type Close = typeof ElementClose;
 

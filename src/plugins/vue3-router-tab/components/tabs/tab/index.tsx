@@ -33,7 +33,7 @@ export default defineComponent({
     };
 
     return () => (
-      <div class={classNames} onClick={click}>
+      <div class={classNames.value} onClick={click}>
         <div class="rt-tab--pre"></div>
         <Tablabel name={props.name} />
         {tabsLength.value > 1 && <Close id={props.id} />}
