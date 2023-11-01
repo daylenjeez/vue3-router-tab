@@ -1,6 +1,6 @@
-import {  PropType, defineComponent,inject } from "vue";
+import {  PropType, defineComponent } from "vue";
 import { useRouterTabStore } from "@routerTab/store";
-import { TabId, Ui } from "@routerTab/types";
+import { TabId } from "@routerTab/types";
 import InitialClose from "@routerTab/components/ui/initial/icon/close";
 import './index.less';
 

@@ -1,22 +1,38 @@
 .rt-tab{
   display: flex;
   align-items: center;
+  justify-content: center;
   line-height: 1;
-  height: 100%;
-  padding:0 16px;
-  border: 1px solid @border-color;
-  border-radius: 8px 8px 0 0;
   cursor: pointer;
   transition: all .3s cubic-bezier(.645,.045,.355,1);
-  background: @white-light-2;
+  // background: @white-light-2;
+
+  .remove-icon{
+    display: none;
+  }
+
+  &:hover,&.rt-tab-active{
+    .remove-icon{
+      display: block;
+    }
+  }
+}
+
+.rt-tab--initial{
+  box-sizing: border-box;
+  height: 40px;
+  min-width: 98px;
+  padding:0 16px;
+  border-width: 1px 1px 1px 0;
+  border-style: solid;
+  border-color:  @initial-border-color;
+  // margin-bottom: -1.5px;
+  background: #fff;
+  &:first-child{
+    border-left-width:1px;
+  }
+
   &.rt-tab-active{
     border-bottom-color: @white;
-    background: #fff;
   }
-  &+&{
-    margin-left: 2px;
-  }
-  // .rt-tab--pre{
-    
-  // }
 }

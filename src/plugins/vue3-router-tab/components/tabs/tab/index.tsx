@@ -1,5 +1,5 @@
-import { computed, defineComponent, PropType } from "vue";
-import type { Tab } from "@routerTab/types";
+import { computed, defineComponent, inject, PropType } from "vue";
+import type { Tab, Ui } from "@routerTab/types";
 import Tablabel from "./label";
 import Close from "./close";
 import { useRouterTabStore } from "@routerTab/store/_routerTab";
@@ -18,6 +18,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const ui = inject<Ui>('ui');
     const store = useRouterTabStore();
     const tabsLength = computed(() => store.tabs.length);
     const active = computed(() => store.activeTab?.id === props.id);
@@ -25,6 +26,7 @@ export default defineComponent({
     const classNames = computed(() => [
       "rt-tab",
       active.value && "rt-tab-active",
+      `rt-tab--${ui}`
     ]);
 
     const click = () => {
