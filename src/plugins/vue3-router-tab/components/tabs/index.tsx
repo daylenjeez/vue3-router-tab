@@ -9,6 +9,7 @@ export default defineComponent({
   name: "RtTabs",
   setup() {
     const ui = inject<Ui>('ui');
+    
     const store = useRouterTabStore();
     const tabs = computed(() => store.tabs);
     const classNames = computed(() => [

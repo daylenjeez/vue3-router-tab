@@ -19,6 +19,7 @@ export default defineComponent({
   },
   setup(props) {
     const ui = inject<Ui>('ui');
+    
     const store = useRouterTabStore();
     const tabsLength = computed(() => store.tabs.length);
     const active = computed(() => store.activeTab?.id === props.id);

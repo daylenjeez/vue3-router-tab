@@ -42,7 +42,7 @@ describe('check tabs', async () => {
     const hasActiveTab = wrapper.findAllComponents({ name: 'RtTab' }).some((tab) => {
       const classes = tab.classes();
 
-      if (classes.some(item => item.toString().startsWith('_rt-tab-active'))) {
+      if (classes.some(item => item === 'rt-tab-active')) {
         const tabLabel = tab.getComponent({ name: 'RtTabLabel' });
         return tabLabel.text() === routerTab.activeTab?.name;
       }
