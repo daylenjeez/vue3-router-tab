@@ -1,8 +1,8 @@
 import { computed, defineComponent, inject, PropType } from "vue";
 import type { Tab, Ui } from "@routerTab/types";
+import { useRouterTabStore } from "@routerTab/store/_routerTab";
 import Tablabel from "./label";
 import Close from "./close";
-import { useRouterTabStore } from "@routerTab/store/_routerTab";
 import "./index.less";
 
 export default defineComponent({
