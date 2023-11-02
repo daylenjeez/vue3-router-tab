@@ -13,7 +13,7 @@ export default defineComponent({
   },
   setup(props) {
     return () => (
-      <div class="rt-tab-labe">
+      <div class="rt-tab-label">
         {props.name}
       </div>
     );

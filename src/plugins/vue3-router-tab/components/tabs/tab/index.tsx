@@ -26,8 +26,8 @@ export default defineComponent({
 
     const classNames = computed(() => [
       "rt-tab",
+      `rt-tab--${ui}`,
       active.value && "rt-tab-active",
-      `rt-tab--${ui}`
     ]);
 
     const click = () => {
