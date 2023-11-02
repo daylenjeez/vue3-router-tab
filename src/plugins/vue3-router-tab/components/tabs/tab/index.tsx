@@ -23,6 +23,7 @@ export default defineComponent({
     const store = useRouterTabStore();
     const tabsLength = computed(() => store.tabs.length);
     const active = computed(() => store.activeTab?.id === props.id);
+    const showClose = computed(() => tabsLength.value > 1);
 
     const classNames = computed(() => [
       "rt-tab",
@@ -39,7 +40,7 @@ export default defineComponent({
       <div class={classNames.value} onClick={click}>
         <div class="rt-tab--pre"></div>
         <Tablabel name={props.name} />
-        {tabsLength.value > 1 && <Close id={props.id} />}
+        {showClose.value && <Close id={props.id} />}
       </div>
     );
   },
