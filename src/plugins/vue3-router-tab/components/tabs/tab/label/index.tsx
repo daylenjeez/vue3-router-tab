@@ -14,7 +14,9 @@ export default defineComponent({
   setup(props) {
     return () => (
       <div class="rt-tab-label">
-        {props.name}
+        <span>
+          {props.name}
+        </span>
       </div>
     );
   }
