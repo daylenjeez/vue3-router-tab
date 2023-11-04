@@ -28,7 +28,7 @@
     - [ ] 配置：全局配置、自定义配置
 - ### 高级
     - [ ] iframe：iframe路由
-    - [ ] 样式：包含``elementPlus``、``antdV``、``naviUI``、``tailwind``
+    - [ ] 样式：包含``elementPlus``、``antdV``、``naviUI``
     - [ ] hooks：各种before/after
 - ### 其它
     - [ ] 滚动位置记住
