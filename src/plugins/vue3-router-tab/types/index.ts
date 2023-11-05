@@ -57,11 +57,14 @@ export interface TabWithIndex extends Tab {
  * @interface RouterTab
  * @property {KeepAliveProps} keepAliveProps
  * @property {Ui} ui
+ * @property {boolean} closeIcon
+ * @property {(tab: Tab) => Promise<boolean>} beforeClose
  */
 export interface RouterTabConfig {
   'max-alive': number;
   ui?: Ui;
-  closeIcon?: boolean
+  closeIcon?: boolean;
+  'before-close'?: (tab: Tab) => Promise<boolean>;
 }
 
 /**
@@ -70,4 +73,10 @@ export interface RouterTabConfig {
 export type RightClickConfig = {
 } | Boolean;
 
-export type Ui = 'initial' |'elementPlus' | 'ant' | 'naviUi' | 'tailWind'
+export type Ui = 'initial' |'elementPlus' | 'ant' | 'naviUi' | 'tailWind';
+
+declare module 'vue' {
+  interface GlobalComponents {
+    RouterTab: typeof import('../router-tab').default;
+  }
+}

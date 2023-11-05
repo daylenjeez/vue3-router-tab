@@ -16,8 +16,8 @@
 <script lang="ts">
 import { defineComponent, computed, watch,VNode, } from "vue";
 import { useRouterTabStore,useCache } from "@routerTab/store";
-import { updateTabOnRouteChange } from "../..";
 import { renameComponentType } from "@routerTab/utils";
+import { updateTabOnRouteChange } from "../..";
 
 export default defineComponent({
   name: "RtPages",
