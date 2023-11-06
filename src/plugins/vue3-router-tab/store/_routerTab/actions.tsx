@@ -25,11 +25,8 @@ import {
   Refresh,
   OpenNearTab,
   GetTabByFullPath,
+  GetRemoveItem,
 } from "./type/actions";
-
-const _getRemoveItem = (item: { id: TabId } | { fullPath: string } | string) => {
-  return isString(item) ? { fullPath: item } : item;
-};
 
 /**
  * create tabId
@@ -296,14 +293,27 @@ const open: Open = async function (this: RouterStore, to, options = { replace: f
 };
 
 /**
+ * 
+ * @param this 
+ * @param {{id:TabId}|{fullPath:string}|string|undefined} item tabId or fullpath 
+ * @returns { id?: TabId, fullPath?: string }
+ */
+const _getRemoveItem:GetRemoveItem =  function(this:RouterStore,item) {
+  if (!item && !this.activeTab?.id) return void 0;
+  const _item =  isString(item) ? { fullPath: item } : item;
+  return _item ? _item :  { id: this.activeTab?.id };
+};
+
+
+/**
  * close tab and after tab
  * @param {{id:TabId}|{fullPath:string}|string|undefined} item tabId or fullpath
  * @param {ToOptions} toOptions
  * @returns {TabWithIndex | undefined}
  */
 const close: Close = async function (this: RouterStore, item, toOptions) {
-  if (!item && !this.activeTab) return void 0;
-  const _item = item ? _getRemoveItem(item) : { id: this.activeTab?.id };
+  const _item = this._getRemoveItem(item);
+  if(!_item)return void 0;
   const removedTab = this._remove(_item);
 
   if (toOptions) {
@@ -364,6 +374,7 @@ export default {
   _clear,
   _routerPush,
   _routerReplace,
+  _getRemoveItem,
 
   open,
   close,

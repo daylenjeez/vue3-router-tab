@@ -59,6 +59,9 @@ export interface SetActiveTab {
 export interface Open {
   (to: RouteLocationRaw, options?: OpenOptions): ReturnType<Router["push"]>;
 }
+export interface GetRemoveItem {
+  (item?:{id:TabId}|{fullPath:string}|string):{ id?: TabId, fullPath?: string }|undefined;
+}
 export interface Close {
   (item?: { id: TabId }, toOptions?: ToOptions): Promise<Tab | undefined>;
   (item?: { fullPath: string }, toOptions?: ToOptions): Promise<Tab | undefined>;
