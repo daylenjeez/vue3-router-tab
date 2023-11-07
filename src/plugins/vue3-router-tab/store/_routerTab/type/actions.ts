@@ -98,6 +98,7 @@ export type Actions = CreateActions<
     _addTab: AddTab;
     _removeTabById: RemoveTabById;
     _removeTabByIndex: RemoveTabByIndex;
+    _getRemoveItem: GetRemoveItem;
     _setActiveTab: SetActiveTab;
     _openTabById: OpenTabById;
     _openNearTab: OpenNearTab;

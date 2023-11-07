@@ -293,8 +293,7 @@ const open: Open = async function (this: RouterStore, to, options = { replace: f
 };
 
 /**
- * 
- * @param this 
+ * get remove item
  * @param {{id:TabId}|{fullPath:string}|string|undefined} item tabId or fullpath 
  * @returns { id?: TabId, fullPath?: string }
  */
