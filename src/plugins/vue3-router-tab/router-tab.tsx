@@ -1,8 +1,7 @@
 import {  PropType, defineComponent, provide } from "vue";
 import Tabs from "./components/tabs";
 import Page from "./components/page/index.vue";
-import { RouterTabConfig,Tab,Ui } from "./types";
-import {  useRouterTabStore } from "./store";
+import { RouterTabConfig,Ui } from "./types";
 
 export default defineComponent({
   name: "RouterTab",
@@ -23,21 +22,8 @@ export default defineComponent({
     },
   },
 
-  emits: {'before-close': () => Promise<boolean>},
-  
-  setup(props, { emit }) {
+  setup(props) {
     provide('ui', props.ui);
-    const store = useRouterTabStore();
-
-    store.$onAction(({
-      name, // name of the action
-      args, // array of parameters passed to the action
-      after, // function to be called after the action
-    }) => {
-      if(name === 'close' && args[0]){
-        emit('before-close');
-      }
-    });
 
     return () => (
       <div class="rt-container">

@@ -4,9 +4,9 @@ import {
   Router,
 } from "vue-router";
 import { State } from "./state";
+import { OpenOptions, ToOptions } from "./options";
 import { Tab, TabId, TabKey, TabWithIndex } from "../../../types";
 import { CreateActions } from "../../type";
-import { OpenOptions, ToOptions } from "./options";
 
 export interface CreateTabId {
   (tabKey: TabKey | undefined, router: RouteLocationNormalized): TabId | undefined;
@@ -43,6 +43,9 @@ export interface RemoveTabByIndex {
 }
 export interface Remove {
   (item: { id?: TabId, fullPath?: string }): TabWithIndex | undefined;
+}
+export interface GetTabIdByRemoveItem{
+  (item: { id?: TabId, fullPath?: string }): TabId | undefined;
 }
 export interface Refresh {
   (item: TabId): Tab | undefined;
@@ -85,6 +88,9 @@ export interface GetTabs {
 export interface GetActiveTab {
   (): Tab | undefined
 }
+export interface SetShouldClose {
+  (value: boolean): void;
+}
 export type Actions = CreateActions<
   string,
   State,
@@ -99,6 +105,7 @@ export type Actions = CreateActions<
     _removeTabById: RemoveTabById;
     _removeTabByIndex: RemoveTabByIndex;
     _getRemoveItem: GetRemoveItem;
+    _getTabIdByRemoveItem: GetTabIdByRemoveItem;
     _setActiveTab: SetActiveTab;
     _openTabById: OpenTabById;
     _openNearTab: OpenNearTab;
@@ -107,6 +114,7 @@ export type Actions = CreateActions<
     _refresh: Refresh;
     _routerPush: RouterPush;
     _routerReplace: RouterReplace;
+    _setShouldClose:SetShouldClose;
 
     open: Open;
     close: Close;

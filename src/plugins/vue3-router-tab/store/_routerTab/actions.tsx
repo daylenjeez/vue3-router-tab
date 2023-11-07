@@ -26,6 +26,8 @@ import {
   OpenNearTab,
   GetTabByFullPath,
   GetRemoveItem,
+  GetTabIdByRemoveItem,
+  SetShouldClose
 } from "./type/actions";
 
 /**
@@ -242,15 +244,26 @@ const _routerReplace: RouterReplace = function (this: RouterStore, to) {
  * @returns {TabWithIndex  | undefined}
  */
 const _remove: Remove = function (this: RouterStore, item) {
+  const tabId = _getTabIdByRemoveItem(item);
+  if(!tabId)return void 0;
+  if (this.tabs.length === 1 && this.tabs[0].id === tabId) {
+    return throwError(`The last tab cannot be closed：${item}`);
+  }
+  return this._removeTabById(tabId);
+};
+
+/**
+ * get tabId by remove item
+ * @param {{ id?: TabId; fullPath?: string }} item 
+ * @returns {TabId | undefined}
+ */
+const _getTabIdByRemoveItem:GetTabIdByRemoveItem = function (this: RouterStore, item) {
   let tabId: TabId | undefined;
   if ('id' in item) tabId = item.id;
   if ('fullPath' in item) tabId = item.fullPath ? this._getTabByFullpath(item.fullPath)?.id : void 0;
 
   if (!tabId) return throwError(`Tab not found, please check the param: ${item}`);
-  if (this.tabs.length === 1 && this.tabs[0].id === tabId) {
-    return throwError(`The last tab cannot be closed：${item}`);
-  }
-  return this._removeTabById(tabId);
+  return tabId;
 };
 
 /**
@@ -303,6 +316,13 @@ const _getRemoveItem:GetRemoveItem =  function(this:RouterStore,item) {
   return _item ? _item :  { id: this.activeTab?.id };
 };
 
+/**
+ * set should close
+ * @param val boolean
+ */
+const _setShouldClose:SetShouldClose = function(this:RouterStore,val:boolean){
+  this._shouldClose = val;
+};
 
 /**
  * close tab and after tab
@@ -311,6 +331,9 @@ const _getRemoveItem:GetRemoveItem =  function(this:RouterStore,item) {
  * @returns {TabWithIndex | undefined}
  */
 const close: Close = async function (this: RouterStore, item, toOptions) {
+  console.log(this._shouldClose);
+  
+  if(!this._shouldClose)return;
   const _item = this._getRemoveItem(item);
   if(!_item)return void 0;
   const removedTab = this._remove(_item);
@@ -366,6 +389,9 @@ export default {
   _removeTabById,
   _removeTabByIndex,
   _remove,
+  _getRemoveItem,
+  _getTabIdByRemoveItem,
+  _setShouldClose,
   _refresh,
   _setActiveTab,
   _openTabById,
@@ -373,7 +399,6 @@ export default {
   _clear,
   _routerPush,
   _routerReplace,
-  _getRemoveItem,
 
   open,
   close,

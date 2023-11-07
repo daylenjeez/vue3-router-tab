@@ -2,12 +2,8 @@
 import { useRouter } from "vue-router";
 import "./style/index.less";
 
-
-
 export default {
   setup() {
-    // const router = useRouter();
-    // const routerTab = useRouterTab();
     const router  = useRouter();
 
     return {
