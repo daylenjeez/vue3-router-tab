@@ -1,9 +1,9 @@
-import {  PropType, defineComponent, inject } from "vue";
+import "./index.less";
 
-import { TabId } from "@routerTab/types";
 import InitialClose from "@routerTab/components/ui/initial/icon/close";
-import './index.less';
 import { RouterTabStore } from "@routerTab/store";
+import { TabId } from "@routerTab/types";
+import { defineComponent, inject, PropType } from "vue";
 
 export default defineComponent({
   name: "RtTabClose",
@@ -14,13 +14,13 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const store = inject<RouterTabStore>('tabStore')!;
-    
+    const store = inject<RouterTabStore>("tabStore")!;
+
     const close = (e: MouseEvent) => {
       store.close({ id: props.id });
       e.stopPropagation();
     };
-    
+
     return () => (
       <div class="remove-icon" onClick={close}>
         <InitialClose />

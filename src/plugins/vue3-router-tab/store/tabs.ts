@@ -1,3 +1,5 @@
+import { createTab, createTabId } from "@routerTab/helper/utils";
+import { INITIAL_TAB_CONFIG } from "@routerTab/helper/utils/constants";
 import type {
   Tab,
   TabConfig,
@@ -12,9 +14,8 @@ import {
   RouteLocationRaw,
   Router,
 } from "vue-router";
+
 import { useCache } from "./cache";
-import { INITIAL_TAB_CONFIG } from "@routerTab/constants";
-import { createTab, createTabId } from "@routerTab/helper/utils";
 
 export const useTabStore = (router: Router) => {
   const state = reactive<{
@@ -280,7 +281,7 @@ export const useTabStore = (router: Router) => {
    * @param {ToOptions} toOptions
    * @returns {TabWithIndex | undefined}
    */
-  const close = async (item: TabGetter | undefined, toOptions: ToOptions) => {
+  const close = async (item: TabGetter | undefined, toOptions?: ToOptions) => {
     if (!state.shouldClose) return;
     const _item = getRemoveItem(item);
     if (!_item) return void 0;

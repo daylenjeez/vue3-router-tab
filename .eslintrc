@@ -3,24 +3,26 @@
   "extends": [
     "eslint:recommended",
     "plugin:vue/vue3-recommended",
-    "@vue/eslint-config-typescript"
+    "@vue/eslint-config-typescript",
   ],
   "rules": {
-    "indent": [
-      "warn",
-      2
-    ],
+    "indent": ["warn", 2],
     "semi": "warn",
     "space-infix-ops": "warn",
     "object-curly-newline": [
       "warn",
       {
-        "multiline": true
-      }
+        "multiline": true,
+      },
     ],
-    "vue/comment-directive": "off"
+    "vue/comment-directive": "off",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
   },
-  "ignorePatterns": [
-    "*.json"
-  ]
+  "plugins": ["simple-import-sort"],
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": "latest",
+  },
+  "ignorePatterns": ["*.json"],
 }

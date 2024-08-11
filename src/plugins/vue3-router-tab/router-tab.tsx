@@ -1,6 +1,7 @@
-import { PropType, defineComponent, provide } from "vue";
-import Tabs from "./components/tabs";
+import { defineComponent, PropType, provide } from "vue";
+
 import Page from "./components/page/index.vue";
+import Tabs from "./components/tabs";
 import type { RouterTabConfig, Ui } from "./types";
 
 export default defineComponent({

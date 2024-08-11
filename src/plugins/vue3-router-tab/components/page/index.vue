@@ -12,11 +12,12 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, computed, watch, VNode, inject } from "vue";
-import { renameComponentType } from "@routerTab/utils";
-import { updateTabOnRouteChange } from "../..";
 import { RouterTabStore } from "@routerTab/store";
 import { useCache } from "@routerTab/store/cache";
+import { renameComponentType } from "@routerTab/utils";
+import { computed, defineComponent, inject, VNode, watch } from "vue";
+
+import { updateTabOnRouteChange } from "../..";
 
 export default defineComponent({
   name: "RtPages",

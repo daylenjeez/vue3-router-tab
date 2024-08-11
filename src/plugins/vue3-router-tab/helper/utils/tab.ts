@@ -1,7 +1,8 @@
-import { INITIAL_TAB_CONFIG } from "@routerTab/constants";
 import { Tab, TabConfig, TabKey } from "@routerTab/types";
 import { isFunction, isNonEmptyString, throwError } from "@routerTab/utils";
 import { RouteLocationNormalized } from "vue-router";
+
+import { INITIAL_TAB_CONFIG } from "./constants";
 
 /**
  * create tabId
