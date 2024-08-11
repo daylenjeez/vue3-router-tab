@@ -1,11 +1,11 @@
-import { computed, nextTick, reactive, VNode } from 'vue';
+import { computed, nextTick, reactive, VNode } from "vue";
 
 export const useCache = () => {
   const state = reactive<{
-    keySet: Set<string>
-    componentMap: Map<string, VNode>
-    refreshing: boolean
-    activeKey: string | undefined
+    keySet: Set<string>;
+    componentMap: Map<string, VNode>;
+    refreshing: boolean;
+    activeKey: string | undefined;
   }>({
     keySet: new Set<string>(),
     componentMap: new Map<string, VNode>(),

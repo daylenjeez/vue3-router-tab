@@ -330,6 +330,7 @@ export const useTabStore = (router: Router) => {
   };
 
   return {
+    $router: router,
     state,
     createTab,
     indexOf,
@@ -356,7 +357,6 @@ export const useTabStore = (router: Router) => {
     close,
     closeOthers,
     has,
-    $router: router,
   };
 };
 

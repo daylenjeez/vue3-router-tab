@@ -9,14 +9,17 @@ import { RouteLocationNormalized } from "vue-router";
  * @param {RouteLocationNormalized} router
  * @returns {TabId} tabId
  */
-export const createTabId = (tabKey:TabKey,router:RouteLocationNormalized)=>{
+export const createTabId = (
+  tabKey: TabKey,
+  router: RouteLocationNormalized,
+) => {
   const _tabKey = tabKey ?? INITIAL_TAB_CONFIG.key;
   const tabId = isFunction(_tabKey) ? _tabKey(router) : router[_tabKey];
 
   if (isNonEmptyString(tabId)) return tabId;
 
   return throwError(
-    "tabKey is not 'path','fullPath' or a function, or the return value of the function is not a non-empty string"
+    "tabKey is not 'path','fullPath' or a function, or the return value of the function is not a non-empty string",
   );
 };
 
@@ -25,7 +28,7 @@ export const createTabId = (tabKey:TabKey,router:RouteLocationNormalized)=>{
  * @param {TabKey} tabKey
  * @returns {Tab} tab
  */
-export const createTab = (router:RouteLocationNormalized)=> {
+export const createTab = (router: RouteLocationNormalized) => {
   const {
     key,
     name,
@@ -33,11 +36,12 @@ export const createTab = (router:RouteLocationNormalized)=> {
     isIframe = false,
   } = (router.meta.tabConfig as TabConfig) ?? INITIAL_TAB_CONFIG;
 
-  if(!key) return throwError("tabKey is required");
+  if (!key) return throwError("tabKey is required");
 
   const tabId = createTabId(key, router);
 
-  if (!tabId) return throwError(`TabId is not found, please check the tab key: ${key}`);
+  if (!tabId)
+    return throwError(`TabId is not found, please check the tab key: ${key}`);
 
   const tab: Tab = {
     name: name ?? router.name ?? router.path,
@@ -53,11 +57,9 @@ export const createTab = (router:RouteLocationNormalized)=> {
 /**
  * get tabId by route
  * @param {RouteLocationNormalizedLoaded} route
- * @returns {TabId} tabId
+ * @returns {TabId|undefined} tabId
  */
-export const getTabIdByRoute =  (
-  router:RouteLocationNormalized
-)=> {
+export const getTabIdByRoute = (router: RouteLocationNormalized) => {
   const key =
     (router.meta?.tabConfig as TabConfig)?.key ?? INITIAL_TAB_CONFIG.key;
   const tabId = createTabId(key, router);

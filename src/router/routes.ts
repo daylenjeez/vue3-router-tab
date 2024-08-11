@@ -1,3 +1,4 @@
+import { TabConfig } from "@routerTab/types";
 import { RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
@@ -13,13 +14,13 @@ const routes: Array<RouteRecordRaw> = [
         name: "path",
         path: "/path",
         component: () => import("../views/path.vue"),
-        meta: { tabConfig: { key: 'path' } }
+        meta: { tabConfig: { key: "path", keepAlive: true } },
       },
       {
         name: "fullpathlonglonglonglonglonglonglonglonglonglonglong",
         path: "/fullpath",
         component: () => import("../views/fullPath.vue"),
-        meta: { tabConfig: { key: 'fullPath' } }
+        meta: { tabConfig: { key: "fullPath", keepAlive: true } as TabConfig },
       },
       // {
       //   name: "custom",
