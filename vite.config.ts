@@ -10,6 +10,7 @@ export default defineConfig({
   css: {preprocessorOptions: {less: { additionalData: `@import "@/plugins/vue3-router-tab/style/global.less";` },},},
   resolve: { alias: { "@":"./src","@routerTab":"/src/plugins/vue3-router-tab" } },
   test: {environment: "happy-dom",},
+  define:{__VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'true'},
   build:{
     emptyOutDir: false, // 避免dist被清空
     lib: {

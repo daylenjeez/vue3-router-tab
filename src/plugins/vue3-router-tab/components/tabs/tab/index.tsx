@@ -1,9 +1,9 @@
 import { computed, defineComponent, inject, PropType } from "vue";
 import type { Tab, Ui } from "@routerTab/types";
-import { useRouterTabStore } from "@routerTab/store/_routerTab";
 import Tablabel from "./label";
 import Close from "./close";
 import "./index.less";
+import { RouterTabStore } from "@routerTab/store";
 
 export default defineComponent({
   name: "RtTab",
@@ -19,10 +19,10 @@ export default defineComponent({
   },
   setup(props) {
     const ui = inject<Ui>('ui');
+    const store = inject<RouterTabStore>('tabStore')!;
     
-    const store = useRouterTabStore();
-    const tabsLength = computed(() => store.tabs.length);
-    const active = computed(() => store.activeTab?.id === props.id);
+    const tabsLength = computed(() => store.state.tabs.length);
+    const active = computed(() => store.state.activeTab?.id === props.id);
     const showClose = computed(() => tabsLength.value > 1);
 
     const classNames = computed(() => [

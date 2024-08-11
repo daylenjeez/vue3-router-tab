@@ -49,3 +49,17 @@ export const createTab = (router:RouteLocationNormalized)=> {
   if (isIframe) tab.isIframe = true;
   return tab;
 };
+
+/**
+ * get tabId by route
+ * @param {RouteLocationNormalizedLoaded} route
+ * @returns {TabId} tabId
+ */
+export const getTabIdByRoute =  (
+  router:RouteLocationNormalized
+)=> {
+  const key =
+    (router.meta?.tabConfig as TabConfig)?.key ?? INITIAL_TAB_CONFIG.key;
+  const tabId = createTabId(key, router);
+  return tabId;
+};

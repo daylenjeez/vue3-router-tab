@@ -2,7 +2,6 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import RouterTab from "./plugins/vue3-router-tab";
-// import RouterTab from "../dist/index";
 
 const app = createApp(App);
 

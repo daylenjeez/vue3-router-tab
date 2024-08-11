@@ -14,29 +14,30 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, computed, watch,VNode, } from "vue";
-import { useRouterTabStore,useCache } from "@routerTab/store";
+import { defineComponent, computed, watch,VNode, inject, } from "vue";
 import { renameComponentType } from "@routerTab/utils";
 import { updateTabOnRouteChange } from "../..";
+import { RouterTabStore } from "@routerTab/store";
+import { useCache } from "@routerTab/store/cache";
 
 export default defineComponent({
   name: "RtPages",
   setup() {
-    const routerTab = useRouterTabStore();
+    const tabStore = inject<RouterTabStore>('tabStore')!;
     
     const cache = useCache();
-    const activeTab = computed(()=>routerTab.activeTab);
+    const activeTab = computed(()=>tabStore.state.activeTab);
     const activeTabKey = computed(() => activeTab.value?.id);
-    const refreshing = computed(() => cache.refreshing);
+    const refreshing = computed(() => cache.state.refreshing);
 
     const cachedKeys = computed(() => {
-      const keys = cache.keys;
+      const keys = cache.keys.value;
       return activeTab.value?.keepAlive ? keys : keys.filter(k => k !== activeTabKey.value);
     });
 
     watch(
-      routerTab.$router.currentRoute,
-      val => updateTabOnRouteChange(val, routerTab),
+      tabStore.$router.currentRoute,
+      val => updateTabOnRouteChange(val, tabStore),
       { immediate: true }
     );
 
@@ -56,4 +57,4 @@ export default defineComponent({
   },
 
 });
-</script>
+</script>@routerTab/store

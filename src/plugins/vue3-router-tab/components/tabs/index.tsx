@@ -1,17 +1,17 @@
 import { computed, defineComponent, inject } from "vue";
-import { useRouterTabStore } from "@routerTab/store/_routerTab";
 import RtTab from "./tab";
 
 import "./index.less";
 import { Ui } from "@routerTab/types";
+import { RouterTabStore } from "@routerTab/store";
 
 export default defineComponent({
   name: "RtTabs",
   setup() {
     const ui = inject<Ui>('ui');
+    const store = inject<RouterTabStore>('tabStore')!;
     
-    const store = useRouterTabStore();
-    const tabs = computed(() => store.tabs);
+    const tabs = computed(() => store.state.tabs);
     const classNames = computed(() => [
       "rt-tabs",
       `rt-tabs--${ui}`

@@ -1,4 +1,4 @@
-import RouterTabPlugin, { useRouterTab } from "..";
+import RouterTabPlugin from "..";
 import { RouteLocationNormalized, Router, createMemoryHistory, createRouter } from "vue-router";
 import { mount } from "@vue/test-utils";
 import { RouterTabType, useRouterTabStore } from "../store";
@@ -49,7 +49,6 @@ export const getWrapper = (router: Router) => mount({
 export const beforeEachFn = async () => {
   const router = getRouter();
   const wrapper = await getWrapper(router);
-  const routerTab = useRouterTab();
   const cache = useCache();
   useRouterTabStore()._clear();
 

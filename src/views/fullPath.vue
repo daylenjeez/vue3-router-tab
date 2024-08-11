@@ -12,20 +12,20 @@
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
-import { useRouterTab } from "../plugins/vue3-router-tab";
+import { RouterTabStore } from "@routerTab/store";
+import { inject, ref } from "vue";
 
 export default {
   name:'FullPathPage',
   setup() {
+    const store = inject<RouterTabStore>('tabStore')!;
     const num = ref(0);
     const click = () => {
       num.value++;
     };
 
     const closeOthers = () => {
-      const routerTab = useRouterTab();
-      routerTab.closeOthers(routerTab.activeTab?.id);
+      store.closeOthers(store.state.activeTab?.id);
     };
     return { name: "page3", num, click,closeOthers };
   },

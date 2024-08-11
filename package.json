@@ -10,12 +10,10 @@
     "test": "vitest"
   },
   "dependencies": {
-    "pinia": "^2.1.7",
-    "vue": "^3.3.7",
-    "vue-router": "^4.2.5"
+    "vue": "^3.4.37",
+    "vue-router": "^4.4.3"
   },
   "devDependencies": {
-    "@total-typescript/ts-reset": "^0.5.1",
     "@vitejs/plugin-vue": "^4.4.0",
     "@vitejs/plugin-vue-jsx": "^3.0.2",
     "@vue/eslint-config-typescript": "^12.0.0",
@@ -24,6 +22,7 @@
     "eslint-plugin-vue": "^9.18.1",
     "happy-dom": "^12.10.3",
     "less": "^4.2.0",
+    "prettier-eslint": "^16.3.0",
     "typescript": "^5.2.2",
     "vite": "^4.5.0",
     "vite-plugin-dts": "^3.6.3",
