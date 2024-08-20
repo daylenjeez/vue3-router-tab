@@ -258,7 +258,7 @@ export const useTabStore = (router: Router) => {
    * @param {ToOptions} toOptions
    * @returns {TabWithIndex | undefined}
    */
-  const close = async (item: TabGetter | undefined, toOptions?: ToOptions) => {
+  const close = async (item?: TabGetter, toOptions?: ToOptions) => {
     if (!state.shouldClose) return;
     const _item = getRemoveItem(item);
     if (!_item) return void 0;

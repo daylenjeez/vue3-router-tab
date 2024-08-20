@@ -1,13 +1,13 @@
-import { describe, beforeEach, it } from 'vitest';
+import { Cache, RouterTabStore } from '@routerTab/store';
+import { beforeEach, describe, it } from 'vitest';
 import { Router } from 'vue-router';
-import { RouterTabType } from '../../store';
-import { CacheType } from '../../store/cache';
+
 import { beforeEachFn, sameLength } from '../unit';
 
 describe('Check tab closed', async () => {
   let router: Router;
-  let routerTab: RouterTabType;
-  let cache: CacheType;
+  let routerTab: RouterTabStore;
+  let cache: Cache;
   let expectLength: ReturnType<typeof sameLength>;
 
   beforeEach(async () => {
@@ -48,7 +48,7 @@ describe('Check tab closed', async () => {
     await routerTab.close(router.currentRoute.value.fullPath);
 
     expectLength(expect, 1);
-    expect(routerTab.activeTab?.id).toEqual('/initial?id=1');
+    expect(routerTab.state.activeTab?.id).toEqual('/initial?id=1');
   });
 
   it(`close no funded tab`, async ({ expect }) => {
@@ -65,10 +65,10 @@ describe('Check tab closed', async () => {
     await router.push('/path?id=1');
 
     await routerTab.open('/initial?id=1');
-    expect(routerTab.activeTab?.id).toEqual('/initial?id=1');
+    expect(routerTab.state.activeTab?.id).toEqual('/initial?id=1');
     expectLength(expect, 2);
     await routerTab.close();
-    expect(routerTab.activeTab?.id).toEqual('/path');
+    expect(routerTab.state.activeTab?.id).toEqual('/path');
     expectLength(expect, 1);
 
   });
@@ -77,11 +77,11 @@ describe('Check tab closed', async () => {
     await router.push('/initial?id=1');
     await router.push('/path?id=1');
     await routerTab.open('/initial?id=1');
-    expect(routerTab.activeTab?.id).toEqual('/initial?id=1');
+    expect(routerTab.state.activeTab?.id).toEqual('/initial?id=1');
     expectLength(expect, 2);
 
     await routerTab.close('/initial?id=1');
-    expect(routerTab.activeTab?.id).toEqual('/path');
+    expect(routerTab.state.activeTab?.id).toEqual('/path');
     expectLength(expect, 1);
   });
 
@@ -91,11 +91,11 @@ describe('Check tab closed', async () => {
 
     await routerTab.open('/path?id=1');
     expectLength(expect, 2);
-    expect(routerTab.activeTab?.id).toEqual('/path');
+    expect(routerTab.state.activeTab?.id).toEqual('/path');
 
     await routerTab.close({ id: '/path' });
     expectLength(expect, 1);
-    expect(routerTab.activeTab?.id).toEqual('/initial?id=1');
+    expect(routerTab.state.activeTab?.id).toEqual('/initial?id=1');
   });
 
   it(`navigate to custom tab when add config`, async ({ expect }) => {
@@ -104,11 +104,11 @@ describe('Check tab closed', async () => {
     await router.push('/initial?id=3');
     await router.push('/path?id=1');
     expectLength(expect, 4);
-    expect(routerTab.activeTab?.id).toEqual('/path');
+    expect(routerTab.state.activeTab?.id).toEqual('/path');
 
     await routerTab.close({ fullPath: '/path?id=1' }, { id: '/initial?id=2' });
     expectLength(expect, 3);
-    expect(routerTab.activeTab?.id).toEqual('/initial?id=2');
+    expect(routerTab.state.activeTab?.id).toEqual('/initial?id=2');
   });
 
   it(`close tab but open the same tab`, async ({ expect }) => {
@@ -117,14 +117,14 @@ describe('Check tab closed', async () => {
     await router.push('/initial?id=3');
     await router.push('/path?id=1');
     expectLength(expect, 4);
-    expect(routerTab.activeTab?.id).toEqual('/path');
+    expect(routerTab.state.activeTab?.id).toEqual('/path');
 
     routerTab.open('/initial?id=2');
 
     await routerTab.close('/path?id=1', { fullPath: '/path?id=1' });
 
     expectLength(expect, 3);
-    expect(routerTab.activeTab?.id).toEqual('/path');
+    expect(routerTab.state.activeTab?.id).toEqual('/path');
   });
 
   it(`close others`, async ({ expect }) => {
@@ -133,11 +133,11 @@ describe('Check tab closed', async () => {
     await router.push('/initial?id=3');
     await router.push('/path?id=1');
     expectLength(expect, 4);
-    expect(routerTab.activeTab?.id).toEqual('/path');
+    expect(routerTab.state.activeTab?.id).toEqual('/path');
 
     await routerTab.closeOthers('/path');
     expectLength(expect, 1);
-    expect(routerTab.activeTab?.id).toEqual('/path');
+    expect(routerTab.state.activeTab?.id).toEqual('/path');
   });
 
   it(`close others when params tab is not exist`, async ({ expect }) => {
@@ -146,11 +146,11 @@ describe('Check tab closed', async () => {
     await router.push('/initial?id=3');
     await router.push('/path?id=1');
     expectLength(expect, 4);
-    expect(routerTab.activeTab?.id).toEqual('/path');
+    expect(routerTab.state.activeTab?.id).toEqual('/path');
 
     await routerTab.closeOthers('/wwwww');
     expectLength(expect, 4);
-    expect(routerTab.activeTab?.id).toEqual('/path');
+    expect(routerTab.state.activeTab?.id).toEqual('/path');
   });
 
   it(`close others but is not active tab`, async ({ expect }) => {
@@ -159,11 +159,11 @@ describe('Check tab closed', async () => {
     await router.push('/initial?id=3');
     await router.push('/path?id=1');
     expectLength(expect, 4);
-    expect(routerTab.activeTab?.id).toEqual('/path');
+    expect(routerTab.state.activeTab?.id).toEqual('/path');
 
     await routerTab.closeOthers('/initial?id=2');
     expectLength(expect, 1);
-    expect(routerTab.activeTab?.id).toEqual('/initial?id=2');
+    expect(routerTab.state.activeTab?.id).toEqual('/initial?id=2');
   });
 
   it(`close others when has not params`, async ({ expect }) => {
@@ -172,10 +172,10 @@ describe('Check tab closed', async () => {
     await router.push('/initial?id=3');
     await router.push('/path?id=1');
     expectLength(expect, 4);
-    expect(routerTab.activeTab?.id).toEqual('/path');
+    expect(routerTab.state.activeTab?.id).toEqual('/path');
 
     await routerTab.closeOthers();
     expectLength(expect, 1);
-    expect(routerTab.activeTab?.id).toEqual('/path');
+    expect(routerTab.state.activeTab?.id).toEqual('/path');
   });
 });

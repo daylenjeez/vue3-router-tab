@@ -74,3 +74,6 @@ export const useCache = () => {
     refresh,
   };
 };
+
+export type Cache = ReturnType<typeof useCache>;
+

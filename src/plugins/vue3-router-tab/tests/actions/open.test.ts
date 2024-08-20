@@ -1,9 +1,11 @@
-import { describe, it, beforeEach } from 'vitest';
-import { RouterTabType } from '../../store';
+
+import { RouterTabStore } from '@routerTab/store';
+import { beforeEach,describe, it } from 'vitest';
+
 import { beforeEachFn, sameLength } from '../unit';
 
 describe('test open api', async () => {
-  let routerTab: RouterTabType;
+  let routerTab: RouterTabStore;
   let expectLength: ReturnType<typeof sameLength>;
 
   beforeEach(async () => {
