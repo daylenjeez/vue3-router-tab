@@ -1,27 +1,17 @@
-import { createTab, createTabId } from "@routerTab/helper/utils";
-import { INITIAL_TAB_CONFIG } from "@routerTab/helper/utils/constants";
-import type {
-  Tab,
-  TabConfig,
-  TabGetter,
-  TabId,
-  ToOptions,
-} from "@routerTab/types";
-import { isString, throwError, withPostAction } from "@routerTab/utils";
-import { computed, reactive } from "vue";
-import {
-  RouteLocationNormalizedLoaded,
-  RouteLocationRaw,
-  Router,
-} from "vue-router";
+import { createTab, createTabId } from '@routerTab/helper/utils';
+import { INITIAL_TAB_CONFIG } from '@routerTab/helper/utils/constants';
+import type { Tab, TabConfig, TabGetter, TabId, ToOptions } from '@routerTab/types';
+import { isString, throwError, withPostAction } from '@routerTab/utils';
+import { computed, reactive } from 'vue';
+import { RouteLocationNormalizedLoaded, RouteLocationRaw, Router } from 'vue-router';
 
-import { useCache } from "./cache";
+import { useCache } from './cache';
 
 export const useTabStore = (router: Router) => {
   const state = reactive<{
-    tabs: Tab[];
-    activeTab?: Tab;
-    shouldClose: boolean;
+    tabs: Tab[]
+    activeTab?: Tab
+    shouldClose: boolean
   }>({ tabs: [], activeTab: void 0, shouldClose: true });
 
   const currentTab = computed(() => state.activeTab);
@@ -34,8 +24,7 @@ export const useTabStore = (router: Router) => {
    */
   const indexOf = (tabId: TabId) => {
     const index = state.tabs.findIndex(({ id }) => id === tabId);
-    if (index < 0)
-      throwError(`Tab not found, please check the tab id: ${tabId}`);
+    if (index < 0) throwError(`Tab not found, please check the tab id: ${tabId}`);
     return index;
   };
 
@@ -100,10 +89,7 @@ export const useTabStore = (router: Router) => {
    * @returns {Tab | undefined}
    */
   const removeTabByIndex = (index: number) => {
-    if (index < 0)
-      return throwError(
-        `Index is less than 0, please check the index: ${index}`,
-      );
+    if (index < 0) return throwError(`Index is less than 0, please check the index: ${index}`);
     return state.tabs.splice(index, 1)[0];
   };
 
@@ -147,8 +133,7 @@ export const useTabStore = (router: Router) => {
    */
   const refresh = (tabId: TabId) => {
     const tab = find(tabId);
-    if (!tab)
-      return throwError(`Tab not found, please check the tab id: ${tabId}`);
+    if (!tab) return throwError(`Tab not found, please check the tab id: ${tabId}`);
     const cache = useCache();
     cache.refresh(tabId);
   };
@@ -159,10 +144,7 @@ export const useTabStore = (router: Router) => {
    * @returns {Promise<RouteLocationNormalized>} route
    * //TODO:refresh need test
    */
-  const open = async function (
-    to: RouteLocationRaw,
-    options = { replace: false, refresh: false },
-  ) {
+  const open = async function (to: RouteLocationRaw, options = { replace: false, refresh: false }) {
     const { replace } = options;
     if (replace) return routerReplace(to);
     const route = await routerPush(to);
@@ -181,8 +163,7 @@ export const useTabStore = (router: Router) => {
    */
   const openTabById = (tabId: TabId) => {
     const tab = find(tabId);
-    if (!tab)
-      return throwError(`Tab not found, please check the tab id: ${tabId}`);
+    if (!tab) return throwError(`Tab not found, please check the tab id: ${tabId}`);
     return routerPush(tab.fullPath);
   };
 
@@ -194,8 +175,7 @@ export const useTabStore = (router: Router) => {
   const openNearTab = async function (removedTab: { index: number }) {
     const { index: afterIndex } = removedTab;
 
-    const afterTab =
-      state.tabs[afterIndex] ?? state.tabs[afterIndex - 1] ?? void 0;
+    const afterTab = state.tabs[afterIndex] ?? state.tabs[afterIndex - 1] ?? void 0;
 
     if (afterTab) await open(afterTab.fullPath);
   };
@@ -206,8 +186,7 @@ export const useTabStore = (router: Router) => {
    * @returns {TabId} tabId
    */
   const getTabIdByRoute = (route: RouteLocationNormalizedLoaded) => {
-    const key =
-      (route.meta?.tabConfig as TabConfig)?.key ?? INITIAL_TAB_CONFIG.key;
+    const key = (route.meta?.tabConfig as TabConfig)?.key ?? INITIAL_TAB_CONFIG.key;
     const tabId = createTabId(key, route);
     return tabId;
   };
@@ -219,13 +198,11 @@ export const useTabStore = (router: Router) => {
    */
   const getTabIdByRemoveItem = function (item: TabGetter) {
     let tabId: TabId | undefined;
-    if (typeof item === "string") item = { fullPath: item };
-    if ("id" in item) tabId = item.id;
-    if ("fullPath" in item)
-      tabId = item.fullPath ? getTabByFullpath(item.fullPath)?.id : void 0;
+    if (typeof item === 'string') item = { fullPath: item };
+    if ('id' in item) tabId = item.id;
+    if ('fullPath' in item) tabId = item.fullPath ? getTabByFullpath(item.fullPath)?.id : void 0;
 
-    if (!tabId)
-      return throwError(`Tab not found, please check the param: ${item}`);
+    if (!tabId) return throwError(`Tab not found, please check the param: ${item}`);
     return tabId;
   };
 
@@ -253,7 +230,7 @@ export const useTabStore = (router: Router) => {
     () => {
       const cache = useCache();
       cache.reset();
-    },
+    }
   );
 
   /**
@@ -289,23 +266,16 @@ export const useTabStore = (router: Router) => {
 
     if (toOptions && (toOptions.id || toOptions.fullPath)) {
       const { id, fullPath } = toOptions;
-      if (id === item)
-        return throwError(
-          "The id of the tab to be closed cannot be the same as the id of the tab to be opened,if you want to open the tab, please use the fullPath parameter.",
-        );
+      if (id === item) return throwError('The id of the tab to be closed cannot be the same as the id of the tab to be opened,if you want to open the tab, please use the fullPath parameter.');
       const _fullPath = id ? find(id)?.fullPath : fullPath;
 
-      if (!_fullPath)
-        return throwError(
-          `The fullPath of the tab to be opened is not found, please check ${id ? id : fullPath}.`,
-        );
+      if (!_fullPath) return throwError(`The fullPath of the tab to be opened is not found, please check ${id ? id : fullPath}.`);
 
       await routerPush(_fullPath);
       return removedTab;
     }
 
-    if (removedTab && removedTab.id === state.activeTab?.id)
-      await openNearTab(removedTab);
+    if (removedTab && removedTab.id === state.activeTab?.id) await openNearTab(removedTab);
 
     return removedTab;
   };
@@ -318,8 +288,8 @@ export const useTabStore = (router: Router) => {
     if (!tabId && !state.activeTab?.id) return;
     const _tabId = tabId ?? state.activeTab?.id;
 
-    if (!has(_tabId)) return;
-    [...state.tabs].forEach((item) => {
+    if (!has(_tabId)) return
+    ;[...state.tabs].forEach((item) => {
       if (item.id !== _tabId) removeTabById(item.id);
     });
 
@@ -361,4 +331,4 @@ export const useTabStore = (router: Router) => {
   };
 };
 
-export type RouterTabStore = ReturnType<typeof useTabStore>;
+export type RouterTabStore = ReturnType<typeof useTabStore>

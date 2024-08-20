@@ -1,10 +1,11 @@
 <script lang="ts">
-import { useRouter } from "vue-router";
 import "./style/index.less";
+
+import { useRouter } from "vue-router";
 
 export default {
   setup() {
-    const router  = useRouter();
+    const router = useRouter();
 
     return {
       handlePush(value: string) {

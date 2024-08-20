@@ -18,6 +18,7 @@ export const createTabId = (
   const tabId = isFunction(_tabKey) ? _tabKey(router) : router[_tabKey];
 
   if (isNonEmptyString(tabId)) return tabId;
+  
 
   return throwError(
     "tabKey is not 'path','fullPath' or a function, or the return value of the function is not a non-empty string",
