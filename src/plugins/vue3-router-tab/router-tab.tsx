@@ -4,6 +4,11 @@ import Page from "./components/page/index.vue";
 import Tabs from "./components/tabs";
 import type { RouterTabConfig, Ui } from "./types";
 
+interface Props {
+  maxAlive?: RouterTabConfig["max-alive"];
+  ui?: Ui;
+}
+
 export default defineComponent({
   name: "RouterTab",
   components: {
@@ -12,7 +17,7 @@ export default defineComponent({
   },
   props: {
     maxAlive: {
-      type: Number as PropType<RouterTabConfig["max-alive"]>,
+      type: Number satisfies PropType<RouterTabConfig["max-alive"]>,
       required: false,
       default: 10,
     },
@@ -23,7 +28,7 @@ export default defineComponent({
     },
   },
 
-  setup(props) {
+  setup(props: Props) {
     provide("ui", props.ui);
 
     return () => (
