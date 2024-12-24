@@ -6,7 +6,10 @@
     "@vue/eslint-config-typescript",
   ],
   "rules": {
-    "indent": ["warn", 2],
+    "indent": [
+      "warn",
+      2
+    ],
     "semi": "warn",
     "space-infix-ops": "warn",
     "object-curly-newline": [
@@ -19,10 +22,14 @@
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
   },
-  "plugins": ["simple-import-sort"],
+  "plugins": [
+    "simple-import-sort"
+  ],
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": "latest",
   },
-  "ignorePatterns": ["*.json"],
+  "ignorePatterns": [
+    "*.json"
+  ]
 }
