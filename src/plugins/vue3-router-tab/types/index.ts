@@ -70,12 +70,20 @@ export type TabGetter =
  * @property {Ui} ui
  * @property {boolean} closeIcon
  * @property {(tab: Tab) => Promise<boolean>} beforeClose
+ * @property {string} tabsClass
+ * @property {string} pageClass
+ * @property {boolean} draggable
+ * @property {boolean} restore
  */
 export interface RouterTabConfig {
   "max-alive": number;
   ui?: Ui;
   closeIcon?: boolean;
   "before-close"?: (tab: Tab) => Promise<boolean>;
+  "tabs-class"?: string;
+  "page-class"?: string;
+  draggable?: boolean;
+  restore?: boolean;
 }
 
 /**
