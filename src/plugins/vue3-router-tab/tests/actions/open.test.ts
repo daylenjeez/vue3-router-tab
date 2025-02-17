@@ -1,10 +1,9 @@
+import { RouterTabStore } from "@routerTab/store";
+import { beforeEach, describe, it } from "vitest";
 
-import { RouterTabStore } from '@routerTab/store';
-import { beforeEach,describe, it } from 'vitest';
+import { beforeEachFn, sameLength } from "../unit";
 
-import { beforeEachFn, sameLength } from '../unit';
-
-describe('test open api', async () => {
+describe("test open api", async () => {
   let routerTab: RouterTabStore;
   let expectLength: ReturnType<typeof sameLength>;
 
@@ -14,43 +13,43 @@ describe('test open api', async () => {
     expectLength = sameLength(item.cache, routerTab);
   });
 
-  it('open a new router', async ({ expect }) => {
-    await routerTab.open('/initial?id=1&name=amy');
-    expect(routerTab.activeTab?.id).toEqual('/initial?id=1&name=amy');
-    await routerTab.open('/initial?id=2');
-    expect(routerTab.activeTab?.id).toEqual('/initial?id=2');
+  it("open a new router", async ({ expect }) => {
+    await routerTab.open("/initial?id=1&name=amy");
+    expect(routerTab.state.activeTab?.id).toEqual("/initial?id=1&name=amy");
+    await routerTab.open("/initial?id=2");
+    expect(routerTab.state.activeTab?.id).toEqual("/initial?id=2");
   });
 
-  it('open a current tab', async ({ expect }) => {
-    await routerTab.open('/initial?id=1&name=amy');
-    await routerTab.open('/initial?id=2');
+  it("open a current tab", async ({ expect }) => {
+    await routerTab.open("/initial?id=1&name=amy");
+    await routerTab.open("/initial?id=2");
 
-    expect(routerTab.activeTab?.id).toEqual('/initial?id=2');
+    expect(routerTab.state.activeTab?.id).toEqual("/initial?id=2");
 
-    await routerTab.open('/initial?id=1&name=amy');
+    await routerTab.open("/initial?id=1&name=amy");
     expectLength(expect, 2);
-    expect(routerTab.activeTab?.id).toEqual('/initial?id=1&name=amy');
+    expect(routerTab.state.activeTab?.id).toEqual("/initial?id=1&name=amy");
   });
 
-  it('replace a current tab', async ({ expect }) => {
-    await routerTab.open('/initial?id=1&name=amy');
-    await routerTab.open('/initial?id=2');
+  it("replace a current tab", async ({ expect }) => {
+    await routerTab.open("/initial?id=1&name=amy");
+    await routerTab.open("/initial?id=2");
 
-    expect(routerTab.activeTab?.id).toEqual('/initial?id=2');
+    expect(routerTab.state.activeTab?.id).toEqual("/initial?id=2");
 
-    await routerTab.open('/initial?id=1&name=amy', { replace: true });
+    await routerTab.open("/initial?id=1&name=amy", { replace: true });
     expectLength(expect, 2);
-    expect(routerTab.activeTab?.id).toEqual('/initial?id=1&name=amy');
+    expect(routerTab.state.activeTab?.id).toEqual("/initial?id=1&name=amy");
   });
 
-  it('open a current tab,but different query', async ({ expect }) => {
-    await routerTab.open('/initial?id=1&name=amy');
-    await routerTab.open('/path?id=2');
+  it("open a current tab,but different query", async ({ expect }) => {
+    await routerTab.open("/initial?id=1&name=amy");
+    await routerTab.open("/path?id=2");
 
-    expect(routerTab.activeTab?.id).toEqual('/path');
+    expect(routerTab.state.activeTab?.id).toEqual("/path");
 
-    await routerTab.open('/path?id=3', { replace: true });
+    await routerTab.open("/path?id=3", { replace: true });
     expectLength(expect, 2);
-    expect(routerTab.activeTab?.id).toEqual('/path');
+    expect(routerTab.state.activeTab?.id).toEqual("/path");
   });
 });

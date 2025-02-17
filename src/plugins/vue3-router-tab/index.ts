@@ -9,7 +9,7 @@ import { type RouterTabStore, useTabStore } from "./store";
  * @property {Router} router
  */
 interface Options {
-	router: Router;
+  router: Router;
 }
 
 /**
@@ -18,18 +18,18 @@ interface Options {
  * @param {RouterTabStore} store
  */
 export const updateTabOnRouteChange = (
-	guard: RouteLocationNormalized,
-	store: RouterTabStore,
+  guard: RouteLocationNormalized,
+  store: RouterTabStore,
 ) => {
-	const tabId = store.getTabIdByRoute(guard);
+  const tabId = store.getTabIdByRoute(guard);
 
-	if (tabId && store.has(tabId)) {
-		const tab = store.find(tabId);
-		if (tab) store.setActive(tab);
-	} else {
-		const tab = store.createTab(guard);
-		if (tab) store.addTab(tab, { setActive: true });
-	}
+  if (tabId && store.has(tabId)) {
+    const tab = store.find(tabId);
+    if (tab) store.setActive(tab);
+  } else {
+    const tab = store.createTab(guard);
+    if (tab) store.addTab(tab, { setActive: true });
+  }
 };
 
 /**
@@ -38,17 +38,17 @@ export const updateTabOnRouteChange = (
  * @param {Options} options
  */
 const init = (app: App, options: Options) => {
-	const { router } = options;
-	const tabStore = useTabStore(router);
-	app.provide("tabStore", tabStore);
-	app.config.globalProperties.$tabStore = tabStore;
+  const { router } = options;
+  const tabStore = useTabStore(router);
+  app.provide("tabStore", tabStore);
+  app.config.globalProperties.$tabStore = tabStore;
 };
 
 const RouterTabPlugin: Plugin = {
-	install(app: App, options: Options) {
-		init(app, options);
-		app.component("RouterTab", RouterTab);
-	},
+  install(app: App, options: Options) {
+    init(app, options);
+    app.component("RouterTab", RouterTab);
+  },
 };
 
 export default RouterTabPlugin;

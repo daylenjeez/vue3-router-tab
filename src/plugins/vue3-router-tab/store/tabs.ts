@@ -44,27 +44,22 @@ export const useTabStore = (router: Router) => {
    * @param {TabId} tabId
    * @returns {boolean} hasTab
    */
-  const has = (tabId?: TabId) => {
-    return state.tabs.some(({ id }) => id === tabId);
-  };
+  const has = (tabId?: TabId) => state.tabs.some(({ id }) => id === tabId);
 
   /**
    * find tab by tabId
    * @param {TabId} tabId - The ID of the tab to retrieve.
    * @returns {Tab | undefined} The found tab or undefined.
    */
-  const find = (tabId: TabId) => {
-    return state.tabs.find(({ id }) => id === tabId);
-  };
+  const find = (tabId: TabId) => state.tabs.find(({ id }) => id === tabId);
 
   /**
    * get tabId by fullpath
    * @param {string} fullPath
    * @returns {Tab | undefined} tab
    */
-  const getTabByFullpath = (fullPath: string) => {
-    return state.tabs.find((tab) => tab.fullPath === fullPath);
-  };
+  const getTabByFullpath = (fullPath: string) =>
+    state.tabs.find((tab) => tab.fullPath === fullPath);
 
   /**
    * set active tab
@@ -128,18 +123,14 @@ export const useTabStore = (router: Router) => {
    * @param {RouteLocationRaw} to
    * @returns {Promise<RouteLocationNormalized>}
    */
-  const routerPush = async (to: RouteLocationRaw) => {
-    return router.push(to);
-  };
+  const routerPush = async (to: RouteLocationRaw) => router.push(to);
 
   /**
    * router replace
    * @param {RouteLocationRaw} to
    * @returns {Promise<RouteLocationNormalized>} route
    */
-  const routerReplace = (to: RouteLocationRaw) => {
-    return router.replace(to);
-  };
+  const routerReplace = (to: RouteLocationRaw) => router.replace(to);
 
   /**
    * refresh tab
@@ -161,7 +152,10 @@ export const useTabStore = (router: Router) => {
    */
   const open = async function (
     to: RouteLocationRaw,
-    options = { replace: false, refresh: false },
+    options: { replace?: boolean; refresh?: boolean } = {
+      replace: false,
+      refresh: false,
+    },
   ) {
     const { replace } = options;
     if (replace) return routerReplace(to);
