@@ -2,7 +2,7 @@ import type { App, Plugin } from "vue";
 import type { RouteLocationNormalized, Router } from "vue-router";
 
 import RouterTab from "./router-tab";
-import { type RouterTabStore, useTabStore } from "./store";
+import { RouterTabStore, useTabStore } from "./store";
 
 /**
  * Add configuration during initialization

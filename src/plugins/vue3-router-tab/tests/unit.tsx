@@ -8,9 +8,8 @@ import {
 } from "vue-router";
 
 import RouterTabPlugin from "..";
-import { RouterTabType, useRouterTabStore } from "../store";
-import { useCache } from "../store";
-import { CacheType } from "../store/cache";
+import { RouterTabStore, useTabStore } from "../store";
+import { Cache } from "../store/cache";
 
 // 创建一个内存路由
 const history = createMemoryHistory();
@@ -104,28 +103,24 @@ export const getWrapper = (router: Router) =>
 export const beforeEachFn = async () => {
   const router = getRouter();
   const wrapper = await getWrapper(router);
-  const cache = useCache();
-  useRouterTabStore()._clear();
+  const routerTab = useTabStore(router);
+  //routerTab.clear(); //把'/' 清除掉
 
   return {
     router,
-    routerTab,
     wrapper,
-    cache,
+    routerTab,
   };
 };
 
-export const afterEachFn = async ({wrapper,}: {
-  routerTab: RouterTabType;
-  wrapper: any;
-}) => {
-  useRouterTabStore()._clear();
+export const afterEachFn = async ({ wrapper }: { wrapper: any }) => {
+  useTabStore(wrapper.vm.$router).clear();
   wrapper.unmount();
 };
 
-export const sameLength = (cache: CacheType, routerTab: RouterTabType) => {
+export const sameLength = (cache: Cache, routerTab: RouterTabStore) => {
   return (expect: ExpectStatic, length: number) => {
-    expect(cache.keys).length(length);
-    expect(routerTab.tabs).length(length);
+    expect(cache.keys.value).length(length + 1); //router会默认加个{path:'/'}
+    expect(routerTab.state.tabs.length).toBe(length + 1);
   };
 };

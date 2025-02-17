@@ -10,7 +10,7 @@ describe("test open api", async () => {
   beforeEach(async () => {
     const item = await beforeEachFn();
     routerTab = item.routerTab;
-    expectLength = sameLength(item.cache, routerTab);
+    expectLength = sameLength(routerTab.cache, routerTab);
   });
 
   it("open a new router", async ({ expect }) => {

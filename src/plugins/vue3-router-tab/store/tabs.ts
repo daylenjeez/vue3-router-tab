@@ -7,8 +7,13 @@ import type {
   TabId,
   ToOptions,
 } from "@routerTab/types";
-import { isString, throwError, withPostAction } from "@routerTab/utils";
-import { computed, reactive } from "vue";
+import {
+  isString,
+  renameComponentType,
+  throwError,
+  withPostAction,
+} from "@routerTab/utils";
+import { computed, reactive, VNode, watch } from "vue";
 import {
   RouteLocationNormalizedLoaded,
   RouteLocationRaw,
@@ -26,6 +31,8 @@ export const useTabStore = (router: Router) => {
 
   const currentTab = computed(() => state.activeTab);
   const currentTabId = computed(() => state.activeTab?.id);
+
+  const cache = useCache();
 
   /**
    * get tab index by tabId
@@ -69,7 +76,6 @@ export const useTabStore = (router: Router) => {
   const setActive = (tab: Tab) => {
     if (!tab) return throwError(`Tab not found, please check the tab: ${tab}`);
     state.activeTab = tab;
-    const cache = useCache();
     cache.setActiveKey(tab.id);
     return tab;
   };
@@ -82,7 +88,6 @@ export const useTabStore = (router: Router) => {
    */
   const addTab = (tab: Tab, options?: { setActive?: boolean }) => {
     const index = state.tabs.push(tab);
-    const cache = useCache();
     cache.add(tab.id);
 
     if (options?.setActive) setActive(tab);
@@ -112,7 +117,6 @@ export const useTabStore = (router: Router) => {
     if (index < 0) return void 0;
     const removedTab = removeTabByIndex(index);
 
-    const cache = useCache();
     cache.remove(tabId);
 
     return removedTab ? { ...removedTab, index } : void 0;
@@ -140,7 +144,6 @@ export const useTabStore = (router: Router) => {
     const tab = find(tabId);
     if (!tab)
       return throwError(`Tab not found, please check the tab id: ${tabId}`);
-    const cache = useCache();
     cache.refresh(tabId);
   };
 
@@ -245,7 +248,6 @@ export const useTabStore = (router: Router) => {
       state.tabs = [];
     },
     () => {
-      const cache = useCache();
       cache.reset();
     },
   );
@@ -324,6 +326,33 @@ export const useTabStore = (router: Router) => {
     if (afterActiveTab) setActive(afterActiveTab);
   };
 
+  const retrieveOrCacheComponent = (Component: VNode) => {
+    const key = currentTabId.value;
+
+    if (!Component || !key) return Component;
+    if (cache.hasComponent(key)) return cache.getComponent(key);
+    const renamedComponent = renameComponentType(Component, key);
+    cache.addComponent(key, renamedComponent);
+    cache.add(key);
+    return cache.getComponent(key);
+  };
+
+  watch(
+    router.currentRoute,
+    (guard) => {
+      const tabId = getTabIdByRoute(guard);
+
+      if (tabId && has(tabId)) {
+        const tab = find(tabId);
+        if (tab) setActive(tab);
+      } else {
+        const tab = createTab(guard);
+        if (tab) addTab(tab, { setActive: true });
+      }
+    },
+    { immediate: true },
+  );
+
   return {
     $router: router,
     state,
@@ -352,6 +381,8 @@ export const useTabStore = (router: Router) => {
     close,
     closeOthers,
     has,
+    retrieveOrCacheComponent,
+    cache,
   };
 };
 

@@ -1,37 +1,34 @@
-// import { beforeEach, describe, expectTypeOf, it } from "vitest";
-// import { Tab } from "../../types";
-// import { Close, CloseOthers, Open } from "@routerTab/store/_routerTab/type/actions";
-// import { beforeEachFn } from "../unit";
-// import { useRouterTab } from "@routerTab/store";
+import { RouterTabStore } from "@routerTab/store";
+import { beforeEach, describe, expectTypeOf, it } from "vitest";
 
-// describe("init", () => {
-//   beforeEach(async () => {
-//     await beforeEachFn();
-//   });
+import { Tab } from "../../types";
+import { beforeEachFn } from "../unit";
 
-//   it("router-tab is defined", ({ expect }) => {
-//     const routeTab = useRouterTab();
-//     expect(routeTab).toBeDefined();
-//   });
+describe("init", () => {
+  let routerTab: RouterTabStore;
 
-//   it("should have 'tabs' property of type Tab[] in useRouterTab", () => {
-//     const routeTab = useRouterTab();
-//     expectTypeOf(routeTab.tabs).toEqualTypeOf<Tab[]>();
-//   });
+  beforeEach(async () => {
+    const item = await beforeEachFn();
+    routerTab = item.routerTab;
+  });
 
-//   it("should have 'close' property of type Close in useRouterTab", () => {
-//     const routeTab = useRouterTab();
-//     expectTypeOf(routeTab.close).toEqualTypeOf<Close>();
-//   });
+  it("router-tab is defined", ({ expect }) => {
+    expect(routerTab).toBeDefined();
+  });
 
-//   it("should have 'closeOthers' property of type CloseOthers in useRouterTab", () => {
-//     const routeTab = useRouterTab();
-//     expectTypeOf(routeTab.closeOthers).toEqualTypeOf<CloseOthers>();
-//   });
+  it("should have 'tabs' property of type Tab[] in useRouterTab", () => {
+    expectTypeOf(routerTab.state.tabs).toEqualTypeOf<Tab[]>();
+  });
 
-//   it("should have 'open' property of type Open in useRouterTab", () => {
-//     const routeTab = useRouterTab();
-//     expectTypeOf(routeTab.open).toEqualTypeOf<Open>();
-//   });
+  // it("should have 'close' property of type Close in useRouterTab", () => {
+  //   expectTypeOf(routerTab.close).toEqualTypeOf<Close>();
+  // });
 
-// });
+  // it("should have 'closeOthers' property of type CloseOthers in useRouterTab", () => {
+  //   expectTypeOf(routerTab.closeOthers).toEqualTypeOf<CloseOthers>();
+  // });
+
+  // it("should have 'open' property of type Open in useRouterTab", () => {
+  //   expectTypeOf(routerTab.open).toEqualTypeOf<Open>();
+  // });
+});

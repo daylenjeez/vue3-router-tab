@@ -84,7 +84,7 @@ describe("Check add Tab when the same route", async () => {
     const item = await beforeEachFn();
     router = item.router;
     routerTab = item.routerTab;
-    cache = item.cache;
+    cache = routerTab.cache;
     expectLength = sameLength(cache, routerTab);
   });
 

@@ -13,50 +13,30 @@
 </template>
 <script lang="ts">
 import { RouterTabStore } from "@routerTab/store";
-import { useCache } from "@routerTab/store/cache";
-import { renameComponentType } from "@routerTab/utils";
-import { computed, defineComponent, inject, VNode, watch } from "vue";
-
-import { updateTabOnRouteChange } from "../..";
+import { computed, defineComponent, inject } from "vue";
 
 export default defineComponent({
   name: "RtPages",
   setup() {
     const tabStore = inject<RouterTabStore>("tabStore")!;
 
-    const cache = useCache();
     const activeTab = computed(() => tabStore.state.activeTab);
     const activeTabKey = computed(() => activeTab.value?.id);
-    const refreshing = computed(() => cache.state.refreshing);
+    const refreshing = computed(() => tabStore.cache.state.refreshing);
 
     const cachedKeys = computed(() => {
-      const keys = cache.keys.value;
+      const keys = tabStore.cache.keys.value;
 
       return activeTab.value?.keepAlive
         ? keys
         : keys.filter((k) => k !== activeTabKey.value);
     });
 
-    watch(
-      tabStore.$router.currentRoute,
-      (val) => updateTabOnRouteChange(val, tabStore),
-      { immediate: true },
-    );
-
     return {
       activeTabKey,
       cachedKeys,
       refreshing,
-      retrieveOrCacheComponent: (Component: VNode) => {
-        const key = activeTabKey.value;
-
-        if (!Component || !key) return Component;
-        if (cache.hasComponent(key)) return cache.getComponent(key);
-        const renamedComponent = renameComponentType(Component, key);
-        cache.addComponent(key, renamedComponent);
-        cache.add(key);
-        return cache.getComponent(key);
-      },
+      retrieveOrCacheComponent: tabStore.retrieveOrCacheComponent,
     };
   },
 });
