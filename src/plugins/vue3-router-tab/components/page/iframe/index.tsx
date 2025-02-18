@@ -1,9 +1,22 @@
-import { defineComponent } from "vue";
+import { defineComponent, IframeHTMLAttributes, PropType } from "vue";
 
 export default defineComponent({
   name: "RtIframe",
 
-  setup() {
-    return () => <div>iframe</div>;
+  props: {
+    attributes: {
+      type: Object as PropType<IframeHTMLAttributes>,
+      required: true,
+    },
+  },
+
+  setup(props) {
+    const attributes = props.attributes;
+
+    return () => (
+      <div>
+        <iframe width="100%" height="100%" {...attributes} />
+      </div>
+    );
   },
 });

@@ -1,3 +1,5 @@
+
+import { IframeHTMLAttributes } from "vue";
 import { RouteLocationNormalized } from "vue-router";
 
 export type TabKey =
@@ -34,6 +36,7 @@ export interface TabConfig {
  * @property {string} fullPath
  * @property {boolean} isIframe
  * @property {boolean} allowClose
+ * @property {IframeHTMLAttributes} iframeAttributes
  */
 export interface Tab {
   id: string;
@@ -43,6 +46,7 @@ export interface Tab {
   fullPath: string;
   isIframe?: boolean;
   allowClose?: boolean;
+  iframeAttributes?: Pick<IframeHTMLAttributes, "src" | "width" | "height"|"loading"|"name"|"marginheight">;
 }
 
 export type TabId = Tab["id"];
@@ -92,6 +96,12 @@ export interface RouterTabConfig {
 export type RightClickConfig = {} | Boolean;
 
 export type Ui = "initial" | "elementPlus" | "ant" | "naviUi" | "tailWind";
+
+export interface OpenProps {
+  replace?: boolean;
+  refresh?: boolean;
+  iframe?: HTMLIFrameElement;
+}
 
 declare module "vue" {
   interface GlobalComponents {

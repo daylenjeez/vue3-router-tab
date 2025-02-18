@@ -1,6 +1,7 @@
 import { createTab, createTabId } from "@routerTab/helper/utils";
 import { INITIAL_TAB_CONFIG } from "@routerTab/helper/utils/constants";
 import type {
+  OpenProps,
   Tab,
   TabConfig,
   TabGetter,
@@ -13,13 +14,14 @@ import {
   throwError,
   withPostAction,
 } from "@routerTab/utils";
-import { computed, reactive, VNode, watch } from "vue";
+import { computed, h, reactive, VNode, watch } from "vue";
 import {
   RouteLocationNormalizedLoaded,
   RouteLocationRaw,
   Router,
 } from "vue-router";
 
+import RtIframe from "../components/page/iframe";
 import { useCache } from "./cache";
 
 interface TabStoreOptions {
@@ -161,7 +163,7 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
    */
   const open = async function (
     to: RouteLocationRaw,
-    options: { replace?: boolean; refresh?: boolean } = {
+    options: OpenProps = {
       replace: false,
       refresh: false,
     },
@@ -336,6 +338,10 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
     const key = currentTabId.value;
 
     if (!Component || !key) return Component;
+    if (currentTab.value?.iframeAttributes) {
+      return h(RtIframe, { attributes: currentTab.value.iframeAttributes });
+    }
+
     if (cache.hasComponent(key)) return cache.getComponent(key);
     const renamedComponent = renameComponentType(Component, key);
     cache.addComponent(key, renamedComponent);
