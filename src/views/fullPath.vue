@@ -12,31 +12,31 @@
 </template>
 
 <script lang="ts">
-import { RouterTabStore } from "@routerTab/store";
 import { inject, ref } from "vue";
+import type { RouterTabStore } from "@routerTab/store";
 
 export default {
-  name:'FullPathPage',
+  name: "FullPathPage",
   setup() {
-    const store = inject<RouterTabStore>('tabStore')!;
+    const store = inject<RouterTabStore>("tabStore");
     const num = ref(0);
     const click = () => {
       num.value++;
     };
 
     const closeOthers = () => {
-      store.closeOthers(store.state.activeTab?.id);
+      store?.closeOthers(store?.state.activeTab?.id);
     };
-    return { name: "page3", num, click,closeOthers };
+    return { name: "page3", num, click, closeOthers };
   },
-  deactivated(){
-    console.log('FullPathPage deactivated');
+  deactivated() {
+    console.log("FullPathPage deactivated");
   },
-  activated(){
-    console.log('FullPathPage activated');
+  activated() {
+    console.log("FullPathPage activated");
   },
-  unmounted(){
-    console.log('FullPathPage unmouted');
-  }
+  unmounted() {
+    console.log("FullPathPage unmouted");
+  },
 };
 </script>

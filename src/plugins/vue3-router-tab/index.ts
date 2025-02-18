@@ -2,15 +2,15 @@ import type { App, Plugin } from "vue";
 import type { RouteLocationNormalized, Router } from "vue-router";
 
 import RouterTab from "./router-tab";
-import { RouterTabStore, useTabStore } from "./store";
+import { type RouterTabStore, useTabStore } from "./store";
 
 /**
  * Add configuration during initialization
  * @property {Router} router
  */
 interface Options {
-  router: Router;
-  maxCache?: number;
+	router: Router;
+	maxCache?: number;
 }
 
 /**
@@ -19,18 +19,18 @@ interface Options {
  * @param {RouterTabStore} store
  */
 export const updateTabOnRouteChange = (
-  guard: RouteLocationNormalized,
-  store: RouterTabStore,
+	guard: RouteLocationNormalized,
+	store: RouterTabStore,
 ) => {
-  const tabId = store.getTabIdByRoute(guard);
+	const tabId = store.getTabIdByRoute(guard);
 
-  if (tabId && store.has(tabId)) {
-    const tab = store.find(tabId);
-    if (tab) store.setActive(tab);
-  } else {
-    const tab = store.createTab(guard);
-    if (tab) store.addTab(tab, { setActive: true });
-  }
+	if (tabId && store.has(tabId)) {
+		const tab = store.find(tabId);
+		if (tab) store.setActive(tab);
+	} else {
+		const tab = store.createTab(guard);
+		if (tab) store.addTab(tab, { setActive: true });
+	}
 };
 
 /**
@@ -39,17 +39,17 @@ export const updateTabOnRouteChange = (
  * @param {Options} options
  */
 const init = (app: App, options: Options) => {
-  const { router } = options;
-  const tabStore = useTabStore(router, options);
-  app.provide("tabStore", tabStore);
-  app.config.globalProperties.$tabStore = tabStore;
+	const { router } = options;
+	const tabStore = useTabStore(router, options);
+	app.provide("tabStore", tabStore);
+	app.config.globalProperties.$tabStore = tabStore;
 };
 
 const RouterTabPlugin: Plugin = {
-  install(app: App, options: Options) {
-    init(app, options);
-    app.component("RouterTab", RouterTab);
-  },
+	install(app: App, options: Options) {
+		init(app, options);
+		app.component("RouterTab", RouterTab);
+	},
 };
 
 export default RouterTabPlugin;
