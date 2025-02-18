@@ -22,7 +22,13 @@ import {
 
 import { useCache } from "./cache";
 
-export const useTabStore = (router: Router) => {
+interface TabStoreOptions {
+  maxCache?: number;
+}
+
+export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
+  const { maxCache = 10 } = options;
+
   const state = reactive<{
     tabs: Tab[];
     activeTab?: Tab;
@@ -32,7 +38,7 @@ export const useTabStore = (router: Router) => {
   const currentTab = computed(() => state.activeTab);
   const currentTabId = computed(() => state.activeTab?.id);
 
-  const cache = useCache();
+  const cache = useCache({ max: maxCache });
 
   /**
    * get tab index by tabId

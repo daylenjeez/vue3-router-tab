@@ -2,10 +2,19 @@ import { computed, markRaw, nextTick, reactive, VNode } from "vue";
 
 // 创建一个包装器来存储 VNode
 class VNodeWrapper {
-  constructor(public vnode: VNode) {}
+  constructor(
+    public vnode: VNode,
+    public lastAccessed: number,
+  ) {}
 }
 
-export const useCache = () => {
+interface CacheOptions {
+  max?: number;
+}
+
+export const useCache = (options: CacheOptions) => {
+  const { max = 10 } = options;
+
   const state = reactive<{
     keySet: Set<string>;
     //使用Map来存储VNodeWrapper
@@ -26,6 +35,10 @@ export const useCache = () => {
 
   const setActiveKey = (key: string | undefined) => {
     state.activeKey = key;
+    if (key) {
+      const wrapper = state.keyToWrapper.get(key);
+      if (wrapper) wrapper.lastAccessed = Date.now();
+    }
   };
 
   const add = (key: string) => {
@@ -47,8 +60,21 @@ export const useCache = () => {
   };
 
   const addComponent = (key: string, vNode: VNode) => {
+    if (state.keySet.size > max) {
+      // 移除最久未使用的标签页
+      const arr = Array.from(state.keyToWrapper.entries());
+
+      const oldestKey = arr.reduce(
+        (acc: [string, VNodeWrapper], curr: [string, VNodeWrapper]) => {
+          return acc[1].lastAccessed < curr[1].lastAccessed ? acc : curr;
+        },
+        arr[0],
+      )[0];
+
+      remove(oldestKey);
+    }
     //创建新的包装器
-    const wrapper = new VNodeWrapper(markRaw(vNode));
+    const wrapper = new VNodeWrapper(markRaw(vNode), Date.now());
     //将key和包装器存储在keyToWrapper中
     state.keyToWrapper.set(key, wrapper);
     //将包装器和VNode存储在componentMap中
@@ -79,7 +105,7 @@ export const useCache = () => {
 
       await nextTick();
 
-      const newWrapper = new VNodeWrapper(markRaw(component));
+      const newWrapper = new VNodeWrapper(markRaw(component), Date.now());
       state.keyToWrapper.set(key, newWrapper);
       state.componentMap.set(newWrapper, component);
 

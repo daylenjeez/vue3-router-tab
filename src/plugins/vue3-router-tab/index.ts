@@ -10,6 +10,7 @@ import { RouterTabStore, useTabStore } from "./store";
  */
 interface Options {
   router: Router;
+  maxCache?: number;
 }
 
 /**
@@ -39,7 +40,7 @@ export const updateTabOnRouteChange = (
  */
 const init = (app: App, options: Options) => {
   const { router } = options;
-  const tabStore = useTabStore(router);
+  const tabStore = useTabStore(router, options);
   app.provide("tabStore", tabStore);
   app.config.globalProperties.$tabStore = tabStore;
 };

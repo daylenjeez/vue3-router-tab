@@ -68,7 +68,7 @@ export type TabGetter =
  * @interface RouterTab
  * @property {KeepAliveProps} keepAliveProps
  * @property {Ui} ui
- * @property {boolean} closeIcon
+ * @property {boolean} hideClose
  * @property {(tab: Tab) => Promise<boolean>} beforeClose
  * @property {string} tabsClass
  * @property {string} pageClass
@@ -78,7 +78,7 @@ export type TabGetter =
 export interface RouterTabConfig {
   "max-alive": number;
   ui?: Ui;
-  closeIcon?: boolean;
+  "hide-close"?: boolean;
   "before-close"?: (tab: Tab) => Promise<boolean>;
   "tabs-class"?: string;
   "page-class"?: string;
