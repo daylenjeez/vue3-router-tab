@@ -8,5 +8,5 @@ const app = createApp(App);
 
 app.use(router);
 
-app.use(RouterTab, { router, maxCache: 1 });
+app.use(RouterTab, { router});
 app.mount("#app");

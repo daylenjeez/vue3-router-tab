@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="rt-pages">
     <router-view v-slot="{ Component }">
       <keep-alive :include="cachedKeys">
         <component

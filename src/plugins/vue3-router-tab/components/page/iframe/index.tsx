@@ -14,9 +14,7 @@ export default defineComponent({
     const attributes = props.attributes;
 
     return () => (
-      <div>
         <iframe width="100%" height="100%" {...attributes} />
-      </div>
     );
   },
 });

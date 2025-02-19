@@ -18,16 +18,16 @@ export type IframeAttributes = Pick<
  * @property {string} tabName
  * @property {boolean} keepAlive
  * @property {string} icon
- * @property {boolean} isIframe
  * @property {string} configKeyInMeta
+ * @property {IframeAttributes} iframeAttributes
  */
 export interface TabConfig {
   key?: TabKey;
   name?: string;
   keepAlive?: boolean;
   icon?: string;
-  isIframe?: boolean;
   configKeyInMeta?: string;
+  iframeAttributes?: IframeAttributes;
 }
 
 /**
@@ -38,9 +38,8 @@ export interface TabConfig {
  * @property {string} icon
  * @property {boolean} keepAlive
  * @property {string} fullPath
- * @property {boolean} isIframe
  * @property {boolean} allowClose
- * @property {IframeHTMLAttributes} iframeAttributes
+ * @property {IframeAttributes} iframeAttributes
  */
 export interface Tab {
   id: string;
@@ -48,7 +47,6 @@ export interface Tab {
   icon?: string;
   keepAlive: boolean;
   fullPath: string;
-  isIframe?: boolean;
   allowClose?: boolean;
   iframeAttributes?: IframeAttributes;
 }
@@ -104,7 +102,7 @@ export type Ui = "initial" | "elementPlus" | "ant" | "naviUi" | "tailWind";
 export interface OpenProps {
   replace?: boolean;
   refresh?: boolean;
-  iframe?: IframeAttributes;
+  tabConfig?: TabConfig;
 }
 
 declare module "vue" {

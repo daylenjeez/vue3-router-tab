@@ -168,7 +168,24 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
       refresh: false,
     },
   ) {
-    const { replace } = options;
+    const { replace,tabConfig } = options;
+
+    const routeExist = doesRouteExist(to);//判断路由是否存在
+
+    if (!routeExist && tabConfig?.iframeAttributes){
+      const path = typeof to === 'string' ? to : to.path;
+      if (!path) return throwError(`Path not found, please check the path: ${to}`);
+        // 动态添加路由
+        router.addRoute({
+          path,
+          meta: {
+            tabConfig
+          },
+          component: () => import('../components/page/index.vue'), // 确保路径正确
+          // 你可以添加其他路由选项，比如 name, meta 等
+        });
+    }
+
     if (replace) return routerReplace(to);
     const route = await routerPush(to);
 
@@ -338,21 +355,38 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
     const key = currentTabId.value;
 
     if (!Component || !key) return Component;
-    if (currentTab.value?.iframeAttributes) {
-      return h(RtIframe, { attributes: currentTab.value.iframeAttributes });
-    }
 
     if (cache.hasComponent(key)) return cache.getComponent(key);
+
+    if (currentTab.value?.iframeAttributes) {
+      // 使用 IframeComponent 并缓存
+      const iframeVNode = h(RtIframe, { attributes: currentTab.value?.iframeAttributes });
+      const renamedComponent = renameComponentType(iframeVNode, key);
+      cache.addComponent(key, renamedComponent);
+
+      cache.add(key);
+      return cache.getComponent(key);
+    }
+    
     const renamedComponent = renameComponentType(Component, key);
     cache.addComponent(key, renamedComponent);
     cache.add(key);
     return cache.getComponent(key);
   };
 
+  const doesRouteExist = (to: RouteLocationRaw) => {
+    // 使用 router.resolve 来解析路由
+    const resolvedRoute = router.resolve(to);
+
+    // 检查匹配的路由是否存在
+    return resolvedRoute.matched.length > 0;
+  };
+
   watch(
     router.currentRoute,
     (guard) => {
       const tabId = getTabIdByRoute(guard);
+
 
       if (tabId && has(tabId)) {
         const tab = find(tabId);
