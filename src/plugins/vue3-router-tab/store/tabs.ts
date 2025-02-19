@@ -14,8 +14,8 @@ import {
   throwError,
   withPostAction,
 } from "@routerTab/utils";
-import { computed, h, reactive, VNode, watch } from "vue";
-import {
+import { computed, h, reactive, type VNode, watch } from "vue";
+import type {
   RouteLocationNormalizedLoaded,
   RouteLocationRaw,
   Router,
@@ -67,6 +67,18 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
    * @returns {Tab | undefined} The found tab or undefined.
    */
   const find = (tabId: TabId) => state.tabs.find(({ id }) => id === tabId);
+
+  /**
+   * modify tab by tabId
+   * @param {TabId} tabId
+   * @param {Tab} tab
+   * @returns {Tab | undefined} tab
+   */
+  const modify = (tabId: TabId, tab: Tab) => {
+    const index = indexOf(tabId);
+    if (index < 0) return throwError(`Tab not found, please check the tab id: ${tabId}`);
+    state.tabs[index] = tab;
+  };
 
   /**
    * get tabId by fullpath
@@ -161,29 +173,31 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
    * @returns {Promise<RouteLocationNormalized>} route
    * //TODO:refresh need test
    */
-  const open = async function (
+  const open = async (
     to: RouteLocationRaw,
     options: OpenProps = {
       replace: false,
       refresh: false,
     },
-  ) {
-    const { replace,tabConfig } = options;
+  ) => {
+    const { replace, tabConfig } = options;
+    console.log(to);
 
-    const routeExist = doesRouteExist(to);//判断路由是否存在
+    const routeExist = doesRouteExist(to); //判断路由是否存在
 
-    if (!routeExist && tabConfig?.iframeAttributes){
-      const path = typeof to === 'string' ? to : to.path;
-      if (!path) return throwError(`Path not found, please check the path: ${to}`);
-        // 动态添加路由
-        router.addRoute({
-          path,
-          meta: {
-            tabConfig
-          },
-          component: () => import('../components/page/index.vue'), // 确保路径正确
-          // 你可以添加其他路由选项，比如 name, meta 等
-        });
+    if (!routeExist && tabConfig?.iframeAttributes) {
+      const path = typeof to === "string" ? to : to.path;
+      if (!path)
+        return throwError(`Path not found, please check the path: ${to}`);
+      // 动态添加路由
+      router.addRoute({
+        path,
+        meta: {
+          tabConfig,
+        },
+        component: () => import("../components/page/index.vue"), // 确保路径正确
+        // 你可以添加其他路由选项，比如 name, meta 等
+      });
     }
 
     if (replace) return routerReplace(to);
@@ -213,7 +227,7 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
    * @param {{index:number}} removedTab
    * @returns {ReturnType<RouterPush>| undefined}
    */
-  const openNearTab = async function (removedTab: { index: number }) {
+  const openNearTab = async (removedTab: { index: number }) => {
     const { index: afterIndex } = removedTab;
 
     const afterTab =
@@ -239,12 +253,13 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
    * @param {TabGetter} item
    * @returns {TabId | undefined}
    */
-  const getTabIdByRemoveItem = function (item: TabGetter) {
+  const getTabIdByRemoveItem = (item: TabGetter) => {
     let tabId: TabId | undefined;
-    if (typeof item === "string") item = { fullPath: item };
-    if ("id" in item) tabId = item.id;
-    if ("fullPath" in item)
-      tabId = item.fullPath ? getTabByFullpath(item.fullPath)?.id : void 0;
+    const tabGetter = typeof item === "string" ? { fullPath: item } : item;
+
+    if ("id" in tabGetter) tabId = tabGetter.id;
+    if ("fullPath" in tabGetter)
+      tabId = tabGetter.fullPath ? getTabByFullpath(tabGetter.fullPath)?.id : void 0;
 
     if (!tabId)
       return throwError(`Tab not found, please check the param: ${item}`);
@@ -340,9 +355,9 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
     const _tabId = tabId ?? state.activeTab?.id;
 
     if (!has(_tabId)) return;
-    [...state.tabs].forEach((item) => {
+    for (const item of state.tabs) {
       if (item.id !== _tabId) removeTabById(item.id);
-    });
+    }
 
     if (!_tabId) return;
 
@@ -360,14 +375,16 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
 
     if (currentTab.value?.iframeAttributes) {
       // 使用 IframeComponent 并缓存
-      const iframeVNode = h(RtIframe, { attributes: currentTab.value?.iframeAttributes });
+      const iframeVNode = h(RtIframe, {
+        attributes: currentTab.value?.iframeAttributes,
+      });
       const renamedComponent = renameComponentType(iframeVNode, key);
       cache.addComponent(key, renamedComponent);
 
       cache.add(key);
       return cache.getComponent(key);
     }
-    
+
     const renamedComponent = renameComponentType(Component, key);
     cache.addComponent(key, renamedComponent);
     cache.add(key);
@@ -387,10 +404,13 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
     (guard) => {
       const tabId = getTabIdByRoute(guard);
 
-
       if (tabId && has(tabId)) {
         const tab = find(tabId);
-        if (tab) setActive(tab);
+
+        if (tab) {
+          modify(tabId, { ...tab, fullPath: guard.fullPath });
+          setActive(tab);
+        }
       } else {
         const tab = createTab(guard);
         if (tab) addTab(tab, { setActive: true });

@@ -1,8 +1,8 @@
 import "./index.less";
 
-import { RouterTabStore } from "@routerTab/store";
+import type { RouterTabStore } from "@routerTab/store";
 import type { Tab, Ui } from "@routerTab/types";
-import { computed, defineComponent, inject, PropType } from "vue";
+import { computed, defineComponent, inject, type PropType } from "vue";
 
 import Close from "./close";
 import Tablabel from "./label";
@@ -21,10 +21,10 @@ export default defineComponent({
   },
   setup(props) {
     const ui = inject<Ui>("ui");
-    const store = inject<RouterTabStore>("tabStore")!;
+    const store = inject<RouterTabStore>("tabStore");
 
-    const tabsLength = computed(() => store.state.tabs.length);
-    const active = computed(() => store.state.activeTab?.id === props.id);
+    const tabsLength = computed(() => store?.state.tabs.length ?? 0);
+    const active = computed(() => store?.state.activeTab?.id === props.id);
     const showClose = computed(() => tabsLength.value > 1);
 
     const classNames = computed(() => [
@@ -35,7 +35,8 @@ export default defineComponent({
 
     const click = () => {
       if (active.value) return;
-      store.open(props.id);
+      const tab = store?.find(props.id);
+      if (tab) store?.open(tab.fullPath);
     };
 
     return () => (

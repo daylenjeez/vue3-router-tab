@@ -1,5 +1,5 @@
-import { TabConfig } from "@routerTab/types";
-import { RouteRecordRaw } from "vue-router";
+import type { TabConfig } from "@routerTab/types";
+import type { RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
   {

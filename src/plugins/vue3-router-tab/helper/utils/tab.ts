@@ -1,24 +1,24 @@
-import { Tab, TabConfig, TabKey } from "@routerTab/types";
+import type { Tab, TabConfig, TabKey } from "@routerTab/types";
 import { isFunction, isNonEmptyString, throwError } from "@routerTab/utils";
-import { RouteLocationNormalized } from "vue-router";
+import type { RouteLocationNormalized } from "vue-router";
 
 import { INITIAL_TAB_CONFIG } from "./constants";
 
 /**
  * create tabId
  * @param {TabKey} tabKey
- * @param {RouteLocationNormalized} router
+ * @param {RouteLocationNormalized} route
  * @returns {TabId} tabId
  */
 export const createTabId = (
   tabKey: TabKey,
-  router: RouteLocationNormalized,
+  route: RouteLocationNormalized,
 ) => {
   const _tabKey = tabKey ?? INITIAL_TAB_CONFIG.key;
-  const tabId = isFunction(_tabKey) ? _tabKey(router) : router[_tabKey];
+  const tabId = isFunction(_tabKey) ? _tabKey(route) : route[_tabKey];
 
   if (isNonEmptyString(tabId)) return tabId;
-  
+
   return throwError(
     "tabKey is not 'path','fullPath' or a function, or the return value of the function is not a non-empty string",
   );
@@ -30,12 +30,8 @@ export const createTabId = (
  * @returns {Tab} tab
  */
 export const createTab = (router: RouteLocationNormalized) => {
-  const {
-    key,
-    name,
-    keepAlive,
-    iframeAttributes
-  } = (router.meta.tabConfig as TabConfig) ?? INITIAL_TAB_CONFIG;
+  const { key, name, keepAlive, iframeAttributes } =
+    (router.meta.tabConfig as TabConfig) ?? INITIAL_TAB_CONFIG;
 
   if (!key) return throwError("tabKey is required");
 

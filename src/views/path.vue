@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import { RouterTabStore } from "@routerTab/store";
+import type { RouterTabStore } from "@routerTab/store";
 import { inject, ref } from "vue";
 
 export default {
