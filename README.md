@@ -28,7 +28,7 @@
   - [x] 缓存：缓存控制
   - [ ] 配置：全局配置、自定义配置
 - ### 高级
-  - [ ] iframe：iframe路由
+  - [x] iframe：iframe路由
   - [ ] 样式：包含`elementPlus`、`antdV`、`naviUI`
 - ### 其它
   - [ ] 滚动位置记住
