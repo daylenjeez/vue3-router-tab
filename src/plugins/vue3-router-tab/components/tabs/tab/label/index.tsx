@@ -7,7 +7,7 @@ export default defineComponent({
   name: "RtTabLabel",
   props: {
     name: {
-      type: String as PropType<Tab["name"]>,
+      type: String satisfies PropType<Tab["name"]>,
       required: false,
       default: void 0,
     },

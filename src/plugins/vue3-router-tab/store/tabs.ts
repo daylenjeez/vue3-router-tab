@@ -181,7 +181,6 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
     },
   ) => {
     const { replace, tabConfig } = options;
-    console.log(to);
 
     const routeExist = doesRouteExist(to); //判断路由是否存在
 
@@ -399,25 +398,22 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
     return resolvedRoute.matched.length > 0;
   };
 
-  watch(
-    router.currentRoute,
-    (guard) => {
-      const tabId = getTabIdByRoute(guard);
-
-      if (tabId && has(tabId)) {
-        const tab = find(tabId);
-
-        if (tab) {
-          modify(tabId, { ...tab, fullPath: guard.fullPath });
-          setActive(tab);
+  router.afterEach((to) => {
+    const tabId = getTabIdByRoute(to);
+    if (tabId && has(tabId)) {
+      const tab = find(tabId);
+      if (tab) {
+        modify(tabId, { ...tab, fullPath: to.fullPath });
+        setActive(tab);
+        if(to.fullPath !== tab.fullPath){
+          refresh(tabId);
         }
-      } else {
-        const tab = createTab(guard);
-        if (tab) addTab(tab, { setActive: true });
       }
-    },
-    { immediate: true },
-  );
+    } else {
+      const tab = createTab(to);
+      if (tab) addTab(tab, { setActive: true });
+    }
+  });
 
   return {
     $router: router,

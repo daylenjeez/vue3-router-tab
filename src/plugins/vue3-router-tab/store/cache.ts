@@ -101,6 +101,7 @@ export const useCache = (options: CacheOptions) => {
 
 			if (state.activeKey === key) {
 				state.refreshing = true;
+				state.keySet.delete(key);
 			}
 
 			await nextTick();
@@ -111,6 +112,7 @@ export const useCache = (options: CacheOptions) => {
 
 			if (state.activeKey === key) {
 				state.refreshing = false;
+				state.keySet.add(key);
 			}
 		}
 	};

@@ -9,7 +9,7 @@ export default defineComponent({
   name: "RtTabClose",
   props: {
     id: {
-      type: String as PropType<TabId>,
+      type: String satisfies PropType<TabId>,
       required: true,
     },
   },

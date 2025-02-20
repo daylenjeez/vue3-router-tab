@@ -11,11 +11,11 @@ export default defineComponent({
   name: "RtTab",
   props: {
     name: {
-      type: String as PropType<Tab["name"]>,
+      type: String satisfies PropType<Tab["name"]>,
       required: true,
     },
     id: {
-      type: String as PropType<Tab["id"]>,
+      type: String satisfies PropType<Tab["id"]>,
       required: true,
     },
   },
@@ -24,17 +24,17 @@ export default defineComponent({
     const store = inject<RouterTabStore>("tabStore");
 
     const tabsLength = computed(() => store?.state.tabs.length ?? 0);
-    const active = computed(() => store?.state.activeTab?.id === props.id);
+    const isActive = computed(() => store?.state.activeTab?.id === props.id);
     const showClose = computed(() => tabsLength.value > 1);
 
     const classNames = computed(() => [
       "rt-tab",
       `rt-tab--${ui}`,
-      active.value && "rt-tab-active",
+      isActive.value && "rt-tab-active",
     ]);
 
     const click = () => {
-      if (active.value) return;
+      if (isActive.value) return;
       const tab = store?.find(props.id);
       if (tab) store?.open(tab.fullPath);
     };

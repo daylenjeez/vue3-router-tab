@@ -27,17 +27,17 @@ export default defineComponent({
       default: "initial",
     },
     hideClose: {
-      type: Boolean as PropType<RouterTabConfig["hide-close"]>,
+      type: Boolean satisfies PropType<RouterTabConfig["hide-close"]>,
       required: false,
       default: false,
     },
     tabsClass: {
-      type: String as PropType<RouterTabConfig["tabs-class"]>,
+      type: String satisfies PropType<RouterTabConfig["tabs-class"]>,
       required: false,
       default: "",
     },
     pageClass: {
-      type: String as PropType<RouterTabConfig["page-class"]>,
+      type: String satisfies PropType<RouterTabConfig["page-class"]>,
       required: false,
       default: "",
     },

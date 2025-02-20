@@ -13,7 +13,7 @@ export type IframeAttributes = Pick<
 
 /**
  * tab meta
- * @interface TabMeta
+ * @interface TabConfig
  * @property {TabKey} tabKey
  * @property {string} tabName
  * @property {boolean} keepAlive
@@ -33,19 +33,20 @@ export interface TabConfig {
 /**
  * tab
  * @interface Tab
- * @property {string} id
- * @property {string} name
- * @property {string} icon
- * @property {boolean} keepAlive
- * @property {string} fullPath
- * @property {boolean} allowClose
- * @property {IframeAttributes} iframeAttributes
+ * @property {string} id  tab的唯一id
+ * @property {string} name  tab的名称展示
+ * @property {string} icon  tab的icon
+ * @property {boolean} keepAlive 当前tab是否支持keepAlive
+ * @property {string} fullPath 路由的路径
+ * @property {boolean} allowClose 当前tab是否允许关闭
+ * @property {IframeAttributes} iframeAttributes 
+ * //TODO:Props 类型
  */
 export interface Tab {
   id: string;
-  name: string | symbol;
+  name: string;
   icon?: string;
-  keepAlive: boolean;
+  keepAlive?: boolean;
   fullPath: string;
   allowClose?: boolean;
   iframeAttributes?: IframeAttributes;
