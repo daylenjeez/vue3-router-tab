@@ -389,11 +389,15 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
     if (cache.hasComponent(key)) return cache.getComponent(key);
 
     if (currentTab.value?.iframeAttributes) return void 0;
+    console.log(currentTab.value?.keepAlive);
 
-    const renamedComponent = renameComponentType(Component, key);
-    cache.addComponent(key, renamedComponent);
-    cache.add(key);
-    return cache.getComponent(key);
+    if(currentTab.value?.keepAlive) {
+      const renamedComponent = renameComponentType(Component, key);
+      cache.addComponent(key, renamedComponent);
+      cache.add(key);
+      return cache.getComponent(key);
+    }
+    return Component;
   };
 
   const doesRouteExist = (to: RouteLocationRaw) => {

@@ -9,18 +9,19 @@ const routes: Array<RouteRecordRaw> = [
         name: "initial",
         path: "/",
         component: () => import("../views/Home.vue"),
+        meta: { tabConfig: { key: "path", keepAlive: false } satisfies TabConfig } ,
       },
       {
         name: "path",
         path: "/path",
         component: () => import("../views/path.vue"),
-        meta: { tabConfig: { key: "path", keepAlive: true } },
+        meta: { tabConfig: { key: "path", keepAlive: true } satisfies TabConfig },
       },
       {
         name: "fullpathlonglonglonglonglonglonglonglonglonglonglong",
         path: "/fullpath",
         component: () => import("../views/fullPath.vue"),
-        meta: { tabConfig: { key: "fullPath", keepAlive: true } as TabConfig },
+        meta: { tabConfig: { key: "fullPath", keepAlive: true } satisfies TabConfig },
       },
       // {
       //   name: "custom",
