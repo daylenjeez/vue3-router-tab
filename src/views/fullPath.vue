@@ -9,6 +9,10 @@
   <button @click="closeOthers">
     close others
   </button>
+
+  <button @click="refresh">
+    refresh
+  </button>
 </template>
 
 <script lang="ts">
@@ -24,10 +28,14 @@ export default {
       num.value++;
     };
 
+    const refresh = () => {
+      store?.refresh(store?.state.activeTab?.id);
+    };
+
     const closeOthers = () => {
       store?.closeOthers(store?.state.activeTab?.id);
     };
-    return { name: "page3", num, click, closeOthers };
+    return { name: "page3", num, click, closeOthers, refresh };
   },
   deactivated() {
     console.log("FullPathPage deactivated");
