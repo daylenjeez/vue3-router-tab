@@ -21,9 +21,7 @@ import type {
   Router,
 } from "vue-router";
 
-import RtIframe from "../components/page/iframe";
 import { useCache } from "./cache";
-import { useIframe } from "./iframe";
 
 interface TabStoreOptions {
   maxCache?: number;
@@ -40,10 +38,9 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
 
   const currentTab = computed(() => state.activeTab);
   const currentTabId = computed(() => state.activeTab?.id);
+  const iframeTabs = computed(() => state.tabs.filter((tab) => tab.iframeAttributes));
 
   const cache = useCache({ max: maxCache });
-
-  const iframe = useIframe({tabs: state.tabs,activeTab: state.activeTab});
 
 
   /**
@@ -450,7 +447,7 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
     has,
     retrieveOrCacheComponent,
     cache,
-    iframe,
+    iframeTabs
   };
 };
 

@@ -11,7 +11,7 @@ export default defineComponent({
   setup() {
     const tabStore = inject<RouterTabStore>("tabStore");
 
-    const iframes = computed(() => tabStore?.iframe.iframeTabs.value);
+    const iframes = computed(() => tabStore?.iframeTabs.value);
 
     return () => (
       <div class="rt-iframe-container">
