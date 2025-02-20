@@ -7,7 +7,7 @@ import dts from "vite-plugin-dts";
 
 export default defineConfig({
   plugins: [vue(), vueJsx(), dts({ rollupTypes: true })],
-  css: {preprocessorOptions: {less: {additionalData: `@import "@/plugins/vue3-router-tab/style/global.less";`,},},},
+  css: {preprocessorOptions: {less: {additionalData: `@import "@routerTab/style/global.less";`,},},},
   resolve: {alias: { "@": "./src", "@routerTab": "/src/plugins/vue3-router-tab" },},
   test: { environment: "happy-dom" },
   define: { __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: "true" },

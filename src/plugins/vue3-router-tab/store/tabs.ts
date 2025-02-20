@@ -14,7 +14,7 @@ import {
   throwError,
   withPostAction,
 } from "@routerTab/utils";
-import { computed, h, reactive, type VNode } from "vue";
+import { computed, reactive, type VNode } from "vue";
 import type {
   RouteLocationNormalizedLoaded,
   RouteLocationRaw,
