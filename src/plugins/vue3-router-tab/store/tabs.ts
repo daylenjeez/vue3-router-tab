@@ -6,6 +6,7 @@ import type {
   TabConfig,
   TabGetter,
   TabId,
+  TabWithIndex,
   ToOptions,
 } from "@routerTab/types";
 import {
@@ -335,6 +336,7 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
   const close = async (item?: TabGetter, toOptions?: ToOptions) => {
     if (!state.shouldClose) return;
     const _item = getRemoveItem(item);
+    console.log('close', _item);
     if (!_item) return void 0;
     const removedTab = remove(_item);
 
