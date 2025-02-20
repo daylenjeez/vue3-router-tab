@@ -19,8 +19,8 @@
 - ### Basic
   - [x] Events:
     - [x] Responds to open/switch tabs via routing
-    - [-] Lifecycle hooks
-  - [-] Methods: Open/Close/Close Others/Refresh/Switch/Right-click Operations
+    - [] Lifecycle hooks
+  - [] Methods: Open/Close/Close Others/Refresh/Switch/Right-click Operations
     - [x] Open/Replace
     - [x] Close
     - [x] Close Others
