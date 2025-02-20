@@ -14,7 +14,7 @@ import {
   throwError,
   withPostAction,
 } from "@routerTab/utils";
-import { computed, h, reactive, type VNode, watch } from "vue";
+import { computed, h, reactive, type VNode } from "vue";
 import type {
   RouteLocationNormalizedLoaded,
   RouteLocationRaw,
@@ -23,6 +23,7 @@ import type {
 
 import RtIframe from "../components/page/iframe";
 import { useCache } from "./cache";
+import { useIframe } from "./iframe";
 
 interface TabStoreOptions {
   maxCache?: number;
@@ -41,6 +42,9 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
   const currentTabId = computed(() => state.activeTab?.id);
 
   const cache = useCache({ max: maxCache });
+
+  const iframe = useIframe({tabs: state.tabs,activeTab: state.activeTab});
+
 
   /**
    * get tab index by tabId
@@ -76,8 +80,10 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
    */
   const modify = (tabId: TabId, tab: Tab) => {
     const index = indexOf(tabId);
-    if (index < 0) return throwError(`Tab not found, please check the tab id: ${tabId}`);
+    if (index < 0)
+      return throwError(`Tab not found, please check the tab id: ${tabId}`);
     state.tabs[index] = tab;
+    return tab;
   };
 
   /**
@@ -195,7 +201,6 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
           tabConfig,
         },
         component: () => import("../components/page/index.vue"), // 确保路径正确
-        // 你可以添加其他路由选项，比如 name, meta 等
       });
     }
 
@@ -258,7 +263,9 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
 
     if ("id" in tabGetter) tabId = tabGetter.id;
     if ("fullPath" in tabGetter)
-      tabId = tabGetter.fullPath ? getTabByFullpath(tabGetter.fullPath)?.id : void 0;
+      tabId = tabGetter.fullPath
+        ? getTabByFullpath(tabGetter.fullPath)?.id
+        : void 0;
 
     if (!tabId)
       return throwError(`Tab not found, please check the param: ${item}`);
@@ -372,17 +379,7 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
 
     if (cache.hasComponent(key)) return cache.getComponent(key);
 
-    if (currentTab.value?.iframeAttributes) {
-      // 使用 IframeComponent 并缓存
-      const iframeVNode = h(RtIframe, {
-        attributes: currentTab.value?.iframeAttributes,
-      });
-      const renamedComponent = renameComponentType(iframeVNode, key);
-      cache.addComponent(key, renamedComponent);
-
-      cache.add(key);
-      return cache.getComponent(key);
-    }
+    if (currentTab.value?.iframeAttributes) return void 0;
 
     const renamedComponent = renameComponentType(Component, key);
     cache.addComponent(key, renamedComponent);
@@ -400,19 +397,27 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
 
   router.afterEach((to) => {
     const tabId = getTabIdByRoute(to);
-    if (tabId && has(tabId)) {
-      const tab = find(tabId);
-      if (tab) {
-        modify(tabId, { ...tab, fullPath: to.fullPath });
-        setActive(tab);
-        if(to.fullPath !== tab.fullPath){
-          refresh(tabId);
-        }
-      }
-    } else {
+
+    if (!tabId || !has(tabId)) {
       const tab = createTab(to);
       if (tab) addTab(tab, { setActive: true });
+      return;
     }
+
+    const tab = find(tabId);
+
+    if (!tab)
+      return throwError(`Tab not found, please check the tab id: ${tabId}`);
+
+    //有可能tabId一样但是fullPath不一样，这种情况需要刷新页面（避免keepalive）
+    const fullPathIsSame = to.fullPath === tab.fullPath;
+
+    const newTab = fullPathIsSame
+      ? tab
+      : modify(tabId, { ...tab, fullPath: to.fullPath }) ?? tab;
+
+    setActive(newTab);
+    if (!fullPathIsSame) refresh(tabId);
   });
 
   return {
@@ -445,6 +450,7 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
     has,
     retrieveOrCacheComponent,
     cache,
+    iframe,
   };
 };
 

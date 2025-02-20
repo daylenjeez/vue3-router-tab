@@ -1,20 +1,26 @@
-import { defineComponent, IframeHTMLAttributes, PropType } from "vue";
+import type { RouterTabStore } from "@routerTab/store";
+import {
+  computed,
+  defineComponent,
+  inject,
+} from "vue";
 
 export default defineComponent({
   name: "RtIframe",
 
-  props: {
-    attributes: {
-      type: Object as PropType<IframeHTMLAttributes>,
-      required: true,
-    },
-  },
+  setup() {
+    const tabStore = inject<RouterTabStore>("tabStore");
 
-  setup(props) {
-    const attributes = props.attributes;
+    const iframes = computed(() => tabStore?.iframe.iframeTabs.value);
 
     return () => (
-        <iframe width="100%" height="100%" {...attributes} />
+      <div class="rt-iframe-container">
+        {
+          iframes.value?.map((iframe) => (
+            <iframe v-show={tabStore?.state.activeTab?.id === iframe.id} width="100%" height="100%" key={iframe.id} {...iframe.iframeAttributes}  />
+          ))
+        }
+      </div>
     );
   },
 });

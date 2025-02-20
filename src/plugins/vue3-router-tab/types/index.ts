@@ -18,7 +18,6 @@ export type IframeAttributes = Pick<
  * @property {string} tabName
  * @property {boolean} keepAlive
  * @property {string} icon
- * @property {string} configKeyInMeta
  * @property {IframeAttributes} iframeAttributes
  */
 export interface TabConfig {
@@ -26,7 +25,6 @@ export interface TabConfig {
   name?: string;
   keepAlive?: boolean;
   icon?: string;
-  configKeyInMeta?: string;
   iframeAttributes?: IframeAttributes;
 }
 
@@ -44,7 +42,7 @@ export interface TabConfig {
  */
 export interface Tab {
   id: string;
-  name: string;
+  name: string|symbol;
   icon?: string;
   keepAlive?: boolean;
   fullPath: string;

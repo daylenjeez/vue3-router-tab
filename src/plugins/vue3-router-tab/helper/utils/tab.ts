@@ -10,10 +10,7 @@ import { INITIAL_TAB_CONFIG } from "./constants";
  * @param {RouteLocationNormalized} route
  * @returns {TabId} tabId
  */
-export const createTabId = (
-  tabKey: TabKey,
-  route: RouteLocationNormalized,
-) => {
+export const createTabId = (tabKey: TabKey, route: RouteLocationNormalized) => {
   const _tabKey = tabKey ?? INITIAL_TAB_CONFIG.key;
   const tabId = isFunction(_tabKey) ? _tabKey(route) : route[_tabKey];
 
