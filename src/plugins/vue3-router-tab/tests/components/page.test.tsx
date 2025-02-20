@@ -1,10 +1,9 @@
 import { beforeEach, describe, it } from "vitest";
-import { Router } from "vue-router";
+import type { Router } from "vue-router";
 
 import Page from "@routerTab/components/page/index.vue";
 
 import { beforeEachFn } from "../unit";
-import { nextTick } from "vue";
 
 describe("VueRouterTab Plugin", async () => {
   let router: Router;
@@ -18,7 +17,9 @@ describe("VueRouterTab Plugin", async () => {
     pageComponent = wrapper.getComponent(Page);
   });
 
-  it("Page content should be changed when route changed", async ({expect,}) => {
+  it("Page content should be changed when route changed", async ({
+    expect,
+  }) => {
     await router.push("/initial");
     expect(
       pageComponent.findComponent({ name: "/initial" }).exists(),
@@ -41,13 +42,13 @@ describe("VueRouterTab Plugin", async () => {
 
     await router.push("/path?id=1");
 
-
-    setTimeout(() => {//等待缓存更新
+    setTimeout(() => {
+      //等待缓存更新
       expect(
         pageComponent.findComponent({ name: "/path?id=1" }).exists(),
       ).toBeTruthy();
       expect(pageComponent.html()).toContain("/path?id=1");
-    },500);
+    }, 500);
 
     await router.push("/fullpath");
     expect(
@@ -64,7 +65,9 @@ describe("VueRouterTab Plugin", async () => {
 
   it("keep-alive should work", async ({ expect }) => {
     await router.push("/keepAlivePath");
-    const keepAliveRouter = pageComponent.getComponent({name: "/keepAlivePath",});
+    const keepAliveRouter = pageComponent.getComponent({
+      name: "/keepAlivePath",
+    });
     expect(
       pageComponent.findComponent({ name: "/keepAlivePath" }).exists(),
     ).toBeTruthy();

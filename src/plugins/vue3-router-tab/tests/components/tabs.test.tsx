@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { Router } from "vue-router";
+import type { Router } from "vue-router";
 
 import Tabs from "../../components/tabs";
-import { RouterTabStore } from "../../store";
-import { beforeEachFn, getWrapper } from "../unit";
+import type { RouterTabStore } from "../../store";
+import { beforeEachFn, type getWrapper } from "../unit";
 
 describe("check tabs", async () => {
   let router: Router;

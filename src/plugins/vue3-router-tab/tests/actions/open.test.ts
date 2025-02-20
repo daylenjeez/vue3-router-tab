@@ -1,4 +1,4 @@
-import { RouterTabStore } from "@routerTab/store";
+import type { RouterTabStore } from "@routerTab/store";
 import { beforeEach, describe, it } from "vitest";
 
 import { beforeEachFn, sameLength } from "../unit";

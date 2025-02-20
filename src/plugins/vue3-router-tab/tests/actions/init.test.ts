@@ -1,7 +1,7 @@
-import { RouterTabStore } from "@routerTab/store";
+import type { RouterTabStore } from "@routerTab/store";
 import { beforeEach, describe, expectTypeOf, it } from "vitest";
 
-import { Tab } from "../../types";
+import type { Tab } from "../../types";
 import { beforeEachFn } from "../unit";
 
 describe("init", () => {

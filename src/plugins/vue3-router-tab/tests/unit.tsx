@@ -1,15 +1,15 @@
 import { mount } from "@vue/test-utils";
-import { ExpectStatic } from "vitest";
+import type { ExpectStatic } from "vitest";
 import {
   createMemoryHistory,
   createRouter,
-  RouteLocationNormalized,
-  Router,
+  type RouteLocationNormalized,
+  type Router,
 } from "vue-router";
 
 import RouterTabPlugin from "..";
-import { RouterTabStore, useTabStore } from "../store";
-import { Cache } from "../store/cache";
+import { type RouterTabStore, useTabStore } from "../store";
+import type { Cache } from "../store/cache";
 
 export const getRouter = () =>
   createRouter({

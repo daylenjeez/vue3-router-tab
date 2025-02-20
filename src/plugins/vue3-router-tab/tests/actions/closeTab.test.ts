@@ -1,6 +1,6 @@
-import { RouterTabStore } from "@routerTab/store";
+import type { RouterTabStore } from "@routerTab/store";
 import { beforeEach, describe, it } from "vitest";
-import { Router } from "vue-router";
+import type { Router } from "vue-router";
 
 import { beforeEachFn, sameLength } from "../unit";
 
@@ -16,7 +16,7 @@ describe("Check tab closed", async () => {
     expectLength = sameLength(routerTab.cache, routerTab);
   });
 
-  it(`close tab by id`, async ({ expect }) => {
+  it("close tab by id", async ({ expect }) => {
     await router.push("/initial?id=1");
     await router.push("/path?id=1");
     expectLength(expect, 2);
@@ -24,7 +24,7 @@ describe("Check tab closed", async () => {
     expectLength(expect, 1);
   });
 
-  it(`close current tab`, async ({ expect }) => {
+  it("close current tab", async ({ expect }) => {
     await router.push("/initial?id=3");
     await router.push("/initial?id=1&name=amy");
     expectLength(expect, 2);
@@ -32,14 +32,14 @@ describe("Check tab closed", async () => {
     expectLength(expect, 1);
   });
 
-  it(`close last tab`, async ({ expect }) => {
+  it("close last tab", async ({ expect }) => {
     await router.push("/initial?id=1&name=amy");
     expectLength(expect, 1);
     await routerTab.close();
     expectLength(expect, 0);
   });
 
-  it(`close tab by route`, async ({ expect }) => {
+  it("close tab by route", async ({ expect }) => {
     await router.push("/initial?id=1");
     await router.push("/path?id=1");
     expectLength(expect, 2);
@@ -49,7 +49,7 @@ describe("Check tab closed", async () => {
     expect(routerTab.state.activeTab?.id).toEqual("/initial?id=1");
   });
 
-  it(`close no funded tab`, async ({ expect }) => {
+  it("close no funded tab", async ({ expect }) => {
     await router.push("/initial?id=1");
     await router.push("/path?id=1");
     expectLength(expect, 2);
@@ -58,7 +58,7 @@ describe("Check tab closed", async () => {
     expectLength(expect, 2);
   });
 
-  it(`close active tab if param is undefined`, async ({ expect }) => {
+  it("close active tab if param is undefined", async ({ expect }) => {
     await router.push("/initial?id=1");
     await router.push("/path?id=1");
 
@@ -70,7 +70,7 @@ describe("Check tab closed", async () => {
     expectLength(expect, 1);
   });
 
-  it(`after tab is active when current tab closed`, async ({ expect }) => {
+  it("after tab is active when current tab closed", async ({ expect }) => {
     await router.push("/initial?id=1");
     await router.push("/path?id=1");
     await routerTab.open("/initial?id=1");
@@ -82,7 +82,9 @@ describe("Check tab closed", async () => {
     expectLength(expect, 1);
   });
 
-  it(`before tab is active when current tab closed and has not after tab`, async ({expect,}) => {
+  it("before tab is active when current tab closed and has not after tab", async ({
+    expect,
+  }) => {
     await router.push("/initial?id=1");
     await router.push("/path?id=1");
 
@@ -95,7 +97,7 @@ describe("Check tab closed", async () => {
     expect(routerTab.state.activeTab?.id).toEqual("/initial?id=1");
   });
 
-  it(`navigate to custom tab when add config`, async ({ expect }) => {
+  it("navigate to custom tab when add config", async ({ expect }) => {
     await router.push("/initial?id=1");
     await router.push("/initial?id=2");
     await router.push("/initial?id=3");
@@ -108,7 +110,7 @@ describe("Check tab closed", async () => {
     expect(routerTab.state.activeTab?.id).toEqual("/initial?id=2");
   });
 
-  it(`close tab but open the same tab`, async ({ expect }) => {
+  it("close tab but open the same tab", async ({ expect }) => {
     await router.push("/initial?id=1");
     await router.push("/initial?id=2");
     await router.push("/initial?id=3");
@@ -120,7 +122,7 @@ describe("Check tab closed", async () => {
     routerTab.open("/initial?id=2");
 
     await routerTab.close("/path?id=1", { fullPath: "/path?id=1" });
-    
+
     expectLength(expect, 4);
     expect(routerTab.state.activeTab?.id).toEqual("/path");
   });

@@ -41,7 +41,7 @@ export default defineComponent({
 
     return () => (
       <div class={classNames.value} onClick={click}>
-        <div class="rt-tab--pre"></div>
+        <div class="rt-tab--prefix"></div>
         <Tablabel name={props.name} />
         {showClose.value && <Close id={props.id} />}
       </div>

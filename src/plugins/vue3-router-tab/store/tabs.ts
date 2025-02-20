@@ -144,7 +144,7 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
 
     cache.remove(tabId);
 
-    if(removedTab?.iframeAttributes && removedTab.routeName) {
+    if (removedTab?.iframeAttributes && removedTab.routeName) {
       router.removeRoute(removedTab.routeName);
     }
 
@@ -336,7 +336,6 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
   const close = async (item?: TabGetter, toOptions?: ToOptions) => {
     if (!state.shouldClose) return;
     const _item = getRemoveItem(item);
-    console.log('close', _item);
     if (!_item) return void 0;
     const removedTab = remove(_item);
 
@@ -392,7 +391,7 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
 
     if (currentTab.value?.iframeAttributes) return void 0;
 
-    if(currentTab.value?.keepAlive) {
+    if (currentTab.value?.keepAlive) {
       const renamedComponent = renameComponentType(Component, key);
       cache.addComponent(key, renamedComponent);
       cache.add(key);
