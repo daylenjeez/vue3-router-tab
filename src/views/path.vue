@@ -33,6 +33,7 @@ export default {
 				},
 				{
 					tabConfig: {
+						keepAlive: false,
 						key: 'path',
 						iframeAttributes: {
 							src: 'https://www.baidu.com',
