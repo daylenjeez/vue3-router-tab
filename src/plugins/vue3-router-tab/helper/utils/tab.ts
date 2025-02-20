@@ -45,6 +45,7 @@ export const createTab = (router: RouteLocationNormalized) => {
   };
 
   if (iframeAttributes) tab.iframeAttributes = iframeAttributes;
+  if(router.meta.routeName) tab.routeName = router.meta.routeName as string;
   return tab;
 };
 

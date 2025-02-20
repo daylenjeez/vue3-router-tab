@@ -38,6 +38,7 @@ export interface TabConfig {
  * @property {string} fullPath 路由的路径
  * @property {boolean} allowClose 当前tab是否允许关闭
  * @property {IframeAttributes} iframeAttributes 
+ * @property {string} routeName 路由的name（用于删除iframe的route）
  * //TODO:Props 类型
  */
 export interface Tab {
@@ -48,6 +49,7 @@ export interface Tab {
   fullPath: string;
   allowClose?: boolean;
   iframeAttributes?: IframeAttributes;
+  routeName?: string;
 }
 
 export type TabId = Tab["id"];

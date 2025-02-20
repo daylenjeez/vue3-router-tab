@@ -138,9 +138,15 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
   const removeTabById = (tabId: TabId) => {
     const index = indexOf(tabId);
     if (index < 0) return void 0;
+
     const removedTab = removeTabByIndex(index);
 
     cache.remove(tabId);
+
+    if(removedTab?.iframeAttributes && removedTab.routeName) {
+      router.removeRoute(removedTab.routeName);
+    }
+
 
     return removedTab ? { ...removedTab, index } : void 0;
   };
@@ -191,18 +197,24 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
       const path = typeof to === "string" ? to : to.path;
       if (!path)
         return throwError(`Path not found, please check the path: ${to}`);
-      // 动态添加路由
-      router.addRoute({
+      const name = `rt-iframe-${path.replace(/\//g, '-')}`;
+
+      const route = {
         path,
+        name,
         meta: {
           tabConfig,
+          routeName: name,
         },
         component: () => import("../components/page/index.vue"), // 确保路径正确
-      });
+      };
+      // 动态添加路由
+      router.addRoute(route);
     }
 
     if (replace) return routerReplace(to);
     const route = await routerPush(to);
+
 
     if (options.refresh && route) {
       const tabId = getTabIdByRoute(route.to);

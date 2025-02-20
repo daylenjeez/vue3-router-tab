@@ -25,7 +25,12 @@ export default {
 
 		const openIframe = () => {
 			store?.open(
-				'/iframe',
+				{
+					path: '/iframe',
+					query: {
+						id: 1
+					},
+				},
 				{
 					tabConfig: {
 						key: 'path',
