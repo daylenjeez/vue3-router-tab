@@ -389,7 +389,6 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
     if (cache.hasComponent(key)) return cache.getComponent(key);
 
     if (currentTab.value?.iframeAttributes) return void 0;
-    console.log(currentTab.value?.keepAlive);
 
     if(currentTab.value?.keepAlive) {
       const renamedComponent = renameComponentType(Component, key);

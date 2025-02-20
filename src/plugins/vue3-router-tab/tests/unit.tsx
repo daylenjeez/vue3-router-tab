@@ -11,11 +11,9 @@ import RouterTabPlugin from "..";
 import { RouterTabStore, useTabStore } from "../store";
 import { Cache } from "../store/cache";
 
-// 创建一个内存路由
-const history = createMemoryHistory();
 export const getRouter = () =>
   createRouter({
-    history,
+    history: createMemoryHistory(),
     routes: [
       { path: "/", component: () => import("./pages/home"), name: "home" },
       {
@@ -104,7 +102,6 @@ export const beforeEachFn = async () => {
   const router = getRouter();
   const wrapper = await getWrapper(router);
   const routerTab = useTabStore(router);
-  //routerTab.clear(); //把'/' 清除掉
 
   return {
     router,

@@ -9,7 +9,6 @@ const routes: Array<RouteRecordRaw> = [
         name: "initial",
         path: "/",
         component: () => import("../views/Home.vue"),
-        meta: { tabConfig: { key: "path", keepAlive: false } satisfies TabConfig } ,
       },
       {
         name: "path",

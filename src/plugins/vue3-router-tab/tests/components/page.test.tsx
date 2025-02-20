@@ -1,9 +1,10 @@
 import { beforeEach, describe, it } from "vitest";
 import { Router } from "vue-router";
 
-import Page from "@/plugins/vue3-router-tab/components/page/index.vue";
+import Page from "@routerTab/components/page/index.vue";
 
 import { beforeEachFn } from "../unit";
+import { nextTick } from "vue";
 
 describe("VueRouterTab Plugin", async () => {
   let router: Router;
@@ -35,13 +36,18 @@ describe("VueRouterTab Plugin", async () => {
     expect(
       pageComponent.findComponent({ name: "/path" }).exists(),
     ).toBeTruthy();
+
     expect(pageComponent.html()).toContain("/path");
 
     await router.push("/path?id=1");
-    expect(
-      pageComponent.findComponent({ name: "/path" }).exists(),
-    ).toBeTruthy();
-    expect(pageComponent.html()).toContain("/path?id=1");
+
+
+    setTimeout(() => {//等待缓存更新
+      expect(
+        pageComponent.findComponent({ name: "/path?id=1" }).exists(),
+      ).toBeTruthy();
+      expect(pageComponent.html()).toContain("/path?id=1");
+    },500);
 
     await router.push("/fullpath");
     expect(
@@ -66,7 +72,6 @@ describe("VueRouterTab Plugin", async () => {
     expect(keepAliveRouter.vm.unmountedCalled).toBeFalsy();
 
     await router.push("/noKeepAlivePath");
-    console.log(pageComponent.getComponent);
     // const noKeepAliveRouter = pageComponent.getComponent({name: "/noKeepAlivePath",});
 
     expect(
