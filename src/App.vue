@@ -17,10 +17,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class
-    style="margin-bottom: 30px"
-  >
+  <div class>
     <button @click="() => handlePush('/')">
       首页
     </button>

@@ -371,9 +371,10 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
     const _tabId = tabId ?? state.activeTab?.id;
 
     if (!has(_tabId)) return;
-    for (const item of state.tabs) {
+    for (const item of [...state.tabs]) {
       if (item.id !== _tabId) removeTabById(item.id);
     }
+
 
     if (!_tabId) return;
 

@@ -127,55 +127,55 @@ describe("Check tab closed", async () => {
     expect(routerTab.state.activeTab?.id).toEqual("/path");
   });
 
-  // it(`close others`, async ({ expect }) => {
-  //   await router.push("/initial?id=1");
-  //   await router.push("/initial?id=2");
-  //   await router.push("/initial?id=3");
-  //   await router.push("/path?id=1");
-  //   expectLength(expect, 4);
-  //   expect(routerTab.state.activeTab?.id).toEqual("/path");
+  it("close others", async ({ expect }) => {
+    await router.push("/initial?id=1");
+    await router.push("/initial?id=2");
+    await router.push("/initial?id=3");
+    await router.push("/path?id=1");
+    expectLength(expect, 4);
+    expect(routerTab.state.activeTab?.id).toEqual("/path");
 
-  //   await routerTab.closeOthers("/path");
-  //   expectLength(expect, 0); //{path:'/'} 被清除掉了
-  //   expect(routerTab.state.activeTab?.id).toEqual("/path");
-  // });
+    await routerTab.closeOthers("/path");
+    expectLength(expect, 0); //{path:'/'} 被清除掉了
+    expect(routerTab.state.activeTab?.id).toEqual("/path");
+  });
 
-  // it(`close others when params tab is not exist`, async ({ expect }) => {
-  //   await router.push("/initial?id=1");
-  //   await router.push("/initial?id=2");
-  //   await router.push("/initial?id=3");
-  //   await router.push("/path?id=1");
-  //   expectLength(expect, 4);
-  //   expect(routerTab.state.activeTab?.id).toEqual("/path");
+  it("close others when params tab is not exist", async ({ expect }) => {
+    await router.push("/initial?id=1");
+    await router.push("/initial?id=2");
+    await router.push("/initial?id=3");
+    await router.push("/path?id=1");
+    expectLength(expect, 4);
+    expect(routerTab.state.activeTab?.id).toEqual("/path");
 
-  //   await routerTab.closeOthers("/wwwww");
-  //   expectLength(expect, 4);
-  //   expect(routerTab.state.activeTab?.id).toEqual("/path");
-  // });
+    await routerTab.closeOthers("/wwwww");
+    expectLength(expect, 4);
+    expect(routerTab.state.activeTab?.id).toEqual("/path");
+  });
 
-  // it(`close others but is not active tab`, async ({ expect }) => {
-  //   await router.push("/initial?id=1");
-  //   await router.push("/initial?id=2");
-  //   await router.push("/initial?id=3");
-  //   await router.push("/path?id=1");
-  //   expectLength(expect, 4);
-  //   expect(routerTab.state.activeTab?.id).toEqual("/path");
+  it("close others but is not active tab", async ({ expect }) => {
+    await router.push("/initial?id=1");
+    await router.push("/initial?id=2");
+    await router.push("/initial?id=3");
+    await router.push("/path?id=1");
+    expectLength(expect, 4);
+    expect(routerTab.state.activeTab?.id).toEqual("/path");
 
-  //   await routerTab.closeOthers("/initial?id=2");
-  //   expectLength(expect, 0); //{path:'/'} 被清除掉了
-  //   expect(routerTab.state.activeTab?.id).toEqual("/initial?id=2");
-  // });
+    await routerTab.closeOthers("/initial?id=2");
+    expectLength(expect, 0); //{path:'/'} 被清除掉了
+    expect(routerTab.state.activeTab?.id).toEqual("/initial?id=2");
+  });
 
-  // it(`close others when has not params`, async ({ expect }) => {
-  //   await router.push("/initial?id=1");
-  //   await router.push("/initial?id=2");
-  //   await router.push("/initial?id=3");
-  //   await router.push("/path?id=1");
-  //   expectLength(expect, 4);
-  //   expect(routerTab.state.activeTab?.id).toEqual("/path");
+  it("close others when has not params", async ({ expect }) => {
+    await router.push("/initial?id=1");
+    await router.push("/initial?id=2");
+    await router.push("/initial?id=3");
+    await router.push("/path?id=1");
+    expectLength(expect, 4);
+    expect(routerTab.state.activeTab?.id).toEqual("/path");
 
-  //   await routerTab.closeOthers();
-  //   expectLength(expect, 0); //{path:'/'} 被清除掉了
-  //   expect(routerTab.state.activeTab?.id).toEqual("/path");
-  // });
+    await routerTab.closeOthers();
+    expectLength(expect, 0); //{path:'/'} 被清除掉了
+    expect(routerTab.state.activeTab?.id).toEqual("/path");
+  });
 });
