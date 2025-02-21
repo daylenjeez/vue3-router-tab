@@ -43,7 +43,7 @@ export interface TabConfig {
  */
 export interface Tab {
   id: string;
-  name: string|symbol;
+  name: string | symbol;
   icon?: string;
   keepAlive?: boolean;
   fullPath: string;
@@ -82,15 +82,26 @@ export type TabGetter =
  * @property {boolean} draggable
  * @property {boolean} restore
  */
-export interface RouterTabConfig {
+export interface RouterTabProps {
   "max-alive": number;
   ui?: Ui;
   "hide-close"?: boolean;
   "before-close"?: (tab: Tab) => Promise<boolean>;
-  "tabs-class"?: string;
+  "tab-class"?: string;
   "page-class"?: string;
   draggable?: boolean;
   restore?: boolean;
+  "custom-css-variables"?: CustomCssVariables;
+}
+
+/**
+ * 自定义css变量
+ */
+export interface CustomCssVariables {
+  "--tab-background-color"?: string;
+  "--tab-color"?: string;
+  "--tab-border-color"?: string;
+  "--tab-border-radius"?: string;
 }
 
 /**

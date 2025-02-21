@@ -2,10 +2,10 @@ import { defineComponent, type PropType, provide } from "vue";
 
 import Page from "./components/page/index.vue";
 import Tabs from "./components/tabs";
-import type { RouterTabConfig, Ui } from "./types";
+import type { RouterTabProps, Ui } from "./types";
 
 interface Props {
-  maxAlive?: RouterTabConfig["max-alive"];
+  maxAlive?: RouterTabProps["max-alive"];
   ui?: Ui;
 }
 
@@ -17,7 +17,7 @@ export default defineComponent({
   },
   props: {
     maxAlive: {
-      type: Number satisfies PropType<RouterTabConfig["max-alive"]>,
+      type: Number satisfies PropType<RouterTabProps["max-alive"]>,
       required: false,
       default: 10,
     },
@@ -27,17 +27,17 @@ export default defineComponent({
       default: "initial",
     },
     hideClose: {
-      type: Boolean satisfies PropType<RouterTabConfig["hide-close"]>,
+      type: Boolean satisfies PropType<RouterTabProps["hide-close"]>,
       required: false,
       default: false,
     },
-    tabsClass: {
-      type: String satisfies PropType<RouterTabConfig["tabs-class"]>,
+    tabClass: {
+      type: String satisfies PropType<RouterTabProps["tab-class"]>,
       required: false,
       default: "",
     },
     pageClass: {
-      type: String satisfies PropType<RouterTabConfig["page-class"]>,
+      type: String satisfies PropType<RouterTabProps["page-class"]>,
       required: false,
       default: "",
     },

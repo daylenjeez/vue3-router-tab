@@ -58,12 +58,16 @@ export default defineComponent({
     };
 
     return () => (
-      <div class={classNames.value} onClick={click} onContextmenu={handleRightClick}>
+      <div
+        class={classNames.value}
+        onClick={click}
+        onContextmenu={handleRightClick}
+      >
         <div class="rt-tab--prefix"></div>
         <Tablabel name={props.name} />
         {showClose.value && <Close id={props.id} />}
         <DropdownMenu
-        v-click-outside={handleClickOutside}
+          v-click-outside={handleClickOutside}
           visible={dropdownVisible.value}
           position={dropdownPosition.value}
         />
