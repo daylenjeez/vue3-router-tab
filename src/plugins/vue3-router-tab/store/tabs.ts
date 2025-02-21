@@ -17,6 +17,7 @@ import {
 } from "@routerTab/utils";
 import { computed, reactive, type VNode } from "vue";
 import type {
+  RouteLocationNormalized,
   RouteLocationNormalizedLoaded,
   RouteLocationRaw,
   Router,
@@ -170,7 +171,8 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
    * refresh tab
    * @param {TabId} tabId
    */
-  const refresh = (tabId: TabId) => {
+  const refresh = (tabId?: TabId) => {
+    if (!tabId) return;
     const tab = find(tabId);
     if (!tab)
       return throwError(`Tab not found, please check the tab id: ${tabId}`);
