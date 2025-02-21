@@ -2,16 +2,21 @@ import "./index.less";
 
 import type { RouterTabStore } from "@routerTab/store";
 import type { Tab, Ui } from "@routerTab/types";
-import { computed, defineComponent, inject, type PropType } from "vue";
+import DropdownMenu from "../dropdown/index.vue";
+import { computed, defineComponent, inject, ref, type PropType } from "vue";
 
 import Close from "./close";
 import Tablabel from "./label";
+import clickOutside from "@routerTab/directives/clickOutside";
 
 export default defineComponent({
   name: "RtTab",
+  directives: {
+    clickOutside, // Register the directive
+  },
   props: {
     name: {
-      type: String satisfies PropType<Tab["name"]>,
+      type: [String, Symbol] satisfies PropType<Tab["name"]>,
       required: true,
     },
     id: {
@@ -27,6 +32,9 @@ export default defineComponent({
     const isActive = computed(() => store?.state.activeTab?.id === props.id);
     const showClose = computed(() => tabsLength.value > 1);
 
+    const dropdownVisible = ref(false);
+    const dropdownPosition = ref({ x: 0, y: 0 });
+
     const classNames = computed(() => [
       "rt-tab",
       `rt-tab--${ui}`,
@@ -39,11 +47,26 @@ export default defineComponent({
       if (tab) store?.open(tab.fullPath);
     };
 
+    const handleClickOutside = () => {
+      dropdownVisible.value = false;
+    };
+
+    const handleRightClick = (event: MouseEvent) => {
+      event.preventDefault();
+      dropdownPosition.value = { x: event.clientX, y: event.clientY };
+      dropdownVisible.value = true;
+    };
+
     return () => (
-      <div class={classNames.value} onClick={click}>
+      <div class={classNames.value} onClick={click} onContextmenu={handleRightClick}>
         <div class="rt-tab--prefix"></div>
         <Tablabel name={props.name} />
         {showClose.value && <Close id={props.id} />}
+        <DropdownMenu
+        v-click-outside={handleClickOutside}
+          visible={dropdownVisible.value}
+          position={dropdownPosition.value}
+        />
       </div>
     );
   },

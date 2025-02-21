@@ -10,7 +10,10 @@
     // "disableReferencedProjectLoad": true,             /* Reduce the number of projects loaded automatically by TypeScript. */
     /* Language and Environment */
     "target": "es2016" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
-    // "lib": [],                                        /* Specify a set of bundled library declaration files that describe the target runtime environment. */
+    "lib": [
+      "dom",
+      "esnext"
+    ], /* Specify a set of bundled library declaration files that describe the target runtime environment. */
     "jsx": "preserve" /* Specify what JSX code is generated. */,
     // "experimentalDecorators": true,                   /* Enable experimental support for TC39 stage 2 draft decorators. */
     // "emitDecoratorMetadata": true,                    /* Emit design-type metadata for decorated declarations in source files. */
@@ -27,11 +30,15 @@
     "moduleResolution": "node",
     // "baseUrl": "./",                                  /* Specify the base directory to resolve non-relative module names. */
     "paths": {
-      "@routerTab/*": ["./src/plugins/vue3-router-tab/*"]
+      "@routerTab/*": [
+        "./src/plugins/vue3-router-tab/*"
+      ]
     } /* Specify a set of entries that re-map imports to additional lookup locations. */,
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */
-    "types": ["vue/jsx-runtime"],
+    "types": [
+      "vue/jsx-runtime"
+    ],
     // "allowUmdGlobalAccess": true,                     /* Allow accessing UMD globals from modules. */
     // "moduleSuffixes": [],                             /* List of file name suffixes to search when resolving a module. */
     // "resolveJsonModule": true,                        /* Enable importing .json files. */

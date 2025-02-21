@@ -37,14 +37,14 @@ export default {
     };
     return { name: "page3", num, click, closeOthers, refresh };
   },
-  deactivated() {
-    console.log("FullPathPage deactivated");
-  },
-  activated() {
-    console.log("FullPathPage activated");
-  },
-  unmounted() {
-    console.log("FullPathPage unmouted");
-  },
+  // deactivated() {
+  //   console.log("FullPathPage deactivated");
+  // },
+  // activated() {
+  //   console.log("FullPathPage activated");
+  // },
+  // unmounted() {
+  //   console.log("FullPathPage unmouted");
+  // },
 };
 </script>

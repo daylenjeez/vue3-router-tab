@@ -7,13 +7,13 @@ export default defineComponent({
     const router = useRouter();
     return () => router.currentRoute.value.fullPath;
   },
-  activated() {
-    console.log('activated');
-  },
-  deactivated() {
-    console.log('deactivated');
-  },
-  unmounted() {
-    console.log('unmounted');
-  },
+  // activated() {
+  //   console.log('activated');
+  // },
+  // deactivated() {
+  //   console.log('deactivated');
+  // },
+  // unmounted() {
+  //   console.log('unmounted');
+  // },
 });

@@ -6,7 +6,6 @@ import type {
   TabConfig,
   TabGetter,
   TabId,
-  TabWithIndex,
   ToOptions,
 } from "@routerTab/types";
 import {
@@ -17,7 +16,6 @@ import {
 } from "@routerTab/utils";
 import { computed, reactive, type VNode } from "vue";
 import type {
-  RouteLocationNormalized,
   RouteLocationNormalizedLoaded,
   RouteLocationRaw,
   Router,

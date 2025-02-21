@@ -1,13 +1,13 @@
 import "./index.less";
 
-import { Tab } from "@routerTab/types";
-import { defineComponent, PropType } from "vue";
+import type { Tab } from "@routerTab/types";
+import { defineComponent, type PropType } from "vue";
 
 export default defineComponent({
   name: "RtTabLabel",
   props: {
     name: {
-      type: String satisfies PropType<Tab["name"]>,
+      type: [String, Symbol] satisfies PropType<Tab["name"]>,
       required: false,
       default: void 0,
     },
