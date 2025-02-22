@@ -105,60 +105,60 @@ describe("Check add Tab when the same route", async () => {
     expectActiveTab(expect, routerTab);
   });
 
-  // it(`fullPath：相同path，不同query，应该新增一条`, async ({ expect }) => {
-  //   await router.push("/initial?id=1&name=amy");
-  //   await router.push("/initial?id=1");
+  it("fullPath：相同path，不同query，应该新增一条", async ({ expect }) => {
+    await router.push("/initial?id=1&name=amy");
+    await router.push("/initial?id=1");
 
-  //   expectLength(expect, 2);
-  //   expectActiveTab(expect, routerTab);
-  // });
+    expectLength(expect, 2);
+    expectActiveTab(expect, routerTab);
+  });
 
-  // it(`fullPath：相同path，不同params，应该新增一条`, async ({ expect }) => {
-  //   await router.push("/fullpathWithParams/1");
-  //   await router.push("/fullpathWithParams/2");
+  it("fullPath：相同path，不同params，应该新增一条", async ({ expect }) => {
+    await router.push("/fullpathWithParams/1");
+    await router.push("/fullpathWithParams/2");
 
-  //   expectLength(expect, 2);
-  //   expectActiveTab(expect, routerTab);
-  // });
+    expectLength(expect, 2);
+    expectActiveTab(expect, routerTab);
+  });
 
-  // it(`path：相同path，相同query，应该同一条`, async ({ expect }) => {
-  //   await router.push("/path?id=1&name=amy");
-  //   await router.push({ path: "/path", query: { id: "1", name: "amy" } });
+  it("path：相同path，相同query，应该同一条", async ({ expect }) => {
+    await router.push("/path?id=1&name=amy");
+    await router.push({ path: "/path", query: { id: "1", name: "amy" } });
 
-  //   expectLength(expect, 1);
-  // });
+    expectLength(expect, 1);
+  });
 
-  // it(`path：相同path，不同query，应该同一条`, async ({ expect }) => {
-  //   await router.push("/path?id=1&name=amy");
-  //   await router.push({ path: "/path", query: { id: "1" } });
+  it("path：相同path，不同query，应该同一条", async ({ expect }) => {
+    await router.push("/path?id=1&name=amy");
+    await router.push({ path: "/path", query: { id: "1" } });
 
-  //   expectLength(expect, 1);
-  // });
+    expectLength(expect, 1);
+  });
 
-  // it(`path：相同path，不同params，应该新增一条`, async ({ expect }) => {
-  //   await router.push("/pathWithParams/1");
-  //   await router.push({ name: "pathWithParams", params: { id: "2" } });
+  it("path：相同path，不同params，应该新增一条", async ({ expect }) => {
+    await router.push("/pathWithParams/1");
+    await router.push({ name: "pathWithParams", params: { id: "2" } });
 
-  //   expectLength(expect, 2);
-  //   expect(routerTab.state.activeTab).equal(routerTab.state.tabs.at(-1));
-  //   expect(cache.state.activeKey).toEqual("/pathWithParams/2");
-  // });
+    expectLength(expect, 2);
+    expect(routerTab.state.activeTab).equal(routerTab.state.tabs.at(-1));
+    expect(cache.state.activeKey).toEqual("/pathWithParams/2");
+  });
 
-  // it(`custom：相同query的id，应该同一条`, async ({ expect }) => {
-  //   await router.push("/custom?id=1&name=amy");
-  //   await router.push({ path: "/custom", query: { id: "1", name: "jean" } });
+  it("custom：相同query的id，应该同一条", async ({ expect }) => {
+    await router.push("/custom?id=1&name=amy");
+    await router.push({ path: "/custom", query: { id: "1", name: "jean" } });
 
-  //   expectLength(expect, 1);
-  //   expect(routerTab.state.activeTab?.id).toEqual("/custom?id=1");
-  //   expect(cache.state.activeKey).toEqual("/custom?id=1");
-  // });
+    expectLength(expect, 1);
+    expect(routerTab.state.activeTab?.id).toEqual("/custom?id=1");
+    expect(cache.state.activeKey).toEqual("/custom?id=1");
+  });
 
-  // it(`custom：不同params的id，应该同一条`, async ({ expect }) => {
-  //   await router.push("/customWithParams/1");
-  //   await router.push({ name: "customWithParams", params: { id: 2 } });
+  it("custom：不同params的id，应该同一条", async ({ expect }) => {
+    await router.push("/customWithParams/1");
+    await router.push({ name: "customWithParams", params: { id: 2 } });
 
-  //   expectLength(expect, 1);
-  //   expect(routerTab.state.activeTab?.id).toEqual("/customWithParams");
-  //   expect(cache.state.activeKey).toEqual("/customWithParams");
-  // });
+    expectLength(expect, 1);
+    expect(routerTab.state.activeTab?.id).toEqual("/customWithParams");
+    expect(cache.state.activeKey).toEqual("/customWithParams");
+  });
 });
