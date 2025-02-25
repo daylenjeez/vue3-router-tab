@@ -33,7 +33,7 @@ export default defineComponent({
     },
     tabType: {
       type: String as PropType<RouterTabProps["tab-type"]>,
-      default:"line",
+      default:INITIAL_TAB_TYPE,
     },
   },
 

@@ -1,10 +1,13 @@
-.rt-tab-label{
+.rt-tab-label {
     display: flex;
-    min-width: 30px;
-    max-width: 100px;
-    span{
+    align-items: center;
+    justify-content: center;
+    min-width: var(--tab-label-min-width);
+    max-width: var(--tab-label-max-width);
+
+    span {
+        align-items: center;
         overflow: hidden;
         text-overflow: ellipsis;
-        white-space: nowrap;
     }
 }
