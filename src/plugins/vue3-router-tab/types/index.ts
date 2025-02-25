@@ -1,4 +1,4 @@
-import type { IframeHTMLAttributes } from "vue";
+import type { CSSProperties, IframeHTMLAttributes } from "vue";
 import type { RouteLocationNormalized } from "vue-router";
 
 export type TabKey =
@@ -70,28 +70,31 @@ export type TabGetter =
   }
   | string;
 
+  export type TabType = "line" | "card";
+
 /**
  * router tab config
  * @interface RouterTab
  * @property {KeepAliveProps} keepAliveProps
- * @property {Ui} ui
  * @property {boolean} hideClose
  * @property {(tab: Tab) => Promise<boolean>} beforeClose
  * @property {string} tabsClass
  * @property {string} pageClass
+ * @property {string} dropdownClass
  * @property {boolean} draggable
  * @property {boolean} restore
  */
 export interface RouterTabProps {
   "max-alive": number;
-  ui?: Ui;
   "hide-close"?: boolean;
   "before-close"?: (tab: Tab) => Promise<boolean>;
   "tab-class"?: string;
   "page-class"?: string;
+  "dropdown-class"?:string;
+  "tab-type"?: TabType;
   draggable?: boolean;
   restore?: boolean;
-  "custom-css-variables"?: CustomCssVariables;
+  style?: CustomCssVariables & CSSProperties;
 }
 
 /**

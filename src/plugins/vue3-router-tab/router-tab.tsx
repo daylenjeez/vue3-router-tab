@@ -2,12 +2,8 @@ import { defineComponent, type PropType, provide } from "vue";
 
 import Page from "./components/page/index.vue";
 import Tabs from "./components/tabs";
-import type { RouterTabProps, Ui } from "./types";
-
-interface Props {
-  maxAlive?: RouterTabProps["max-alive"];
-  ui?: Ui;
-}
+import type { RouterTabProps } from "./types";
+import { INITIAL_TAB_TYPE } from "./helper/utils/constants";
 
 export default defineComponent({
   name: "RouterTab",
@@ -21,11 +17,6 @@ export default defineComponent({
       required: false,
       default: 10,
     },
-    ui: {
-      type: String as PropType<Ui>,
-      required: false,
-      default: "initial",
-    },
     hideClose: {
       type: Boolean satisfies PropType<RouterTabProps["hide-close"]>,
       required: false,
@@ -33,18 +24,24 @@ export default defineComponent({
     },
     tabClass: {
       type: String satisfies PropType<RouterTabProps["tab-class"]>,
-      required: false,
-      default: "",
     },
     pageClass: {
       type: String satisfies PropType<RouterTabProps["page-class"]>,
-      required: false,
-      default: "",
+    },
+    dropdownClass:{
+      type: String satisfies PropType<RouterTabProps["dropdown-class"]>,
+    },
+    tabType: {
+      type: String as PropType<RouterTabProps["tab-type"]>,
+      default:"line",
     },
   },
 
-  setup(props: Props) {
-    provide("ui", props.ui);
+  setup(props) {
+    provide("dropdownClass", props.dropdownClass);
+    provide("tabClass", props.tabClass);
+    provide("pageClass", props.pageClass);
+    provide("tabType", props.tabType);
 
     return () => (
       <div class="rt-container">

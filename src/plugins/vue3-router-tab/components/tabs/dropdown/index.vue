@@ -1,9 +1,9 @@
 <template>
-  <div v-if="visible" class="dropdown-menu" :style="{ top: position.y + 'px', left: position.x + 'px' }">
+  <div v-if="visible" class="dropdown-menu" :style="{ top: position.y + 'px', left: position.x + 'px' }" @contextmenu="handleRightClick">
     <ul>
-      <li @click="handleAction('action1')">Action 1</li>
-      <li @click="handleAction('action2')">Action 2</li>
-      <li @click="handleAction('action3')">Action 3</li>
+      <li @click="handleAction('action1')" >Action 1</li>
+      <li @click="handleAction('action2')" >Action 2</li>
+      <li @click="handleAction('action3')" >Action 3</li>
     </ul>
   </div>
 </template>
@@ -28,8 +28,14 @@ export default defineComponent({
       console.log(`Action selected: ${action}`);
     };
 
+    const handleRightClick = (event: MouseEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+    };
+
     return {
       handleAction,
+      handleRightClick
     };
   },
 });

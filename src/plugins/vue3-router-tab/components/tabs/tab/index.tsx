@@ -1,7 +1,7 @@
 import "./index.less";
 
 import type { RouterTabStore } from "@routerTab/store";
-import type { Tab, Ui } from "@routerTab/types";
+import type { Tab, TabType, Ui } from "@routerTab/types";
 import DropdownMenu from "../dropdown/index.vue";
 import { computed, defineComponent, inject, ref, type PropType } from "vue";
 
@@ -25,8 +25,8 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const ui = inject<Ui>("ui");
     const store = inject<RouterTabStore>("tabStore");
+    const tabType = inject<TabType>("tabType") ?? "line";
 
     const tabsLength = computed(() => store?.state.tabs.length ?? 0);
     const isActive = computed(() => store?.state.activeTab?.id === props.id);
@@ -37,7 +37,7 @@ export default defineComponent({
 
     const classNames = computed(() => [
       "rt-tab",
-      `rt-tab--${ui}`,
+      `rt-tab--${tabType}`,
       isActive.value && "rt-tab-active",
     ]);
 
@@ -53,6 +53,7 @@ export default defineComponent({
 
     const handleRightClick = (event: MouseEvent) => {
       event.preventDefault();
+      event.stopPropagation();
       dropdownPosition.value = { x: event.clientX, y: event.clientY };
       dropdownVisible.value = true;
     };

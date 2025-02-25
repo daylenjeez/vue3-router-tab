@@ -1,38 +1,52 @@
-.rt-tab{
+.rt-tab {
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+  height: var(--tab-height);
+  min-width: var(--tab-min-width);
+  padding: var(--tab-padding);
   line-height: 1;
   cursor: pointer;
-  transition: all .3s cubic-bezier(.645,.045,.355,1);
-  // background: @white-light-2;
+  transition: all .3s cubic-bezier(.645, .045, .355, 1);
 
-  .remove-icon{
+  border-style: solid;
+
+  border-color: var(--tab-border-color);
+  background: var(--tab-background-color);
+
+  &.rt-tab-active {
+    background: var(--tab-active-background-color);
+    color: var(--tab-active-color);
+  }
+
+  .remove-icon {
     display: none;
   }
 
-  &:hover,&.rt-tab-active{
-    .remove-icon{
+  &:hover,
+  &.rt-tab-active {
+    .remove-icon {
       display: block;
     }
   }
+
+
 }
 
-.rt-tab--initial{
-  box-sizing: border-box;
-  height: 40px;
-  min-width: 98px;
-  padding:0 16px;
+.rt-tab--line {
   border-width: 1px 1px 1px 0;
-  border-style: solid;
-  border-color:  @initial-border-color;
-  // margin-bottom: -1.5px;
-  background: #fff;
-  &:first-child{
-    border-left-width:1px;
-  }
 
-  &.rt-tab-active{
+  &:first-child {
+    border-left-width: 1px;
+  }
+}
+
+.rt-tab--card {
+  border-width: 1px 1px 1px;
+  border-radius: var(--tab-border-radius) var(--tab-border-radius) 0 0;
+
+  &.rt-tab-active {
     border-bottom-color: @white;
   }
 }
