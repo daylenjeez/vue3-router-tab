@@ -1,5 +1,4 @@
 import { defineComponent, type PropType, provide } from "vue";
-
 import Page from "./components/page/index.vue";
 import Tabs from "./components/tabs";
 import type { RouterTabProps } from "./types";
@@ -28,12 +27,12 @@ export default defineComponent({
     pageClass: {
       type: String satisfies PropType<RouterTabProps["page-class"]>,
     },
-    dropdownClass:{
+    dropdownClass: {
       type: String satisfies PropType<RouterTabProps["dropdown-class"]>,
     },
     tabType: {
       type: String as PropType<RouterTabProps["tab-type"]>,
-      default:INITIAL_TAB_TYPE,
+      default: INITIAL_TAB_TYPE,
     },
   },
 

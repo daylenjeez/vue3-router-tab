@@ -2,11 +2,9 @@
   <div class="rt-pages">
     <router-view v-slot="{ Component }">
       <keep-alive :include="cachedKeys">
-        <component
-          :is="retrieveOrCacheComponent?.(Component)"
-          v-if="!refreshing"
-          :key="activeTabKey"
-        />
+        <component :is="retrieveOrCacheComponent?.(Component)"
+                   v-if="!refreshing"
+                   :key="activeTabKey" />
       </keep-alive>
     </router-view>
 
@@ -17,6 +15,7 @@
 import type { RouterTabStore } from "@routerTab/store";
 import { computed, defineComponent, inject } from "vue";
 import RtIframe from "./iframe";
+import "./index.less";
 
 export default defineComponent({
   name: "RtPages",

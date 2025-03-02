@@ -1,7 +1,7 @@
 import "./index.less";
 
 import type { RouterTabStore } from "@routerTab/store";
-import type { Tab, TabType, Ui } from "@routerTab/types";
+import type { Tab, TabType } from "@routerTab/types";
 import DropdownMenu from "../dropdown/index.vue";
 import { computed, defineComponent, inject, ref, type PropType } from "vue";
 
