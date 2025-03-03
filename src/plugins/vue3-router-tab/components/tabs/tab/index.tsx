@@ -154,9 +154,23 @@ export default defineComponent({
       // 创建DropdownMenu，如果可见则用withDirectives处理
       let dropdownMenu = null;
       if (dropdownVisible.value && activeDropdownId.value === props.id) {
+        // 计算哪些操作需要禁用
+        const disabledActions: string[] = [];
+
+        // 如果只有一个标签页，禁用"关闭"操作
+        if (tabsLength.value <= 1) {
+          disabledActions.push("close");
+        }
+
+        // 如果只有一个标签页，也禁用"关闭其他"操作
+        if (tabsLength.value <= 1) {
+          disabledActions.push("closeOthers");
+        }
+
         const vnode = h(DropdownMenu, {
           visible: dropdownVisible.value,
           position: dropdownPosition.value,
+          disabledActions,
           onAction: handleDropdownAction,
         });
 

@@ -5,16 +5,15 @@
        @contextmenu="handleRightClick">
     <ul>
       <li @click="handleAction('refresh')">
-        <!-- <span class="rt-dropdown-icon">🔄</span> -->
         <span>刷新</span>
       </li>
-      <li @click="handleAction('close')">
-        <!-- <span class="rt-dropdown-icon">✖️</span> -->
+      <li @click="!disabledActions.includes('close') && handleAction('close')"
+          :class="{ 'rt-dropdown-item-disabled': disabledActions.includes('close') }">
         <span>关闭</span>
       </li>
       <li class="rt-dropdown-divider"></li>
-      <li @click="handleAction('closeOthers')">
-        <!-- <span class="rt-dropdown-icon">📑</span> -->
+      <li @click="!disabledActions.includes('closeOthers') && handleAction('closeOthers')"
+          :class="{ 'rt-dropdown-item-disabled': disabledActions.includes('closeOthers') }">
         <span>关闭其他</span>
       </li>
     </ul>
@@ -35,6 +34,10 @@ export default defineComponent({
       type: Object as () => { x: number; y: number },
       required: true,
     },
+    disabledActions: {
+      type: Array as () => string[],
+      default: () => []
+    }
   },
   emits: ['action'],
   setup(props, { emit }) {
@@ -53,6 +56,10 @@ export default defineComponent({
     });
 
     const handleAction = (action: string) => {
+      // 如果该操作被禁用，则不触发事件
+      if (props.disabledActions.includes(action)) {
+        return;
+      }
       emit('action', action);
     };
 
@@ -103,7 +110,13 @@ export default defineComponent({
   margin: 0 3px;
 }
 
-.rt-dropdown-menu li:hover {
+.rt-dropdown-menu li.rt-dropdown-item-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.rt-dropdown-menu li:not(.rt-dropdown-item-disabled):hover {
   background-color: rgba(90, 103, 216, 0.08);
   color: var(--tab-active-color, #5a67d8);
 }
