@@ -1,15 +1,20 @@
 import "./index.less";
 
 import type { RouterTabStore } from "@routerTab/store";
-import { computed, defineComponent, inject } from "vue";
+import { computed, defineComponent, inject, type PropType } from "vue";
 
 import RtTab from "./tab";
-import { TabType } from "@routerTab/types";
+import type { RouterTabProps, TabType } from "@routerTab/types";
 import { INITIAL_TAB_TYPE } from "@routerTab/helper/utils/constants";
 
 export default defineComponent({
   name: "RtTabs",
-  setup() {
+  props: {
+    tabPrefix: {
+      type: Object as PropType<RouterTabProps["tabPrefix"]>,
+    },
+  },
+  setup(props) {
     const store = inject<RouterTabStore>("tabStore");
     const tabType = inject<TabType>("tabType") ?? INITIAL_TAB_TYPE;
 
@@ -19,7 +24,7 @@ export default defineComponent({
     return () => (
       <div class={classNames.value}>
         {tabs.value.map((tab) => (
-          <RtTab {...tab} key={tab.id} />
+          <RtTab prefix={props.tabPrefix} {...tab} key={tab.id} />
         ))}
       </div>
     );

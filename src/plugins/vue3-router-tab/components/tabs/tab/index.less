@@ -2,17 +2,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
   height: inherit;
-  min-width: var(--tab-min-width);
   padding: var(--tab-padding);
-  border-bottom: none;
   cursor: pointer;
-  transition: all .3s cubic-bezier(.645, .045, .355, 1);
-
   border-style: solid;
-
   border-color: var(--tab-border-color);
+  border-bottom: none;
+  margin-bottom: -1px;
   background: var(--tab-background-color);
+  transition: all .3s cubic-bezier(.645, .045, .355, 1);
 
   &.rt-tab-active {
     background: var(--tab-active-background-color);
@@ -42,7 +41,6 @@
 }
 
 .rt-tab--card {
-  border-width: 1px 1px 1px;
   border-radius: var(--tab-border-radius) var(--tab-border-radius) 0 0;
 
   &.rt-tab-active {

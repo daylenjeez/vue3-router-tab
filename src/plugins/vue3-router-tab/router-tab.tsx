@@ -34,6 +34,9 @@ export default defineComponent({
       type: String as PropType<RouterTabProps["tabType"]>,
       default: INITIAL_TAB_TYPE,
     },
+    tabPrefix: {
+      type: Object as PropType<RouterTabProps["tabPrefix"]>,
+    },
   },
 
   setup(props) {
@@ -44,7 +47,7 @@ export default defineComponent({
 
     return () => (
       <div class="rt-container">
-        <Tabs />
+        <Tabs tabPrefix={props.tabPrefix} />
         <Page />
       </div>
     );

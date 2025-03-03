@@ -1,4 +1,4 @@
-import type { CSSProperties, IframeHTMLAttributes } from "vue";
+import type { CSSProperties, IframeHTMLAttributes, Component, VNode } from "vue";
 import type { RouteLocationNormalized } from "vue-router";
 
 export type TabKey =
@@ -81,6 +81,7 @@ export type TabType = "line" | "card";
  * @property {boolean} draggable - Whether tabs can be dragged
  * @property {boolean} restore - Whether to restore tabs after refresh
  * @property {CustomCssVariables & CSSProperties} style - Custom styles
+ * @property {Component | ((tab: Tab) => Component | VNode)} tabPrefix - Vue component or function returning component to use as tab prefix
  */
 export interface RouterTabProps {
   maxAlive: number;
@@ -93,6 +94,7 @@ export interface RouterTabProps {
   draggable?: boolean;
   restore?: boolean;
   style?: CustomCssVariables & CSSProperties;
+  tabPrefix?: Component;
 }
 
 /**

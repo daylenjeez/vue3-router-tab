@@ -1,5 +1,6 @@
 <template>
-  <div class="rt-pages">
+  <div class="rt-pages"
+       :class="pageClass">
     <router-view v-slot="{ Component }">
       <keep-alive :include="cachedKeys">
         <component :is="retrieveOrCacheComponent?.(Component)"
@@ -24,6 +25,7 @@ export default defineComponent({
   },
   setup() {
     const tabStore = inject<RouterTabStore>("tabStore");
+    const pageClass = inject<string>("pageClass");
 
     onMounted(() => {
       if (!tabStore) {
@@ -47,6 +49,7 @@ export default defineComponent({
       activeTabKey,
       cachedKeys,
       refreshing,
+      pageClass,
       retrieveOrCacheComponent: tabStore?.retrieveOrCacheComponent,
     };
   },

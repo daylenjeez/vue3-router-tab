@@ -1,9 +1,20 @@
 import "./index.less";
 
 import type { RouterTabStore } from "@routerTab/store";
-import type { Tab, TabType } from "@routerTab/types";
+import type { RouterTabProps, Tab, TabType } from "@routerTab/types";
 import DropdownMenu from "../dropdown/index.vue";
-import { computed, defineComponent, inject, ref, type PropType } from "vue";
+import {
+  type Component,
+  computed,
+  defineComponent,
+  inject,
+  ref,
+  type PropType,
+  type VNode,
+  isVNode,
+  h,
+  resolveComponent,
+} from "vue";
 
 import Close from "./close";
 import Tablabel from "./label";
@@ -23,11 +34,16 @@ export default defineComponent({
       type: String satisfies PropType<Tab["id"]>,
       required: true,
     },
+    prefix: {
+      type: [Object, Function] as PropType<
+        Component | ((tab: Tab) => Component | VNode)
+      >,
+    },
   },
   setup(props) {
     const store = inject<RouterTabStore>("tabStore");
+    const tabClass = inject<string>("tabClass");
     const tabType = inject<TabType>("tabType") ?? "line";
-
     const tabsLength = computed(() => store?.state.tabs.length ?? 0);
     const isActive = computed(() => store?.state.activeTab?.id === props.id);
     const showClose = computed(() => tabsLength.value > 1);
@@ -58,13 +74,22 @@ export default defineComponent({
       dropdownVisible.value = true;
     };
 
+    const renderPrefix = () => {
+      if (!props.prefix) return null;
+
+      const tab = store?.find(props.id);
+      if (!tab) return null;
+
+      return h(props.prefix, { tab });
+    };
+
     return () => (
       <div
-        class={classNames.value}
+        class={[...classNames.value, tabClass]}
         onClick={click}
         onContextmenu={handleRightClick}
       >
-        <div class="rt-tab--prefix"></div>
+        <div class="rt-tab--prefix">{renderPrefix()}</div>
         <Tablabel name={props.name} />
         {showClose.value && <Close id={props.id} />}
         <DropdownMenu

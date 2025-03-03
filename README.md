@@ -31,7 +31,6 @@
   - [ ] 配置：全局配置、自定义配置
 - ### 高级
   - [x] iframe：iframe路由
-  - [ ] 样式：包含`elementPlus`、`antdV`、`naviUI`
 - ### 其它
   - [ ] 动画
   - [ ] `i18n`

@@ -28,7 +28,6 @@
     - [ ] Configurations: Global and Custom Configurations
 - ### Advanced
     - [ ] iframe: iframe routing
-    - [ ] Styles: Includes ``elementPlus``, ``antdV``, ``naviUI``, ``tailwind``
     - [ ] hooks: Various before/after
 - ### Others
     - [ ] Remember Scroll Position

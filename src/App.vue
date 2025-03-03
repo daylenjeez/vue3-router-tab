@@ -2,8 +2,12 @@
 import "./style/index.less";
 
 import { useRouter } from "vue-router";
+import Pre from "./pre.vue";
 
 export default {
+  components: {
+    Pre
+  },
   setup() {
     const router = useRouter();
 
@@ -11,6 +15,7 @@ export default {
       handlePush(value: string) {
         router.push(value);
       },
+      Pre
     };
   },
 };
@@ -35,6 +40,6 @@ export default {
         /fullpath?id=2
       </button>
     </div>
-    <router-tab />
+    <router-tab :tab-prefix="Pre" />
   </div>
 </template>
