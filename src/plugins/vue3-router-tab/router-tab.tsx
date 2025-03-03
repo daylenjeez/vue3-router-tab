@@ -12,26 +12,26 @@ export default defineComponent({
   },
   props: {
     maxAlive: {
-      type: Number satisfies PropType<RouterTabProps["max-alive"]>,
+      type: Number satisfies PropType<RouterTabProps["maxAlive"]>,
       required: false,
       default: 10,
     },
     hideClose: {
-      type: Boolean satisfies PropType<RouterTabProps["hide-close"]>,
+      type: Boolean satisfies PropType<RouterTabProps["hideClose"]>,
       required: false,
       default: false,
     },
     tabClass: {
-      type: String satisfies PropType<RouterTabProps["tab-class"]>,
+      type: String satisfies PropType<RouterTabProps["tabClass"]>,
     },
     pageClass: {
-      type: String satisfies PropType<RouterTabProps["page-class"]>,
+      type: String satisfies PropType<RouterTabProps["pageClass"]>,
     },
     dropdownClass: {
-      type: String satisfies PropType<RouterTabProps["dropdown-class"]>,
+      type: String satisfies PropType<RouterTabProps["dropdownClass"]>,
     },
     tabType: {
-      type: String as PropType<RouterTabProps["tab-type"]>,
+      type: String as PropType<RouterTabProps["tabType"]>,
       default: INITIAL_TAB_TYPE,
     },
   },

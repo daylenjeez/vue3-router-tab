@@ -110,11 +110,6 @@ export const beforeEachFn = async () => {
   };
 };
 
-export const afterEachFn = async ({ wrapper }: { wrapper: any }) => {
-  useTabStore(wrapper.vm.$router).clear();
-  wrapper.unmount();
-};
-
 export const sameLength = (cache: Cache, routerTab: RouterTabStore) => {
   return (expect: ExpectStatic, length: number) => {
     expect(cache.keys.value).length(length + 1); //router会默认加个{path:'/'}

@@ -5,10 +5,9 @@ import RouterTab from "./router-tab";
 import { type RouterTabStore, useTabStore } from "./store";
 
 /**
- * Add configuration during initialization
- * @property {Router} router
+ * Plugin initialization options
  */
-interface Options {
+interface PluginOptions {
 	router: Router;
 	maxCache?: number;
 }
@@ -36,9 +35,9 @@ export const updateTabOnRouteChange = (
 /**
  * Init
  * @param {App} app
- * @param {Options} options
+ * @param {PluginOptions} options
  */
-const init = (app: App, options: Options) => {
+const init = (app: App, options: PluginOptions) => {
 	const { router } = options;
 	const tabStore = useTabStore(router, options);
 	app.provide("tabStore", tabStore);
@@ -46,7 +45,7 @@ const init = (app: App, options: Options) => {
 };
 
 const RouterTabPlugin: Plugin = {
-	install(app: App, options: Options) {
+	install(app: App, options: PluginOptions) {
 		init(app, options);
 		app.component("RouterTab", RouterTab);
 	},

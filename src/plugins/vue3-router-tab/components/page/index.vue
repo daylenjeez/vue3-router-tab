@@ -13,7 +13,7 @@
 </template>
 <script lang="ts">
 import type { RouterTabStore } from "@routerTab/store";
-import { computed, defineComponent, inject } from "vue";
+import { computed, defineComponent, inject, onMounted } from "vue";
 import RtIframe from "./iframe";
 import "./index.less";
 
@@ -24,6 +24,12 @@ export default defineComponent({
   },
   setup() {
     const tabStore = inject<RouterTabStore>("tabStore");
+
+    onMounted(() => {
+      if (!tabStore) {
+        console.error("RouterTab: tabStore not provided. Did you install the plugin correctly?");
+      }
+    });
 
     const activeTab = computed(() => tabStore?.state.activeTab);
     const activeTabKey = computed(() => activeTab.value?.id);

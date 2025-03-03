@@ -3,18 +3,21 @@ import type { Router } from "vue-router";
 
 import Page from "@routerTab/components/page/index.vue";
 
-import { beforeEachFn } from "../unit";
+import { beforeEachFn, type getWrapper } from "../unit";
+import type { VueWrapper } from "@vue/test-utils/dist/vueWrapper";
 
 describe("VueRouterTab Plugin", async () => {
   let router: Router;
-  let wrapper: any;
-  let pageComponent: any;
+  let wrapper: ReturnType<typeof getWrapper>;
+  let pageComponent: VueWrapper<InstanceType<typeof Page>>;
 
   beforeEach(async () => {
     const item = await beforeEachFn();
     router = item.router;
     wrapper = item.wrapper;
-    pageComponent = wrapper.getComponent(Page);
+    pageComponent = wrapper.getComponent(Page) as VueWrapper<
+      InstanceType<typeof Page>
+    >;
   });
 
   it("Page content should be changed when route changed", async ({

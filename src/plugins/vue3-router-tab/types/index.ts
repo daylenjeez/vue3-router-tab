@@ -4,21 +4,18 @@ import type { RouteLocationNormalized } from "vue-router";
 export type TabKey =
   | "path"
   | "fullPath"
-  | ((router: RouteLocationNormalized) => string);
+  | ((route: RouteLocationNormalized) => string);
 
+/**
+ * Iframe HTML attributes that can be used in tabs
+ */
 export type IframeAttributes = Pick<
   IframeHTMLAttributes,
   "src" | "width" | "height" | "loading" | "name" | "marginheight"
 >;
 
 /**
- * tab meta
- * @interface TabConfig
- * @property {TabKey} tabKey
- * @property {string} tabName
- * @property {boolean} keepAlive
- * @property {string} icon
- * @property {IframeAttributes} iframeAttributes
+ * Configuration for a tab
  */
 export interface TabConfig {
   key?: TabKey;
@@ -29,17 +26,7 @@ export interface TabConfig {
 }
 
 /**
- * tab
- * @interface Tab
- * @property {string} id  tab的唯一id
- * @property {string} name  tab的名称展示
- * @property {string} icon  tab的icon
- * @property {boolean} keepAlive 当前tab是否支持keepAlive
- * @property {string} fullPath 路由的路径
- * @property {boolean} allowClose 当前tab是否允许关闭
- * @property {IframeAttributes} iframeAttributes 
- * @property {string} routeName 路由的name（用于删除iframe的route）
- * //TODO:Props 类型
+ * Tab information
  */
 export interface Tab {
   id: string;
@@ -54,15 +41,24 @@ export interface Tab {
 
 export type TabId = Tab["id"];
 
+/**
+ * Tab with position index
+ */
 export interface TabWithIndex extends Tab {
   index: number;
 }
 
+/**
+ * Options for navigating to a tab
+ */
 export interface ToOptions {
   id?: TabId;
   fullPath?: string;
 }
 
+/**
+ * Ways to identify and get a tab
+ */
 export type TabGetter =
   | {
     id?: TabId;
@@ -70,35 +66,37 @@ export type TabGetter =
   }
   | string;
 
-  export type TabType = "line" | "card";
+export type TabType = "line" | "card";
 
 /**
- * router tab config
- * @interface RouterTab
- * @property {KeepAliveProps} keepAliveProps
- * @property {boolean} hideClose
- * @property {(tab: Tab) => Promise<boolean>} beforeClose
- * @property {string} tabsClass
- * @property {string} pageClass
- * @property {string} dropdownClass
- * @property {boolean} draggable
- * @property {boolean} restore
+ * RouterTab component props
+ * @interface RouterTabProps
+ * @property {number} maxAlive - Maximum number of cached tabs
+ * @property {boolean} hideClose - Whether to hide close button
+ * @property {Function} beforeClose - Hook called before closing a tab
+ * @property {string} tabClass - CSS class for tabs
+ * @property {string} pageClass - CSS class for pages
+ * @property {string} dropdownClass - CSS class for dropdown
+ * @property {TabType} tabType - Type of tab style
+ * @property {boolean} draggable - Whether tabs can be dragged
+ * @property {boolean} restore - Whether to restore tabs after refresh
+ * @property {CustomCssVariables & CSSProperties} style - Custom styles
  */
 export interface RouterTabProps {
-  "max-alive": number;
-  "hide-close"?: boolean;
-  "before-close"?: (tab: Tab) => Promise<boolean>;
-  "tab-class"?: string;
-  "page-class"?: string;
-  "dropdown-class"?:string;
-  "tab-type"?: TabType;
+  maxAlive: number;
+  hideClose?: boolean;
+  beforeClose?: (tab: Tab) => Promise<boolean>;
+  tabClass?: string;
+  pageClass?: string;
+  dropdownClass?: string;
+  tabType?: TabType;
   draggable?: boolean;
   restore?: boolean;
   style?: CustomCssVariables & CSSProperties;
 }
 
 /**
- * 自定义css变量
+ * Custom CSS variables for styling RouterTab
  */
 export interface CustomCssVariables {
   "--tab-background-color"?: string;
@@ -108,12 +106,18 @@ export interface CustomCssVariables {
 }
 
 /**
- * router tab right click config
+ * Configuration for right-click menu
  */
 export type RightClickConfig = Record<string, unknown> | boolean;
 
+/**
+ * Supported UI frameworks
+ */
 export type Ui = "initial" | "elementPlus" | "ant" | "naviUi" | "tailWind";
 
+/**
+ * Props for opening a new tab
+ */
 export interface OpenProps {
   replace?: boolean;
   refresh?: boolean;
