@@ -13,12 +13,16 @@ import {
   type VNode,
   isVNode,
   h,
-  resolveComponent,
+  withDirectives,
+  provide,
 } from "vue";
 
 import Close from "./close";
 import Tablabel from "./label";
 import clickOutside from "@routerTab/directives/clickOutside";
+
+// 创建全局共享状态，用于跟踪当前打开的菜单
+const activeDropdownId = ref<string | null>(null);
 
 export default defineComponent({
   name: "RtTab",
@@ -51,6 +55,14 @@ export default defineComponent({
     const dropdownVisible = ref(false);
     const dropdownPosition = ref({ x: 0, y: 0 });
 
+    // 监听全局下拉菜单状态变化
+    // 当激活的下拉菜单ID不是当前标签的ID时，隐藏当前标签的下拉菜单
+    computed(() => {
+      if (activeDropdownId.value !== props.id) {
+        dropdownVisible.value = false;
+      }
+    });
+
     const classNames = computed(() => [
       "rt-tab",
       `rt-tab--${tabType}`,
@@ -58,20 +70,75 @@ export default defineComponent({
     ]);
 
     const click = () => {
+      // 点击任何标签时，关闭所有下拉菜单
+      activeDropdownId.value = null;
+
       if (isActive.value) return;
       const tab = store?.find(props.id);
       if (tab) store?.open(tab.fullPath);
     };
 
     const handleClickOutside = () => {
+      console.log("Clicked outside");
       dropdownVisible.value = false;
+      activeDropdownId.value = null;
     };
 
     const handleRightClick = (event: MouseEvent) => {
       event.preventDefault();
       event.stopPropagation();
-      dropdownPosition.value = { x: event.clientX, y: event.clientY };
+
+      // 计算合适的位置，确保菜单不会超出视窗
+      let x = event.clientX;
+      let y = event.clientY;
+
+      // 考虑菜单宽度和窗口右边界，避免菜单超出窗口右侧
+      const menuWidth = 120; // 估计菜单宽度
+      if (x + menuWidth > window.innerWidth) {
+        x = window.innerWidth - menuWidth - 5; // 留5px边距
+      }
+
+      // 考虑菜单高度和窗口下边界，避免菜单超出窗口底部
+      const menuHeight = 110; // 估计菜单高度（适应新的间距设置）
+      if (y + menuHeight > window.innerHeight) {
+        y = window.innerHeight - menuHeight - 5; // 留5px边距
+      }
+
+      // 更新菜单位置
+      dropdownPosition.value = { x, y };
       dropdownVisible.value = true;
+
+      // 更新激活的下拉菜单ID
+      activeDropdownId.value = props.id;
+
+      console.log("Right clicked, menu position:", dropdownPosition.value);
+    };
+
+    const handleDropdownAction = (action: string) => {
+      dropdownVisible.value = false;
+      activeDropdownId.value = null;
+
+      const tab = store?.find(props.id);
+      if (!tab) return;
+
+      switch (action) {
+        case "refresh":
+          store?.refresh(props.id);
+          break;
+        case "close":
+          store?.close(props.id);
+          break;
+        case "closeOthers": {
+          for (const t of store?.state.tabs || []) {
+            if (t.id !== props.id) {
+              store?.close(t.id);
+            }
+          }
+          break;
+        }
+        default:
+          console.log(`未处理的操作: ${action}`);
+      }
     };
 
     const renderPrefix = () => {
@@ -83,21 +150,34 @@ export default defineComponent({
       return h(props.prefix, { tab });
     };
 
-    return () => (
-      <div
-        class={[...classNames.value, tabClass]}
-        onClick={click}
-        onContextmenu={handleRightClick}
-      >
-        <div class="rt-tab--prefix">{renderPrefix()}</div>
-        <Tablabel name={props.name} />
-        {showClose.value && <Close id={props.id} />}
-        <DropdownMenu
-          v-click-outside={handleClickOutside}
-          visible={dropdownVisible.value}
-          position={dropdownPosition.value}
-        />
-      </div>
-    );
+    return () => {
+      // 创建DropdownMenu，如果可见则用withDirectives处理
+      let dropdownMenu = null;
+      if (dropdownVisible.value && activeDropdownId.value === props.id) {
+        const vnode = h(DropdownMenu, {
+          visible: dropdownVisible.value,
+          position: dropdownPosition.value,
+          onAction: handleDropdownAction,
+        });
+
+        // 使用withDirectives添加v-click-outside指令
+        dropdownMenu = withDirectives(vnode, [
+          [clickOutside, handleClickOutside],
+        ]);
+      }
+
+      return (
+        <div
+          class={[...classNames.value, tabClass]}
+          onClick={click}
+          onContextmenu={handleRightClick}
+        >
+          <div class="rt-tab--prefix">{renderPrefix()}</div>
+          <Tablabel name={props.name} />
+          {showClose.value && <Close id={props.id} />}
+          {dropdownMenu}
+        </div>
+      );
+    };
   },
 });

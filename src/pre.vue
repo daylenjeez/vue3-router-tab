@@ -1,7 +1,7 @@
 <template>
-  <div class="tab-prefix">
-    <span>📌</span>
-  </div>
+  <!-- <div class="tab-prefix"> -->
+  <!-- <span>📌</span> -->
+  <!-- </div> -->
 </template>
 
 <script lang="ts">
