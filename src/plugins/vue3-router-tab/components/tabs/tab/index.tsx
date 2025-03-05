@@ -55,8 +55,6 @@ export default defineComponent({
     const dropdownVisible = ref(false);
     const dropdownPosition = ref({ x: 0, y: 0 });
 
-    // 监听全局下拉菜单状态变化
-    // 当激活的下拉菜单ID不是当前标签的ID时，隐藏当前标签的下拉菜单
     computed(() => {
       if (activeDropdownId.value !== props.id) {
         dropdownVisible.value = false;
@@ -79,7 +77,6 @@ export default defineComponent({
     };
 
     const handleClickOutside = () => {
-      console.log("Clicked outside");
       dropdownVisible.value = false;
       activeDropdownId.value = null;
     };
@@ -129,11 +126,7 @@ export default defineComponent({
           store?.close(props.id);
           break;
         case "closeOthers": {
-          for (const t of store?.state.tabs || []) {
-            if (t.id !== props.id) {
-              store?.close(t.id);
-            }
-          }
+          store?.closeOthers(props.id);
           break;
         }
         default:
@@ -162,7 +155,6 @@ export default defineComponent({
           disabledActions.push("close");
         }
 
-        // 如果只有一个标签页，也禁用"关闭其他"操作
         if (tabsLength.value <= 1) {
           disabledActions.push("closeOthers");
         }
@@ -186,7 +178,7 @@ export default defineComponent({
           onClick={click}
           onContextmenu={handleRightClick}
         >
-          <div class="rt-tab--prefix">{renderPrefix()}</div>
+          {props.prefix && <div class="rt-tab--prefix">{renderPrefix()}</div>}
           <Tablabel name={props.name} />
           {showClose.value && <Close id={props.id} />}
           {dropdownMenu}

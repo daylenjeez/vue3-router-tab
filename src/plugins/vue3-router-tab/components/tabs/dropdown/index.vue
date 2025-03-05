@@ -118,7 +118,7 @@ export default defineComponent({
 
 .rt-dropdown-menu li:not(.rt-dropdown-item-disabled):hover {
   background-color: rgba(90, 103, 216, 0.08);
-  color: var(--tab-active-color, #5a67d8);
+  color: var(--primary-color);
 }
 
 .rt-dropdown-icon {

@@ -40,7 +40,6 @@ export default {
         /fullpath?id=2
       </button>
     </div>
-    <router-tab :tab-prefix="Pre"
-                tab-type="card" />
+    <router-tab tab-type="card" />
   </div>
 </template>
