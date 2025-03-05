@@ -7,7 +7,7 @@
 
 ## Features
 
-- **✊ Easy to Get Started**: Low learning curve, simple to integrate, and incorporates most features of [Vue Router Tab](https://bhuh12.github.io/vue-router-tab/zh/).
+- **✊ Easy to Get Started**: Low learning curve, simple to integrate, and incorporates most features of [Vue Router Tab](https://bhuh12.github.io/vue-router-tab).
 - **🎨 Highly Customizable**: Offers a wealth of APIs and configurations. Use basic features or customize as needed.
 
 ## Functionality
