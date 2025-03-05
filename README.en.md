@@ -26,7 +26,6 @@
     - [ ] Configurations: Global and Custom Configurations
 - ### Advanced
     - [x] iframe: iframe routing
-    - [ ] hooks: Provides lifecycle hook functions
 - ### Others
     - [ ] Animations
     - [ ] `i18n`
