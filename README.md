@@ -5,14 +5,10 @@
     <div align="center"><strong>中文</strong> | <a href="README.en.md">English</a></div>
 </div>
 
-> [!WARNING]  
-> 项目还在开发当中，暂未发布，进度**65%**
-
 ## 特点
 
 - **✊简单易上手**：学习成本低，简单引入即可使用，沿用 [Vue Router Tab](https://bhuh12.github.io/vue-router-tab/zh/) 的大部分功能；
 - **🎨高度定制化**：提供丰富的api和配置，你可以简单使用基本功能，也可以根据需要高度定制化；
-- **📚多组件兼容**：支持多种主流组件库样式，如elementPlus、antdV、naviUI、Tailwind.css；
 
 ## 功能
 
@@ -25,12 +21,13 @@
     - [x] 关闭
     - [x] 关闭其他
     - [x] 刷新
-    - [ ] 右键操作
+    - [x] 右键操作
     - [ ] 重置
   - [x] 缓存：缓存控制
   - [ ] 配置：全局配置、自定义配置
 - ### 高级
   - [x] iframe：iframe路由
+  - [ ] hooks：提供各个生命周期钩子函数
 - ### 其它
   - [ ] 动画
   - [ ] `i18n`

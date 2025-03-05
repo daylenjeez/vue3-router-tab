@@ -1,14 +1,14 @@
 /// <reference types="vitest" />
 import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
-import { resolve } from "path";
+import { resolve } from "node:path";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
 
 export default defineConfig({
   plugins: [vue(), vueJsx(), dts({ rollupTypes: true })],
-  css: {preprocessorOptions: {less: {additionalData: `@import "@routerTab/style/global.less";`,},},},
-  resolve: {alias: { "@": "./src", "@routerTab": "/src/plugins/vue3-router-tab" },},
+  css: { preprocessorOptions: { less: { additionalData: `@import "@routerTab/style/global.less";`, }, }, },
+  resolve: { alias: { "@": "./src", "@routerTab": "/src/plugins/vue3-router-tab" }, },
   test: { environment: "happy-dom" },
   define: { __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: "true" },
   build: {
