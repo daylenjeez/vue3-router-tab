@@ -40,6 +40,6 @@ export default {
         /fullpath?id=2
       </button>
     </div>
-    <router-tab tab-type="card" />
+    <vue-tabor tab-type="card" />
   </div>
 </template>

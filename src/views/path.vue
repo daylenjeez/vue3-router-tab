@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import type { RouterTabStore } from "@routerTab/store";
+import type { RouterTabStore } from "vue3-tabor";
 import { inject, ref } from "vue";
 
 export default {
@@ -33,7 +33,6 @@ export default {
 				},
 				{
 					tabConfig: {
-						keepAlive: false,
 						key: 'path',
 						iframeAttributes: {
 							src: 'https://www.baidu.com',

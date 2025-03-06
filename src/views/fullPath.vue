@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { inject, ref } from "vue";
-import type { RouterTabStore } from "@routerTab/store";
+import type { RouterTabStore } from "vue3-tabor";
 
 export default {
   name: "FullPathPage",

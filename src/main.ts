@@ -1,8 +1,10 @@
 import { createApp } from "vue";
 
 import App from "./App.vue";
-import RouterTab from "./plugins/vue3-router-tab";
+import RouterTab from "vue3-tabor";
 import router from "./router";
+
+import "vue3-tabor/dist/assets/index.css";
 
 const app = createApp(App);
 
